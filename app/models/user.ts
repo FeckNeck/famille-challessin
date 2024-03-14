@@ -2,7 +2,10 @@ import { DateTime } from 'luxon'
 import { withAuthFinder } from '@adonisjs/auth'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Role from '#models/role'
+import Roles from '#enums/roles'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -13,8 +16,17 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare id: number
 
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+
   @column()
-  declare fullName: string | null
+  declare roleId: number
+
+  @column()
+  declare username: string
 
   @column()
   declare email: string
@@ -22,9 +34,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare password: string
 
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  @belongsTo(() => Role)
+  declare role: BelongsTo<typeof Role>
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+  @computed()
+  get isAdmin() {
+    return this.roleId === Roles.ADMIN
+  }
 }
