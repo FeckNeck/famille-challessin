@@ -1,15 +1,33 @@
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import { Link, usePage, router } from '@inertiajs/vue3'
+import { computed } from 'vue'
+
+const page = usePage()
+const user: any = computed(() => page.props.user)
+</script>
 
 <template>
   <header>
     <nav class="container">
       <ul>
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/about">About</a>
-        </li>
+        <template v-if="user">
+          <li>
+            <Link href="/account">{{ user.email }}</Link>
+          </li>
+          <li>
+            <form @submit.prevent="router.delete('/logout')">
+              <button type="submit">Logout</button>
+            </form>
+          </li>
+        </template>
+        <template v-else>
+          <li>
+            <Link href="/login">Login</Link>
+          </li>
+          <li>
+            <Link href="/register">Register</Link>
+          </li>
+        </template>
       </ul>
     </nav>
   </header>

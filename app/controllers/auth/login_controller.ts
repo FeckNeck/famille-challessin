@@ -6,10 +6,15 @@ export default class LoginController {
     return inertia.render('auth/login')
   }
 
-  async store({ request, auth, inertia }: HttpContext) {
+  async store({ request, auth, inertia, session, response }: HttpContext) {
     const { email, password } = request.only(['email', 'password'])
-    const user = await User.verifyCredentials(email, password)
-    await auth.use('web').login(user)
-    return inertia.location('/')
+    try {
+      const user = await User.verifyCredentials(email, password)
+      await auth.use('web').login(user)
+      return response.redirect().toRoute('home')
+    } catch (error) {
+      session.flash('errors', 'Invalid credentials')
+      return response.redirect().back()
+    }
   }
 }
