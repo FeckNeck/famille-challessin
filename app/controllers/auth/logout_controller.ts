@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class LogoutController {
-  async destroy({ auth, inertia }: HttpContext) {
+  async destroy({ auth, response }: HttpContext) {
     await auth.use('web').logout()
-    return inertia.location('/')
+    return response.redirect('/')
   }
 }
