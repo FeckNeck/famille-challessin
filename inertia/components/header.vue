@@ -10,6 +10,9 @@ const user: any = computed(() => page.props.user)
   <header>
     <nav class="container">
       <ul>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
         <template v-if="user">
           <li>
             <Link href="/account">{{ user.email }}</Link>
@@ -28,6 +31,9 @@ const user: any = computed(() => page.props.user)
             <Link href="/register">Register</Link>
           </li>
         </template>
+        <li>
+          <Link href="/wishlists/create">Create WishList</Link>
+        </li>
       </ul>
     </nav>
   </header>
