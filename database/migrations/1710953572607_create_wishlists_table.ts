@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'wishlists'
+  protected tableName = 'wish_lists'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -13,7 +13,7 @@ export default class extends BaseSchema {
       table.text('title').notNullable()
       table.text('description')
       table.boolean('is_public').notNullable().defaultTo(false)
-      table.text('image_url')
+      table.text('image_url').notNullable()
     })
   }
 

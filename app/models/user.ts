@@ -2,10 +2,11 @@ import { DateTime } from 'luxon'
 import { withAuthFinder } from '@adonisjs/auth'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
 import Roles from '#enums/roles'
+import WishList from '#models/wish_list'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -41,4 +42,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   get isAdmin() {
     return this.roleId === Roles.ADMIN
   }
+
+  @hasMany(() => WishList)
+  declare wishlists: HasMany<typeof WishList>
 }
