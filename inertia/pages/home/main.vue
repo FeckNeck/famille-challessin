@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import Layout from '~/layouts/default.vue'
-import modal from './modal.vue'
 
 defineProps<{ version: number }>()
 </script>
@@ -17,6 +16,5 @@ defineProps<{ version: number }>()
         <a href="https://docs.adonisjs.com/guides/inertia">AdonisJS documentation</a>.
       </span>
     </div>
-    <modal />
   </Layout>
 </template>
