@@ -4,7 +4,7 @@ const AssetsController = () => import('#controllers/assets_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
-const WishListsController = () => import('#controllers/wish_lists_controller')
+const WishlistsController = () => import('#controllers/wishlists_controller')
 
 router.get('/img/*', [AssetsController, 'index']).as('img')
 
@@ -23,7 +23,7 @@ router.delete('/logout', [LogoutController, 'destroy']).as('auth.logout').use(mi
 router.on('/').renderInertia('home/main', { version: 6 })
 
 router
-  .resource('wishlists', WishListsController)
+  .resource('wishlists', WishlistsController)
   .use(['create', 'store', 'update', 'destroy', 'show'], middleware.auth())
 
 // router.get('/modal', async ({ response }) => {

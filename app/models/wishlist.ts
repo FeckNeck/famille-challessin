@@ -4,7 +4,7 @@ import User from '#models/user'
 import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 
-export default class WishList extends BaseModel {
+export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 

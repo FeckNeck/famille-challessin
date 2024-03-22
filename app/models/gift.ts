@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import WishList from '#models/wish_list'
+import Wishlist from '#models/wishlist'
 import User from '#models/user'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
@@ -15,7 +15,7 @@ export default class Gift extends BaseModel {
   declare updatedAt: DateTime
 
   @column()
-  declare wishListId: number
+  declare wishlistId: number
 
   @column()
   declare title: string
@@ -24,7 +24,13 @@ export default class Gift extends BaseModel {
   declare description: string | null
 
   @column()
-  declare image: string | null
+  declare price: number
+
+  @column()
+  declare url: string
+
+  @column()
+  declare imageUrl: string
 
   @column()
   declare isReserved: boolean
@@ -38,8 +44,8 @@ export default class Gift extends BaseModel {
   @column()
   declare giverEmail: string | null
 
-  @belongsTo(() => WishList)
-  declare wishList: BelongsTo<typeof WishList>
+  @belongsTo(() => Wishlist)
+  declare wishlist: BelongsTo<typeof Wishlist>
 
   @belongsTo(() => User, {
     foreignKey: 'giverId',
