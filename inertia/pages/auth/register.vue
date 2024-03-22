@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3'
 import Layout from '~/layouts/default.vue'
-import { AuthForm } from '../../../types/auth'
+import { AuthForm } from '~/app/types'
 
 const form = useForm<AuthForm>({
   email: '',
@@ -9,10 +9,6 @@ const form = useForm<AuthForm>({
   password: '',
   password_confirmation: '',
 })
-
-function submit() {
-  form.post('/register')
-}
 </script>
 
 <template>
@@ -20,7 +16,8 @@ function submit() {
     <div class="container">
       <h1>Register</h1>
       <p>Already have an account? <Link href="/login">Login</Link></p>
-      <form @submit.prevent="submit">
+      {{ form.errors }}
+      <form @submit.prevent="form.post('/register')">
         <div>
           <label for="email">Email</label>
           <input v-model="form.email" type="email" id="email" name="email" />
