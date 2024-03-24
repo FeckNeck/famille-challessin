@@ -5,6 +5,8 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
 import app from '@adonisjs/core/services/app'
 import { UserFactory } from '#database/factories/user_factory'
+import WishlistTheme from '#models/wishlist_theme'
+import WishlistThemes from '#enums/wishlist_theme'
 
 export default class extends BaseSeeder {
   async run() {
@@ -12,6 +14,7 @@ export default class extends BaseSeeder {
 
     try {
       await this.seedRoles(trx)
+      await this.seedWishtlistThemes(trx)
 
       if (!app.inTest && !app.inProduction) {
         await this.seedUsersAndContent(trx)
@@ -33,6 +36,18 @@ export default class extends BaseSeeder {
       { client: trx }
     )
   }
+
+  async seedWishtlistThemes(trx: TransactionClientContract) {
+    await WishlistTheme.createMany(
+      [
+        { id: WishlistThemes.CHRISTMAS, name: 'Christmas' },
+        { id: WishlistThemes.BIRTHDAY, name: 'Birthday' },
+        { id: WishlistThemes.OTHER, name: 'Other' },
+      ],
+      { client: trx }
+    )
+  }
+
   async seedUsersAndContent(trx: TransactionClientContract) {
     await UserFactory.client(trx)
       .with('wishlists', 10, (whilelists) => whilelists.with('gifts', 10))

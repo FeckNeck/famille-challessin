@@ -3,6 +3,7 @@ import Gift from '#models/gift'
 import User from '#models/user'
 import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import WishlistTheme from '#models/wishlist_theme'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -15,10 +16,13 @@ export default class Wishlist extends BaseModel {
   declare updatedAt: DateTime
 
   @column.dateTime()
-  declare eventDate: DateTime
+  declare eventDate: DateTime | null
 
   @column()
   declare userId: number
+
+  @column()
+  declare themeId: number
 
   @column()
   declare title: string
@@ -43,6 +47,9 @@ export default class Wishlist extends BaseModel {
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => WishlistTheme)
+  declare wishlistTheme: BelongsTo<typeof WishlistTheme>
 
   @hasMany(() => Gift)
   declare gifts: HasMany<typeof Gift>

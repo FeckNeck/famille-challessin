@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.timestamp('event_date', { useTz: false })
       table.uuid('user_id').unsigned().references('id').inTable('users').notNullable()
+      table.integer('theme_id').unsigned().references('id').inTable('wishlist_themes').notNullable()
       table.text('title').notNullable()
       table.text('description')
       table.boolean('is_public').notNullable().defaultTo(false)

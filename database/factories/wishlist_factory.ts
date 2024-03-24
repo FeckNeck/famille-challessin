@@ -8,6 +8,7 @@ export const WishlistFactory = factory
     return {
       title: faker.lorem.words(10),
       description: faker.lorem.paragraph(),
+      themeId: faker.number.int({ min: 1, max: 3 }),
       eventDate: DateTime.now().plus({ days: 30 }),
       isPublic: faker.datatype.boolean(),
       imageUrl: faker.image.url(),
