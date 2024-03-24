@@ -1,5 +1,6 @@
 import { middleware } from './kernel.js'
 import router from '@adonisjs/core/services/router'
+const HomeController = () => import('#controllers/home_controller')
 const AssetsController = () => import('#controllers/assets_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
@@ -20,7 +21,7 @@ router
   .use(middleware.guest())
 router.delete('/logout', [LogoutController, 'destroy']).as('auth.logout').use(middleware.auth())
 
-router.on('/').renderInertia('home/main', { version: 6 })
+router.get('/', [HomeController, 'index']).as('home')
 
 router
   .resource('wishlists', WishlistsController)

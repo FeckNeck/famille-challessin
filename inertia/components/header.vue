@@ -32,10 +32,10 @@ const user: any = computed(() => page.props.user)
           </li>
         </template>
         <li>
-          <Link href="/wishlists">Create Wishlist</Link>
+          <Link href="/wishlists">Wishlist</Link>
         </li>
         <li>
-          <Link href="/wishlists/create">wishlists</Link>
+          <Link href="/wishlists/create">Create Wishlist</Link>
         </li>
       </ul>
     </nav>
