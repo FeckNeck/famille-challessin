@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import { router, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { router, Link, useForm } from '@inertiajs/vue3'
+import type { AuthForm } from '~/app/types'
 import Layout from '~/layouts/default.vue'
 
-interface AuthForm {
-  email: string
-  username?: string
-  password: string
-}
-
-const form = ref<AuthForm>({
+const form = useForm<AuthForm>({
   email: '',
   password: '',
 })
-
-function submit() {
-  router.post('/login', form.value)
-}
 </script>
 
 <template>
@@ -24,7 +14,7 @@ function submit() {
     <h1>Login</h1>
     <div class="container">
       <p>Don't have an account? <Link href="/register">Register</Link></p>
-      <form @submit.prevent="submit">
+      <form @submit.prevent="form.post('/login')">
         <div>
           <label for="email">Email</label>
           <input v-model="form.email" type="email" id="email" name="email" />
