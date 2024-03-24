@@ -7,7 +7,7 @@ export const GiftFactory = factory
       title: faker.lorem.words(10),
       description: faker.lorem.paragraph(),
       price: faker.number.float(),
-      url: faker.internet.url(),
+      link: faker.internet.url(),
       imageUrl: faker.image.url(),
       isReserved: faker.datatype.boolean(),
       giverName: faker.internet.userName(),

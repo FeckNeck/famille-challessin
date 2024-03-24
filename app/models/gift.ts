@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import Wishlist from '#models/wishlist'
 import User from '#models/user'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Gift extends BaseModel {
@@ -27,7 +27,7 @@ export default class Gift extends BaseModel {
   declare price: number
 
   @column()
-  declare url: string
+  declare link: string
 
   @column()
   declare imageUrl: string
@@ -43,6 +43,15 @@ export default class Gift extends BaseModel {
 
   @column()
   declare giverEmail: string | null
+
+  @computed()
+  get image() {
+    if (this.imageUrl.startsWith('https://')) {
+      return this.imageUrl
+    }
+
+    return `/img/${this.imageUrl}`
+  }
 
   @belongsTo(() => Wishlist)
   declare wishlist: BelongsTo<typeof Wishlist>

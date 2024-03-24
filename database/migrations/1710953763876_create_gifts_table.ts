@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.text('title').notNullable()
       table.text('description')
       table.float('price').notNullable()
-      table.text('url').notNullable()
+      table.text('link').notNullable()
       table.text('image_url').notNullable()
       table.boolean('is_reserved').notNullable().defaultTo(false)
       table.uuid('giver_id').unsigned().references('id').inTable('users').nullable()
