@@ -17,7 +17,7 @@ export default class HomeController {
     const themes = await WishlistTheme.query().withCount('wishlists', (builder) =>
       builder.as('count')
     )
-    const query = Wishlist.query()
+    const query = Wishlist.query().where('is_public', true)
 
     if (title) {
       query.where('title', 'LIKE', `%${title}%`)
