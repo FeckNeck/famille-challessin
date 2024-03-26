@@ -57,7 +57,7 @@ const themeModel = defineModel<string | null>('theme')
     display: flex;
   }
 
-  .filters__btns {
+  &__btns {
     display: flex;
     flex-direction: column;
     margin-top: 1.5rem;

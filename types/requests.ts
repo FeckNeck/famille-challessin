@@ -24,6 +24,12 @@ export interface WishlistTheme {
   count: string
 }
 
+export interface WishlistCategory {
+  id: number
+  name: string
+  gifts: Gift[]
+}
+
 export interface Wishlist {
   id: number
   userId: number
@@ -32,7 +38,7 @@ export interface Wishlist {
   eventDate: Date | null
   isPublic: boolean
   image: string
-  gifts: Gift[]
+  categories: WishlistCategory[]
   theme: WishlistTheme
 }
 

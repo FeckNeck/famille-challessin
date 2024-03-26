@@ -50,11 +50,11 @@ export default class extends BaseSeeder {
 
   async seedUsersAndContent(trx: TransactionClientContract) {
     await UserFactory.client(trx)
-      .with('wishlists', 5, (whilelists) =>
-        whilelists.with('wishlistCategory', 5, (wishlistCategory) =>
-          wishlistCategory.with('gifts', 5)
+      .with('wishlists', 10, (whilelists) =>
+        whilelists.with('wishlistCategory', 10, (wishlistCategory) =>
+          wishlistCategory.with('gifts', 10)
         )
       )
-      .createMany(5)
+      .createMany(10)
   }
 }

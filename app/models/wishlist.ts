@@ -54,7 +54,9 @@ export default class Wishlist extends BaseModel {
   })
   declare wishlistTheme: BelongsTo<typeof WishlistTheme>
 
-  @hasMany(() => WishlistCategory)
+  @hasMany(() => WishlistCategory, {
+    serializeAs: 'categories',
+  })
   declare wishlistCategory: HasMany<typeof WishlistCategory>
 
   serializeExtras = true
