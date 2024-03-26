@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
-import Wishlist from '#models/wishlist'
 import User from '#models/user'
 import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import WishlistCategory from './wishlist_category.js'
 
 export default class Gift extends BaseModel {
   @column({ isPrimary: true })
@@ -15,7 +15,7 @@ export default class Gift extends BaseModel {
   declare updatedAt: DateTime
 
   @column()
-  declare wishlistId: number
+  declare categoryId: number
 
   @column()
   declare title: string
@@ -53,8 +53,10 @@ export default class Gift extends BaseModel {
     return `/img/${this.imageUrl}`
   }
 
-  @belongsTo(() => Wishlist)
-  declare wishlist: BelongsTo<typeof Wishlist>
+  @belongsTo(() => WishlistCategory, {
+    foreignKey: 'categoryId',
+  })
+  declare category: BelongsTo<typeof WishlistCategory>
 
   @belongsTo(() => User, {
     foreignKey: 'giverId',

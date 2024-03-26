@@ -4,6 +4,7 @@ import User from '#models/user'
 import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import WishlistTheme from '#models/wishlist_theme'
+import WishlistCategory from './wishlist_category.js'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -53,8 +54,8 @@ export default class Wishlist extends BaseModel {
   })
   declare wishlistTheme: BelongsTo<typeof WishlistTheme>
 
-  @hasMany(() => Gift)
-  declare gifts: HasMany<typeof Gift>
+  @hasMany(() => WishlistCategory)
+  declare wishlistCategory: HasMany<typeof WishlistCategory>
 
   serializeExtras = true
 }

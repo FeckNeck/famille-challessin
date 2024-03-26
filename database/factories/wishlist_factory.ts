@@ -1,7 +1,7 @@
 import factory from '@adonisjs/lucid/factories'
 import Wishlist from '#models/wishlist'
 import { DateTime } from 'luxon'
-import { GiftFactory } from '#database/factories/gift_factory'
+import { WishlistCategoryFactory } from './wishlist_category_factory.js'
 
 export const WishlistFactory = factory
   .define(Wishlist, async ({ faker }) => {
@@ -14,5 +14,5 @@ export const WishlistFactory = factory
       imageUrl: faker.image.url(),
     }
   })
-  .relation('gifts', () => GiftFactory)
+  .relation('wishlistCategory', () => WishlistCategoryFactory)
   .build()
