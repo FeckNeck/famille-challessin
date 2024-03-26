@@ -12,10 +12,10 @@ export default class HomeController {
 
     const users = await User.query()
       .select('id', 'username')
-      .withCount('wishlists', (builder) => builder.as('count'))
+      .withCount('wishlists', (builder) => builder.where('is_public', true).as('count'))
 
     const themes = await WishlistTheme.query().withCount('wishlists', (builder) =>
-      builder.as('count')
+      builder.where('is_public', true).as('count')
     )
     const query = Wishlist.query().where('is_public', true)
 
