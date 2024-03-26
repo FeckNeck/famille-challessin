@@ -25,7 +25,7 @@ router.get('/', [HomeController, 'index']).as('home')
 
 router
   .resource('wishlists', WishlistsController)
-  .use(['create', 'store', 'update', 'destroy', 'show'], middleware.auth())
+  .use(['create', 'store', 'update', 'destroy'], middleware.auth())
 
 // router.get('/modal', async ({ response }) => {
 //   return response.redirect().withQs({ modal: 'modal' }).back()

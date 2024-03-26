@@ -1,36 +1,47 @@
 import User from '#models/user'
 import Wishlist from '#models/wishlist'
+import WishlistTheme from '#models/wishlist_theme'
 import type { HttpContext } from '@adonisjs/core/http'
-import db from '@adonisjs/lucid/services/db'
 
 export default class HomeController {
   async index({ request, inertia }: HttpContext) {
     const page = request.input('page', 1)
-    const limit = 10
+    const limit = 9
 
-    const { username, title } = request.qs()
+    const { username, title, theme } = request.qs()
 
-    const users = await User.query().select('username')
-    const wishlistsQuery = Wishlist.query()
+    const users = await User.query()
+      .select('id', 'username')
+      .withCount('wishlists', (builder) => builder.as('count'))
+
+    const themes = await WishlistTheme.query().withCount('wishlists', (builder) =>
+      builder.as('count')
+    )
+    const query = Wishlist.query()
 
     if (title) {
-      wishlistsQuery.where('title', 'LIKE', `%${title}%`)
+      query.where('title', 'LIKE', `%${title}%`)
     }
 
-    if (username) {
-      wishlistsQuery.preload('user').whereHas('user', (builder) => {
-        builder.where('username', 'LIKE', `%${username}%`)
+    if (theme) {
+      await query.whereHas('wishlistTheme', (builder) => {
+        builder.where('name', theme)
       })
     }
 
-    const wishlists = await wishlistsQuery.paginate(page, limit)
-    const usernames = users.map((user) => user.username)
-    const { data, meta } = wishlists.toJSON()
+    if (username) {
+      await query.whereHas('user', (builder) => {
+        builder.where('username', username)
+      })
+    }
 
+    const wishlists = await query.paginate(page, limit)
+    const { data, meta } = wishlists.toJSON()
     return inertia.render('home/main', {
       meta,
-      usernames,
+      users,
       wishlists: data,
+      themes,
     })
   }
 }

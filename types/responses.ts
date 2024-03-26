@@ -1,13 +1,14 @@
-import type { Wishlist } from './main.js'
+import type { User, Wishlist, WishlistTheme } from './main.js'
 
 export interface Meta {
   total: number
-  perPage: number
+  lastPage: number
   currentPage: number
 }
 
 export interface HomeResponse {
   meta: Meta
-  usernames: string[]
+  users: User[]
   wishlists: Wishlist[]
+  themes: WishlistTheme[]
 }

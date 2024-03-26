@@ -1,3 +1,4 @@
+import Wishlist from '#models/wishlist'
 import { assetStoreValidator } from '#validators/asset_validator'
 import { wishlistValidator } from '#validators/wishlist_validator'
 import { cuid } from '@adonisjs/core/helpers'
@@ -38,7 +39,11 @@ export default class WishlistsController {
   /**
    * Show individual record
    */
-  async show({ params }: HttpContext) {}
+  async show({ params, inertia }: HttpContext) {
+    const query = await Wishlist.query().where('id', params.id).preload('gifts').firstOrFail()
+    const wishlist = query.toJSON()
+    return inertia.render('wishlist/show/main', wishlist)
+  }
 
   /**
    * Edit individual record

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import Layout from '~/layouts/default.vue'
 import Input from '~/components/ui/input.vue'
-import type { HomeResponse, UserWishlistFilter } from '~/app/types'
+import Filters from './components/filters.vue'
+import MainSection from './components/main_section.vue'
+import type { WishlistTheme, HomeResponse, UserWishlistFilter, User } from '~/app/types'
 import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import Pagination from './components/pagination.vue'
 
 const props = defineProps<HomeResponse>()
 const params = useUrlSearchParams<Partial<UserWishlistFilter>>('history')
@@ -16,22 +19,37 @@ function scrollToTop() {
   scrollToTopRef.value.scrollIntoView({ behavior: 'smooth' })
 }
 
+/**
+ * Search
+ */
 const search = ref<string>((params.title as string) || '')
 watchDebounced(search, () => fetchNewPageData(1), { debounce: 400 })
 
-const usernames = ref<string[]>(props.usernames)
-const Currentusername = ref<string>(params.username || '')
+/**
+ * Filters
+ */
+const users = ref<User[]>(props.users)
+const username = ref<string>(params.username || '')
+const themes = ref<WishlistTheme[]>(props.themes)
+const theme = ref<string>(params.theme || '')
+
+/**
+ * Refetch when any of the filters change
+ */
+watch([username, theme], () => {
+  fetchNewPageData(1)
+})
 
 function fetchNewPageData(page: number) {
-  console.log('page:', page)
   const props = {
     page,
-    username: params.username,
-    search: search.value,
+    username: username.value,
+    theme: theme.value,
+    title: search.value,
   }
 
-  // router.get('/', props, { preserveState: true, preserveScroll: true })
-  // scrollToTop()
+  router.get('/', props, { preserveState: true, preserveScroll: true })
+  scrollToTop()
 }
 </script>
 
@@ -39,37 +57,68 @@ function fetchNewPageData(page: number) {
   <Head title="Homepage" />
   <Layout>
     <div class="container">
-      <div></div>
-      <h1>Homepage</h1>
-      <Input v-model="search" placeholder="Search by title" type="text"/>
-      <div class="titou">
-        <div class="families">
-          <button v-for="username in usernames" :key="username">
-            {{ username }}
-          </button>
-        </div>
-        <div <div v-for="wishlist in props.wishlists" :key="wishlist.id">
-        {{ wishlist.title }}
+      <div class="whishlists" ref="scrollToTopRef">
+        <Filters
+          :themes="themes"
+          :users="users"
+          v-model:username="username"
+          v-model:theme="theme"
+        />
+        <div class="whishlists__content">
+          <div class="whishlists__content__filters">
+            <Input v-model="search" placeholder="Search by title" type="text" />
+            <select v-model="username">
+              <option value="">Tous</option>
+              <option v-for="user in users" :key="user.id" :value="user.username">
+                {{ user.username }}
+              </option>
+            </select>
+          </div>
+          <MainSection :wishlists="props.wishlists" />
+          <Pagination
+            :total="meta.total"
+            :last-page="meta.lastPage"
+            :current-page="meta.currentPage"
+            @update="fetchNewPageData"
+          />
         </div>
       </div>
-      <Link href="/modal" as="button" type="button">Modal</Link>
-      <span>
-        Learn more about AdonisJS and Inertia.js by visiting the
-        <a href="https://docs.adonisjs.com/guides/inertia">AdonisJS documentation</a>.
-      </span>
     </div>
   </Layout>
 </template>
 
 <style scoped lang="scss">
-.titou{
-  display: flex;
-  gap: 1rem;
-}
+.whishlists {
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 3rem;
+  }
 
-.families  {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+
+    &__filters {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+
+      @media (min-width: 768px) {
+        flex-direction: row;
+      }
+
+      select {
+        display: block;
+
+        @media (min-width: 768px) {
+          display: none;
+        }
+      }
+    }
+  }
 }
 </style>

@@ -18,6 +18,12 @@ export interface Gift {
   giverEmail: string | null
 }
 
+export interface WishlistTheme {
+  id: number
+  name: string
+  count: string
+}
+
 export interface Wishlist {
   id: number
   userId: number
@@ -27,6 +33,7 @@ export interface Wishlist {
   isPublic: boolean
   image: string
   gifts: Gift[]
+  theme: WishlistTheme
 }
 
 export interface User {
@@ -35,9 +42,11 @@ export interface User {
   email: string
   roleId: number
   wishlists: Wishlist[]
+  count: string
 }
 
 export interface UserWishlistFilter {
   username?: string
   title?: string
+  theme?: string
 }

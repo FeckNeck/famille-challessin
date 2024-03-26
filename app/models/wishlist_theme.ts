@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import Wishlist from '#models/wishlist'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 
@@ -16,6 +16,14 @@ export default class WishlistTheme extends BaseModel {
   @column()
   declare name: string
 
-  @hasMany(() => Wishlist)
+  @hasMany(() => Wishlist, {
+    foreignKey: 'themeId',
+  })
   declare wishlists: HasMany<typeof Wishlist>
+
+  serializeExtras() {
+    return {
+      count: this.$extras.count,
+    }
+  }
 }

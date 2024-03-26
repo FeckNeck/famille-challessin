@@ -45,4 +45,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Wishlist)
   declare wishlists: HasMany<typeof Wishlist>
+
+  serializeExtras() {
+    return {
+      count: this.$extras.count,
+    }
+  }
 }
