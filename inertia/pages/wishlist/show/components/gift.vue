@@ -1,15 +1,30 @@
 <script setup lang="ts">
 import { computed, defineProps, ref } from 'vue'
-import { Gift } from '../../../../app/types'
-import { usePage } from '@inertiajs/vue3'
+import type { Gift, User } from '../../../../app/types'
+import { useForm, usePage } from '@inertiajs/vue3'
 
 const props = defineProps<{
   gift: Gift
 }>()
 
 const page = usePage()
-const user = computed(() => page.props.user)
+const user = computed(() => page.props.user as User)
 const isBooking = ref<boolean>(false)
+
+const form = useForm({
+  giverId: user.value?.id ?? null,
+  giverName: user.value?.username ?? '',
+  giverEmail: user.value?.email ?? '',
+  isReserved: true,
+})
+
+function patchGift() {
+  form.patch(`/gifts/${props.gift.id}`, {
+    preserveState: true,
+    preserveScroll: true,
+    onSuccess: () => (isBooking.value = false),
+  })
+}
 </script>
 
 <template>
@@ -19,13 +34,21 @@ const isBooking = ref<boolean>(false)
       <p>{{ gift.title }}</p>
       <p>{{ gift.description }}</p>
       <p>{{ gift.price }}</p>
-      <p v-if="gift.isReserved">{{ gift.giverName }}</p>
+      <p v-if="user.id === gift.giverId">Vous, annuler</p>
+      <p v-else-if="gift.isReserved">Réservé par {{ gift.giverName }}</p>
       <button v-else @click="isBooking = true">Reserver le cadeau</button>
     </div>
     <div v-else>
-      <input type="text" v-model="gift.giverName" />
+      <p>Reserver le cadeau</p>
       <button @click="isBooking = false">Annuler</button>
-      <button @click="isBooking = false">Reserver</button>
+      {{ form.errors }}
+      <form @submit.prevent="patchGift">
+        <label for="giverName">Votre nom</label>
+        <input v-model="form.giverName" type="text" placeholder="Votre nom" />
+        <label for="giverEmail">Votre email</label>
+        <input v-model="form.giverEmail" type="email" placeholder="Votre email" />
+        <button type="submit">Confirmer</button>
+      </form>
     </div>
   </div>
 </template>

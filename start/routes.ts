@@ -1,7 +1,8 @@
 import { middleware } from './kernel.js'
 import router from '@adonisjs/core/services/router'
-const HomeController = () => import('#controllers/home_controller')
 const AssetsController = () => import('#controllers/assets_controller')
+const GiftsController = () => import('#controllers/gifts_controller')
+const HomeController = () => import('#controllers/home_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
@@ -26,6 +27,8 @@ router.get('/', [HomeController, 'index']).as('home')
 router
   .resource('wishlists', WishlistsController)
   .use(['create', 'store', 'update', 'destroy'], middleware.auth())
+
+router.shallowResource('wishlists.gifts', GiftsController)
 
 // router.get('/modal', async ({ response }) => {
 //   return response.redirect().withQs({ modal: 'modal' }).back()

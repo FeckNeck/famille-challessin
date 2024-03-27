@@ -1,3 +1,5 @@
+import Gift from '#models/gift'
+import { UpdateGiftValidator } from '#validators/gift'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class GiftsController {
@@ -29,7 +31,17 @@ export default class GiftsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, auth, response }: HttpContext) {
+    const gift = await Gift.findOrFail(params.id)
+    const payload = await request.validateUsing(UpdateGiftValidator)
+    if (payload.giverId !== auth.user?.id) {
+      return 'You are not authorized to update this gift'
+    }
+
+    gift.merge(payload)
+    await gift.save()
+    return response.redirect().back()
+  }
 
   /**
    * Delete record
