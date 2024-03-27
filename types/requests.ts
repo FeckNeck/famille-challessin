@@ -6,14 +6,14 @@ export interface AuthForm {
 }
 
 export interface Gift {
-  id: number
+  id: string
   title: string
   description: string | null
   price: number
   link: string | null
   image: string
   isReserved: boolean
-  giverId: number | null
+  giverId: string | null
   giverName: string
   giverEmail: string | null
 }
@@ -25,13 +25,13 @@ export interface WishlistTheme {
 }
 
 export interface WishlistCategory {
-  id: number
+  id: string
   name: string
   gifts: Gift[]
 }
 
 export interface Wishlist {
-  id: number
+  id: string
   userId: number
   title: string
   description: string | null
@@ -43,7 +43,7 @@ export interface Wishlist {
 }
 
 export interface User {
-  id: number
+  id: string
   username: string
   email: string
   roleId: number

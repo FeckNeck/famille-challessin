@@ -8,7 +8,7 @@ import WishlistCategory from './wishlist_category.js'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
