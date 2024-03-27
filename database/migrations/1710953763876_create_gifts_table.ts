@@ -21,8 +21,8 @@ export default class extends BaseSchema {
       table.text('image_url').notNullable()
       table.boolean('is_reserved').notNullable().defaultTo(false)
       table.uuid('giver_id').unsigned().references('id').inTable('users').nullable()
-      table.text('giver_name').notNullable().defaultTo('Anonyme')
-      table.text('giver_email').nullable()
+      table.text('giver_name').notNullable().nullable()
+      table.text('giver_email').nullable().nullable()
     })
   }
 

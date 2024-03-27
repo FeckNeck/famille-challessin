@@ -39,7 +39,7 @@ export default class Gift extends BaseModel {
   declare giverId: string | null
 
   @column()
-  declare giverName: string
+  declare giverName: string | null
 
   @column()
   declare giverEmail: string | null
