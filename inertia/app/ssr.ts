@@ -12,7 +12,10 @@ export default function render(page: any) {
     },
 
     setup({ App, props, plugin }) {
-      return createSSRApp({ render: () => h(App, props) }).use(plugin)
+      const app = createSSRApp({ render: () => h(App, props) })
+        .directive('autoAnimate', {})
+        .use(plugin)
+      return app
     },
   })
 }

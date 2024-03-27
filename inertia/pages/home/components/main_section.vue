@@ -8,7 +8,7 @@ defineProps<{ wishlists: Wishlist[] }>()
 </script>
 
 <template>
-  <section v-if="wishlists.length > 0" class="cards__list">
+  <section v-if="wishlists.length > 0" class="cards__list" v-auto-animate>
     <WishListCard v-for="wishlist in wishlists" :key="wishlist.id" :wishlist="wishlist" />
   </section>
   <div v-else class="no-wishlists">

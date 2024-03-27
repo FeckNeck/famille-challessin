@@ -32,6 +32,9 @@ dependencies:
   '@adonisjs/vite':
     specifier: ^3.0.0-7
     version: 3.0.0-7(@adonisjs/core@6.3.1)(@adonisjs/shield@8.1.1)(edge.js@6.0.1)(vite@5.1.5)
+  '@formkit/auto-animate':
+    specifier: ^0.8.1
+    version: 0.8.1
   '@inertiajs/vue3':
     specifier: ^1.0.15
     version: 1.0.15(vue@3.4.21)
@@ -920,6 +923,10 @@ packages:
   /@faker-js/faker@8.4.1:
     resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: false
+
+  /@formkit/auto-animate@0.8.1:
+    resolution: {integrity: sha512-0/Z2cuNXWVVIG/l0SpcHAWFhGdvLJ8DRvEfRWvmojtmRWfEy+LWNwgDazbZqY0qQYtkHcoEK3jBLkhiZaB/4Ig==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
