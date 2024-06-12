@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3'
 import Layout from '~/layouts/default.vue'
-import { defineProps } from 'vue'
-import { WishlistTheme, Wishlist } from '../../../../types/requests'
+
+import { WishlistTheme, Wishlist } from '~/types'
 
 const props = defineProps<{
   themes: WishlistTheme[]

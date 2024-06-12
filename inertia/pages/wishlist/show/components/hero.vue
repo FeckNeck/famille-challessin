@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import type { Wishlist } from '../../../../app/types'
+import type { Wishlist } from '~/types'
 
 defineProps<{
   wishlist: Wishlist

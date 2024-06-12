@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import type { Wishlist } from '~/app/types'
 import Layout from '~/layouts/default.vue'
 import Hero from './components/hero.vue'

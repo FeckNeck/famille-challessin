@@ -6,6 +6,7 @@ export default class ShowWishlistsController {
     const query = await Wishlist.query()
       .where('id', params.id)
       .preload('wishlistCategory', (builder) => builder.preload('gifts'))
+      .preload('wishlistTheme')
       .firstOrFail()
     const wishlist = query.toJSON()
     return inertia.render('wishlist/show/main', wishlist)

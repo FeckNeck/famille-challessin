@@ -50,6 +50,7 @@ export default class Wishlist extends BaseModel {
 
   @belongsTo(() => WishlistTheme, {
     foreignKey: 'themeId',
+    serializeAs: 'theme',
   })
   declare wishlistTheme: BelongsTo<typeof WishlistTheme>
 

@@ -14,6 +14,6 @@ router
   })
   .prefix('auth')
   .as('auth')
-// .middleware([middleware.guest()])
+  .middleware([middleware.guest()])
 
 router.delete('/logout', [LogoutController, 'handle']).as('auth.logout').use(middleware.auth())

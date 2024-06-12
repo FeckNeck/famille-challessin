@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import type { User, WishlistTheme } from '~/app/types'
 
 defineProps<{ themes: WishlistTheme[]; users: User[] }>()

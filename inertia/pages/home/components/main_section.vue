@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import type { Wishlist } from '~/app/types'
 import WishListCard from './wishlist_card.vue'
 import { Link } from '@inertiajs/vue3'

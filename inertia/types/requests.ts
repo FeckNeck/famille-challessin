@@ -32,10 +32,10 @@ export interface WishlistCategory {
 
 export interface Wishlist {
   id: string
-  userId: number
+  userId: string
   title: string
   description: string | null
-  eventDate: Date | null
+  eventDate: string | null
   isPublic: boolean
   image: string
   categories: WishlistCategory[]

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import type { WishlistCategory } from '../../../../app/types'
+import type { WishlistCategory } from '~/types'
 import Gift from './gift.vue'
 
 defineProps<{
