@@ -3,3 +3,5 @@ export const WishlistThemes = {
   Birthday: 2,
   Other: 3,
 } as const
+
+export type WishlistThemes = (typeof WishlistThemes)[keyof typeof WishlistThemes]

@@ -4,6 +4,7 @@ import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import WishlistCategory from '#wishlists/models/wishlist_category'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -19,10 +20,10 @@ export default class Wishlist extends BaseModel {
   declare eventDate: DateTime | null
 
   @column()
-  declare userId: number
+  declare userId: string
 
   @column()
-  declare themeId: number
+  declare themeId: WishlistThemes
 
   @column()
   declare title: string

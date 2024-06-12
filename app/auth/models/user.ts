@@ -1,11 +1,11 @@
+import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import { compose } from '@adonisjs/core/helpers'
 import { DateTime } from 'luxon'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import hash from '@adonisjs/core/services/hash'
-import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Role from '#auth/models/role'
-import { Roles } from '#auth/enums/roles'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import type { Roles } from '#auth/enums/roles'
 import Wishlist from '#wishlists/models/wishlist'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -24,7 +24,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare updatedAt: DateTime | null
 
   @column()
-  declare roleId: number
+  declare roleId: Roles
 
   @column()
   declare username: string
@@ -37,11 +37,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>
-
-  @computed()
-  get isAdmin() {
-    return this.roleId === Roles.Admin
-  }
 
   @hasMany(() => Wishlist)
   declare wishlists: HasMany<typeof Wishlist>
