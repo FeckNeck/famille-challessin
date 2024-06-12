@@ -1,0 +1,15 @@
+html,
+body {
+  font-family: 'Nunito', sans-serif;
+  height: 100%;
+  width: 100%;
+  background-color: var(--un-preset-radix-mauve1);
+  transition: all 1s ease;
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  max-width: 1536px;
+  width: 100%;
+}
