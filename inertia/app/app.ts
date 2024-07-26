@@ -5,6 +5,7 @@ import '../css/app.scss'
 import { createApp, h } from 'vue'
 import type { DefineComponent } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
@@ -23,6 +24,7 @@ createInertiaApp({
 
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
+      .use(autoAnimatePlugin)
       .use(plugin)
       .mount(el)
   },

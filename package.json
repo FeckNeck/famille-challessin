@@ -54,6 +54,7 @@
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^3.0.0",
     "@ark-ui/vue": "^3.3.1",
+    "@formkit/auto-animate": "^0.8.2",
     "@inertiajs/vue3": "^1.1.0",
     "@vinejs/vine": "^2.0.0",
     "@vueuse/core": "^10.10.0",
