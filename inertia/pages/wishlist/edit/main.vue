@@ -13,7 +13,7 @@ const props = defineProps<{
 const form = useForm({
   title: props.wishlist.title,
   description: props.wishlist.description,
-  eventDate: '2024-07-11',
+  eventDate: new Date(props.wishlist.eventDate).toISOString().split('T')[0],
   themeId: props.wishlist.theme.id,
   image: props.wishlist.image,
   isPublic: props.wishlist.isPublic,
