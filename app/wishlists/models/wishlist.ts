@@ -26,7 +26,7 @@ export default class Wishlist extends BaseModel {
   declare themeId: WishlistThemes
 
   @column()
-  declare title: string
+  declare title: string | null
 
   @column()
   declare description: string | null
@@ -35,11 +35,15 @@ export default class Wishlist extends BaseModel {
   declare isPublic: boolean
 
   @column()
-  declare imageUrl: string
+  declare imageUrl: string | null
 
   @computed()
   get image() {
-    if (this.imageUrl.startsWith('https://')) {
+    if (!this.imageUrl) {
+      return null
+    }
+
+    if (this.imageUrl?.startsWith('https://')) {
       return this.imageUrl
     }
 

@@ -18,7 +18,7 @@ export default class extends BaseSchema {
       table.uuid('id').primary().defaultTo(this.db.rawQuery('gen_random_uuid()').knexQuery)
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
-      table.timestamp('event_date', { useTz: false })
+      table.date('event_date')
       table.uuid('user_id').unsigned().references('id').inTable('users').notNullable()
       table
         .smallint('theme_id')
@@ -26,10 +26,10 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('wishlist_themes')
         .defaultTo(WishlistThemes.Other)
-      table.text('title').notNullable()
+      table.text('title')
       table.text('description')
       table.boolean('is_public').notNullable().defaultTo(false)
-      table.text('image_url').notNullable()
+      table.text('image_url')
     })
 
     this.schema.createTable(this.wishlistCategoriesTableName, (table) => {
