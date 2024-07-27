@@ -18,7 +18,7 @@ export default class EditWishlistsController {
         .date()
         .transform((value) => DateTime.fromJSDate(value))
         .optional(),
-      imageUrl: vine.string().optional(),
+      image: vine.string().optional(),
     })
   )
 
@@ -58,7 +58,7 @@ export default class EditWishlistsController {
         name: fileName,
       })
 
-      payload.imageUrl = image.fileName
+      payload.image = fileName
     }
 
     wishlist.merge(payload)

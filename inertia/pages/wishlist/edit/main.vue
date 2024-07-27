@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { useObjectUrl } from '@vueuse/core'
-import { shallowRef } from 'vue'
+import { shallowRef, computed } from 'vue'
 import Layout from '~/layouts/default.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
 
@@ -23,6 +23,10 @@ const form = useForm({
 const file = shallowRef()
 const url = useObjectUrl(file)
 
+const imageUrl = computed(() => {
+  return url.value ?? form.image ?? null
+})
+
 function onFileChange(e: Event) {
   file.value = (e.target as HTMLInputElement).files![0]
 }
@@ -41,8 +45,8 @@ function submit() {
 <template>
   <Layout>
     <div class="container">
-      {{ wishlist }}
       <div>
+        {{ wishlist }}
         <h1>Create a new wishlist</h1>
         {{ form.errors }}
         <form @submit.prevent="submit()">
@@ -73,13 +77,14 @@ function submit() {
           <div>
             <label for="image">Image</label>
             <input type="file" id="image" name="image" @input="onFileChange($event)" />
+            <button @click="file.value = null">Remove</button>
           </div>
           <div>
             <button disabled v-if="form.processing">Processing...</button>
             <button type="submit" v-else>Envoyer</button>
           </div>
         </form>
-        <img v-if="url" :src="url" alt="Image preview" />
+        <img v-if="imageUrl" :src="imageUrl" alt="Image preview" />
       </div>
     </div>
   </Layout>
