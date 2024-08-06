@@ -29,7 +29,7 @@ export default class extends BaseSchema {
       table.text('title')
       table.text('description')
       table.boolean('is_public').notNullable().defaultTo(false)
-      table.text('image_url')
+      table.text('image')
     })
 
     this.schema.createTable(this.wishlistCategoriesTableName, (table) => {

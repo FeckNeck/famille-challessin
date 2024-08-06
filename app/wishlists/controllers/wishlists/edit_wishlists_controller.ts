@@ -10,6 +10,7 @@ import app from '@adonisjs/core/services/app'
 export default class EditWishlistsController {
   static createWishlistValidator = vine.compile(
     vine.object({
+      id: vine.string(),
       title: vine.string(),
       description: vine.string().optional(),
       isPublic: vine.boolean().optional(),
@@ -18,7 +19,6 @@ export default class EditWishlistsController {
         .date()
         .transform((value) => DateTime.fromJSDate(value))
         .optional(),
-      image: vine.string().optional(),
     })
   )
 

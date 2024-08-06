@@ -16,7 +16,7 @@ export default class Wishlist extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @column.dateTime()
+  @column.date()
   declare eventDate: DateTime | null
 
   @column()
@@ -35,19 +35,19 @@ export default class Wishlist extends BaseModel {
   declare isPublic: boolean
 
   @column()
-  declare imageUrl: string | null
+  declare image: string | null
 
   @computed()
-  get image() {
-    if (!this.imageUrl) {
+  get imageUrl() {
+    if (!this.image) {
       return null
     }
 
-    if (this.imageUrl?.startsWith('https://')) {
-      return this.imageUrl
+    if (this.image?.startsWith('https://')) {
+      return this.image
     }
 
-    return `/img/${this.imageUrl}`
+    return `/img/${this.image}`
   }
 
   @belongsTo(() => User)

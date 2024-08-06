@@ -4,6 +4,7 @@ import { useObjectUrl } from '@vueuse/core'
 import { shallowRef, computed } from 'vue'
 import Layout from '~/layouts/default.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
+import category from './components/category.vue'
 
 const props = defineProps<{
   themes: WishlistTheme[]
@@ -11,20 +12,26 @@ const props = defineProps<{
 }>()
 
 const form = useForm({
+  id: props.wishlist.id,
   title: props.wishlist.title,
   description: props.wishlist.description,
-  eventDate: new Date(props.wishlist.eventDate).toISOString().split('T')[0],
+  eventDate: props.wishlist.eventDate,
   themeId: props.wishlist.theme.id,
-  image: props.wishlist.image,
   isPublic: props.wishlist.isPublic,
   categories: props.wishlist.categories,
+  image: null,
+})
+
+const categoryForm = useForm({
+  name: '',
+  wishlistId: props.wishlist.id,
 })
 
 const file = shallowRef()
 const url = useObjectUrl(file)
 
 const imageUrl = computed(() => {
-  return url.value ?? form.image ?? null
+  return url.value ?? props.wishlist.imageUrl ?? null
 })
 
 function onFileChange(e: Event) {
@@ -34,10 +41,18 @@ function onFileChange(e: Event) {
 function submit() {
   if (form.processing) return
 
-  form.image = file.value
+  if (file.value) form.image = file.value
+
   form.put(`/wishlists/${props.wishlist.id}`, {
     preserveScroll: true,
-    preserveState: true,
+  })
+}
+
+function submitCategory() {
+  if (categoryForm.processing) return
+
+  categoryForm.post(`/wishlists/${props.wishlist.id}/categories`, {
+    preserveScroll: true,
   })
 }
 </script>
@@ -45,8 +60,8 @@ function submit() {
 <template>
   <Layout>
     <div class="container">
+      {{ wishlist }}
       <div>
-        {{ wishlist }}
         <h1>Create a new wishlist</h1>
         {{ form.errors }}
         <form @submit.prevent="submit()">
@@ -77,14 +92,34 @@ function submit() {
           <div>
             <label for="image">Image</label>
             <input type="file" id="image" name="image" @input="onFileChange($event)" />
-            <button @click="file.value = null">Remove</button>
+            <button @click="file.value = null" type="button">Remove</button>
           </div>
           <div>
             <button disabled v-if="form.processing">Processing...</button>
             <button type="submit" v-else>Envoyer</button>
           </div>
         </form>
-        <img v-if="imageUrl" :src="imageUrl" alt="Image preview" />
+        <!-- <img v-if="imageUrl" :src="imageUrl" alt="Image preview" /> -->
+
+        <ul>
+          <category
+            v-for="category in wishlist.categories"
+            :key="category.id"
+            :category="category"
+          />
+        </ul>
+
+        <!-- Create category-->
+        <form @submit.prevent="submitCategory()">
+          <div>
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" v-model="categoryForm.name" />
+          </div>
+          <div>
+            <button disabled v-if="categoryForm.processing">Processing...</button>
+            <button type="submit" v-else>Envoyer</button>
+          </div>
+        </form>
       </div>
     </div>
   </Layout>

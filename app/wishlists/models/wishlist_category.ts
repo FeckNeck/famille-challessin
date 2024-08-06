@@ -6,7 +6,7 @@ import Wishlist from './wishlist.js'
 
 export default class WishlistCategory extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -15,10 +15,10 @@ export default class WishlistCategory extends BaseModel {
   declare updatedAt: DateTime
 
   @column()
-  declare wishlistId: number
+  declare wishlistId: string
 
   @column()
-  declare name: string
+  declare name: string | null
 
   @hasMany(() => Gift, {
     foreignKey: 'categoryId',

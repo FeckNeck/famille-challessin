@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 export interface AuthForm {
   email: string
   username?: string
@@ -9,6 +11,7 @@ export interface Gift {
   id: string
   title: string
   description: string | null
+  categoryId: string
   price: number
   link: string | null
   image: string
@@ -27,6 +30,7 @@ export interface WishlistTheme {
 export interface WishlistCategory {
   id: string
   name: string
+  wishlistId: string
   gifts: Gift[]
 }
 
@@ -35,9 +39,9 @@ export interface Wishlist {
   userId: string
   title: string
   description: string
-  eventDate: string
+  eventDate: DateTime
   isPublic: boolean
-  image: string
+  imageUrl: string
   categories: WishlistCategory[]
   theme: WishlistTheme
 }

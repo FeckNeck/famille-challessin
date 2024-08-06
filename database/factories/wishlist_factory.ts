@@ -12,7 +12,7 @@ export const WishlistFactory = factory
       themeId: faker.number.int({ min: 1, max: 3 }) as WishlistThemes,
       eventDate: DateTime.now().plus({ days: 30 }),
       isPublic: faker.datatype.boolean(),
-      imageUrl: faker.image.url(),
+      image: faker.image.url(),
     }
   })
   .relation('wishlistCategory', () => WishlistCategoryFactory)
