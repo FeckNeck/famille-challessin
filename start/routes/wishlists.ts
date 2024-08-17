@@ -17,6 +17,8 @@ const EditWishlistsCategoryController = () =>
 const RemoveWishlistsCategoryController = () =>
   import('#wishlists/controllers/categories/remove_wishlist_categories')
 
+const ScrapGiftsController = () => import('#gifts/controllers/scrap_gifts_controller')
+
 router
   .delete('wishlists/:id/categories/:categoryId', [RemoveWishlistsCategoryController, 'handle'])
   .as('wishlists.categories.delete')
@@ -41,3 +43,5 @@ router
 router
   .put('wishlists/:id/categories/:categoryId', [EditWishlistsCategoryController, 'handle'])
   .as('wishlists.categories.update')
+
+router.post('gifts/scrap', [ScrapGiftsController, 'handle']).as('gifts.scrap')

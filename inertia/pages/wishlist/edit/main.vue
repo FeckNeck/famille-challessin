@@ -1,52 +1,28 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import { useObjectUrl } from '@vueuse/core'
-import { shallowRef, computed } from 'vue'
+import Accordion from '~/components/ui/accordion.vue'
+import category from './components/category.vue'
+import Editable from '~/components/ui/editable.vue'
+import Hero from './components/hero.vue'
 import Layout from '~/layouts/default.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
-import category from './components/category.vue'
+import Input from '~/components/ui/input.vue'
+import { Menu, Search } from 'lucide-vue-next'
 
 const props = defineProps<{
   themes: WishlistTheme[]
   wishlist: Wishlist
 }>()
 
-const form = useForm({
-  id: props.wishlist.id,
-  title: props.wishlist.title,
-  description: props.wishlist.description,
-  eventDate: props.wishlist.eventDate,
-  themeId: props.wishlist.theme.id,
-  isPublic: props.wishlist.isPublic,
-  categories: props.wishlist.categories,
-  image: null,
-})
-
 const categoryForm = useForm({
   name: '',
   wishlistId: props.wishlist.id,
 })
 
-const file = shallowRef()
-const url = useObjectUrl(file)
-
-const imageUrl = computed(() => {
-  return url.value ?? props.wishlist.imageUrl ?? null
+const giftForm = useForm({
+  url: '',
 })
-
-function onFileChange(e: Event) {
-  file.value = (e.target as HTMLInputElement).files![0]
-}
-
-function submit() {
-  if (form.processing) return
-
-  if (file.value) form.image = file.value
-
-  form.put(`/wishlists/${props.wishlist.id}`, {
-    preserveScroll: true,
-  })
-}
 
 function submitCategory() {
   if (categoryForm.processing) return
@@ -55,52 +31,51 @@ function submitCategory() {
     preserveScroll: true,
   })
 }
+
+function submitGift() {
+  if (giftForm.processing) return
+
+  giftForm.post(`/gifts/scrap`, {
+    preserveScroll: true,
+  })
+}
+
+// const input = ref<string>('ceci est un input')
+
+// // Watch the input model for changes
+// watch(input, (value) => {
+//   console.log(value)
+// })
+
+const title = ref<string>('XD')
+
+// watch(title, (value) => {
+//   console.log(value)
+// })
 </script>
 
 <template>
   <Layout>
     <div class="container">
-      {{ wishlist }}
-      <div>
-        <h1>Create a new wishlist</h1>
-        {{ form.errors }}
-        <form @submit.prevent="submit()">
-          <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" v-model="form.title" />
-          </div>
-          <div>
-            <label for="description">Description</label>
-            <textarea v-model="form.description" id="description" name="description"></textarea>
-          </div>
-          <div>
-            <label for="event_date">Event Date</label>
-            <input type="date" id="event_date" name="event_date" v-model="form.eventDate" />
-          </div>
-          <div>
-            <label for="theme">Theme</label>
-            <select id="theme" name="theme" v-model="form.themeId">
-              <option v-for="theme in themes" :value="theme.id">
-                {{ theme.name }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <label for="is_public">Public</label>
-            <input type="checkbox" id="is_public" name="is_public" v-model="form.isPublic" />
-          </div>
-          <div>
-            <label for="image">Image</label>
-            <input type="file" id="image" name="image" @input="onFileChange($event)" />
-            <button @click="file.value = null" type="button">Remove</button>
-          </div>
-          <div>
-            <button disabled v-if="form.processing">Processing...</button>
-            <button type="submit" v-else>Envoyer</button>
-          </div>
-        </form>
-        <!-- <img v-if="imageUrl" :src="imageUrl" alt="Image preview" /> -->
+      <Input v-model:input="title" label="Title">
+        <Menu :size="12" />
+      </Input>
+      <!-- Edit wishlist -->
+      <Hero :themes="props.themes" :wishlist="props.wishlist" />
 
+      <!-- Create category-->
+      <form @submit.prevent="submitCategory()">
+        <div>
+          <label for="category">Category</label>
+          <input type="text" id="category" name="category" v-model="categoryForm.name" />
+        </div>
+        <div>
+          <button disabled v-if="categoryForm.processing">Processing...</button>
+          <button type="submit" v-else>Envoyer</button>
+        </div>
+      </form>
+
+      <div>
         <ul>
           <category
             v-for="category in wishlist.categories"
@@ -109,14 +84,14 @@ function submitCategory() {
           />
         </ul>
 
-        <!-- Create category-->
-        <form @submit.prevent="submitCategory()">
+        <!-- Scrap Gift -->
+        <form @submit.prevent="submitGift()">
           <div>
-            <label for="category">Category</label>
-            <input type="text" id="category" name="category" v-model="categoryForm.name" />
+            <label for="url">Gift URL</label>
+            <input type="text" id="url" name="url" v-model="giftForm.url" />
           </div>
           <div>
-            <button disabled v-if="categoryForm.processing">Processing...</button>
+            <button disabled v-if="giftForm.processing">Processing...</button>
             <button type="submit" v-else>Envoyer</button>
           </div>
         </form>

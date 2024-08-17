@@ -28,7 +28,9 @@ export default class EditWishlistsController {
     const wishlist = await Wishlist.query()
       .where('id', params.id)
       .preload('wishlistTheme')
-      .preload('wishlistCategory')
+      .preload('wishlistCategory', (query) => {
+        query.preload('gifts')
+      })
       .firstOrFail()
 
     return inertia.render('wishlist/edit/main', {

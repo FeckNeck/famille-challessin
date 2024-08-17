@@ -3,6 +3,7 @@ import { router, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import type { WishlistCategory } from '~/types'
 import Gift from './gift.vue'
+import Accordion from '~/components/ui/accordion.vue'
 
 const isDeleting = ref<boolean>(false)
 
@@ -16,7 +17,7 @@ const form = useForm({
   wishlistId: props.category.wishlistId,
 })
 
-function create() {
+function edit() {
   if (form.processing) return
 
   form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
@@ -39,18 +40,20 @@ function destroy() {
 </script>
 
 <template>
-  <div>
-    <div class="d-flex">
-      <form @submit.prevent="create">
-        <label for="name">Name</label>
-        <input id="name" v-model="form.name" type="text" />
-        <button disabled v-if="form.processing || isDeleting">Processing...</button>
-        <button type="submit" v-else>Envoyer</button>
-      </form>
-      <button @click="destroy" v-if="!isDeleting">X</button>
+  <!-- <div class="d-flex">
+    <form @submit.prevent="edit()">
+      <label for="name">Name</label>
+      <input id="name" v-model="form.name" type="text" />
+      <button disabled v-if="form.processing || isDeleting">Processing...</button>
+      <button type="submit" v-else>Envoyer</button>
+    </form>
+    <button @click="destroy" v-if="!isDeleting">X</button>
+  </div> -->
+  <Accordion v-model:title="category.name" :editable="true" :label="'Nom de la catégorie'">
+    <div class="stack">
+      <gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
     </div>
-    <gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
-  </div>
+  </Accordion>
 </template>
 
 <style scoped></style>

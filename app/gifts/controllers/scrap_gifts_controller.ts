@@ -1,9 +1,11 @@
 import vine from '@vinejs/vine'
-import { ChatOpenAI } from '@langchain/openai'
-import { z } from 'zod'
 import { HttpContext } from '@adonisjs/core/http'
+import { Browser, chromium, Page } from 'playwright'
 
 export default class ScrapGiftsController {
+  private browser!: Browser
+  private page!: Page
+
   static scrapGiftsValidator = vine.compile(
     vine.object({
       url: vine
@@ -16,25 +18,33 @@ export default class ScrapGiftsController {
     })
   )
 
+  constructor() {
+    ;async () => {
+      this.browser = await chromium.launch({ headless: true })
+      this.page = await this.browser.newPage()
+    }
+  }
+
   async handle({ request, response }: HttpContext) {
     const { url } = await request.validateUsing(ScrapGiftsController.scrapGiftsValidator)
+    const browser = await chromium.launch({ headless: true })
 
-    // Scrap the gift details from the URL
-    // const model = new ChatOpenAI({
-    //   model: 'gpt-4o-mini',
-    //   temperature: 0,
-    // })
+    const page = await browser.newPage()
 
-    // const gift = z.object({
-    //   title: z.string().describe('The title of the gift'),
-    //   description: z.string().describe('The description of the gift'),
-    //   price: z.number().describe('The price of the gift'),
-    //   url: z.string().describe('The URL of the gift'),
-    //   image: z.string().describe('The image of the gift'),
-    // })
+    await page.goto(url, { waitUntil: 'domcontentloaded' })
 
-    // const structuredLlm = model.withStructuredOutput(gift)
+    const h1 = page.getByRole('heading')
+    console.log(await h1.allInnerTexts())
+    const title = await page.$eval('#productTitle', (el) => el.textContent.trim())
+    const price = await page.$eval('.a-price .a-offscreen', (el) => el.textContent.trim())
+    const description = await page.$eval('#feature-bullets ul', (el) => el.innerText.trim())
+    const imageUrl = await page.$eval('#imgTagWrapperId img', (el) => el.src)
 
-    // await structuredLlm.invoke('
+    // console.log('Title:', title)
+    // console.log('Price:', price)
+    // console.log('Description:', description)
+    // console.log('Image URL:', imageUrl)
+
+    await browser.close()
   }
 }
