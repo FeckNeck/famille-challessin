@@ -1,74 +1,82 @@
 <script setup lang="ts">
-import { Field } from '@ark-ui/vue'
-import { LucideIcon } from 'lucide-vue-next'
+import { InputHTMLAttributes, useSlots, computed } from 'vue'
 
-interface Props {
-  label?: string
-  error?: string
-  info?: string
-  placeholder?: string
-  type: string
-  icon?: LucideIcon
-  iconSize?: number
-}
+withDefaults(
+  defineProps<{
+    type: InputHTMLAttributes['type']
+    placeholder?: string
+  }>(),
+  {
+    type: 'text',
+  }
+)
 
-withDefaults(defineProps<Props>(), {
-  type: 'text',
-})
+const slots = useSlots()
 
 const inputModel = defineModel<string>('input')
+
+const hasLeftIcon = computed(() => !!slots['left-icon'])
+const hasRightIcon = computed(() => !!slots['right-icon'])
 </script>
 
 <template>
-  <Field.Root :invalid="!!error">
-    <Field.Label v-if="label">{{ label }}</Field.Label>
-    <Field.Input asChild>
-      <slot />
-      <input v-model="inputModel" :type="type" :placeholder="placeholder" />
-    </Field.Input>
-    <Field.HelperText v-if="info">{{ info }}</Field.HelperText>
-    <Field.ErrorText v-if="error">{{ error }}</Field.ErrorText>
-  </Field.Root>
+  <div class="relative">
+    <div v-if="hasLeftIcon" class="icon --left">
+      <slot name="left-icon" />
+    </div>
+    <input
+      :type="type"
+      v-model="inputModel"
+      :placeholder="placeholder"
+      class="input"
+      :class="[
+        {
+          '--left-icon': hasLeftIcon,
+          '--right-icon': hasRightIcon,
+        },
+      ]"
+    />
+    <div v-if="hasRightIcon" class="icon --right">
+      <slot name="right-icon" />
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .input {
-  position: relative;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
 
-  & > svg {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
+  &::placeholder {
+    color: #ccc;
   }
 
-  & > input {
+  &:focus {
+    outline: none;
+    border-color: #333;
+  }
+
+  &.--left-icon {
     padding-inline-start: 2.5rem;
   }
+
+  &.--right-icon {
+    padding-inline-end: 2.5rem;
+  }
 }
 
-[data-scope='field'][data-part='root'] {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 
-[data-scope='field'][data-part='input'] {
-  height: 2.5rem;
-  padding-inline: 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  position: relative;
+  &.--left {
+    left: 0.5rem;
+  }
 
-  & > svg {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
+  &.--right {
+    right: 0.5rem;
   }
 }
 </style>

@@ -3,14 +3,15 @@ import { ChevronDownIcon } from 'lucide-vue-next'
 import { Accordion } from '@ark-ui/vue'
 import Editable from './editable.vue'
 
-interface Props {
-  editable: boolean
-  label: string
-}
-
-withDefaults(defineProps<Props>(), {
-  editable: false,
-})
+withDefaults(
+  defineProps<{
+    editable: boolean
+    label: string
+  }>(),
+  {
+    editable: false,
+  }
+)
 
 const titleModel = defineModel<string>('title', { required: true })
 </script>

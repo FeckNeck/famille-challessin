@@ -7,6 +7,7 @@ import Input from '~/components/ui/input.vue'
 import Layout from '~/layouts/default.vue'
 import MainSection from './components/main_section.vue'
 import Pagination from './components/pagination.vue'
+import { Search } from 'lucide-vue-next'
 import type { WishlistTheme, HomeResponse, UserWishlistFilter, User } from '~/app/types'
 
 const props = defineProps<HomeResponse>()
@@ -41,6 +42,7 @@ watch([username, theme], () => {
 })
 
 function fetchNewPageData(page: number) {
+  console.log('fetchNewPageData:')
   const props = {
     page,
     username: username.value,
@@ -66,7 +68,11 @@ function fetchNewPageData(page: number) {
         />
         <div class="whishlists__content">
           <div class="whishlists__content__filters">
-            <Input v-model="search" placeholder="Search by title" type="text" />
+            <Input v-model:input="search" placeholder="Search by title" type="search">
+              <template #left-icon>
+                <Search />
+              </template>
+            </Input>
             <select v-model="username">
               <option value="">Tous</option>
               <option v-for="user in users" :key="user.id" :value="user.username">
