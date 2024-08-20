@@ -35,6 +35,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
+  @column()
+  declare icon: string | null
+
+  @column()
+  declare iconColor: string | null
+
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>
 

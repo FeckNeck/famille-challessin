@@ -12,6 +12,8 @@ export default class extends BaseSchema {
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.string('name').notNullable().unique()
+      table.string('icon')
+      table.string('icon_color')
     })
 
     this.schema.createTable(this.wishlistsTableName, (table) => {

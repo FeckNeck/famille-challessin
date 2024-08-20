@@ -40,9 +40,19 @@ export default class extends BaseSeeder {
   async seedWishtlistThemes(trx: TransactionClientContract) {
     await WishlistTheme.createMany(
       [
-        { id: WishlistThemes.Christmas, name: 'Christmas' },
-        { id: WishlistThemes.Birthday, name: 'Birthday' },
-        { id: WishlistThemes.Other, name: 'Other' },
+        {
+          id: WishlistThemes.Christmas,
+          name: 'Christmas',
+          icon: 'lucide:candy-cane',
+          iconColor: '#FF0000',
+        },
+        {
+          id: WishlistThemes.Birthday,
+          name: 'Birthday',
+          icon: 'lucide:cake',
+          iconColor: '#FFA500',
+        },
+        { id: WishlistThemes.Other, name: 'Other', icon: 'lucide:tree-palm', iconColor: '#FFA500' },
       ],
       { client: trx }
     )

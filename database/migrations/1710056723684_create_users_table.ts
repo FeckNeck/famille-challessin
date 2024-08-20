@@ -21,6 +21,8 @@ export default class extends BaseSchema {
       table.text('username').notNullable().unique()
       table.text('email').notNullable().unique()
       table.text('password').notNullable()
+      table.text('icon').nullable()
+      table.text('icon_color').nullable()
     })
   }
 

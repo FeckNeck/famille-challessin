@@ -24,6 +24,7 @@ export interface Gift {
 export interface WishlistTheme {
   id: number
   name: string
+  icon: string
   count: string
 }
 
