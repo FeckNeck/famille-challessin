@@ -2,7 +2,7 @@
 
 .container {
   margin-inline: auto;
-  max-width: 1230px;
+  max-width: 1536px;
   padding-inline: spacePx(2);
 }
 
@@ -28,7 +28,7 @@
 /**
  * Spacing.
  */
-@for $i from 0 through 12 {
+@for $i from 0 through 24 {
   .p-#{$i} {
     padding: spacePx($i);
   }

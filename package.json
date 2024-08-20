@@ -55,6 +55,7 @@
     "@adonisjs/vite": "^3.0.0",
     "@ark-ui/vue": "^3.8.0",
     "@formkit/auto-animate": "^0.8.2",
+    "@iconify/vue": "^4.1.2",
     "@inertiajs/vue3": "^1.2.0",
     "@langchain/openai": "^0.2.7",
     "@vinejs/vine": "^2.1.0",

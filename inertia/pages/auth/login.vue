@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import Layout from '~/layouts/default.vue'
+import Field from '~/components/ui/field.vue'
+import Input from '~/components/ui/input.vue'
+import { Search } from 'lucide-vue-next'
 
 const form = useForm({
   email: '',
@@ -21,17 +24,16 @@ function submit() {
 <template>
   <Layout>
     <h1>Login</h1>
+    {{ form.errors.email }}
     <div class="container">
       <p>Don't have an account? <Link href="/auth/register">Register</Link></p>
       <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
         No account found with the provided credentials
       </p>
       <form @submit.prevent="submit()">
-        <div>
-          <label for="email">Email</label>
-          <input v-model="form.email" type="email" id="email" name="email" required />
-          <small>{{ form.errors.email }}</small>
-        </div>
+        <Field label="Email" :error="form.errors.email">
+          <Input v-model:input="form.email" type="email" />
+        </Field>
         <div>
           <label for="password">Password</label>
           <input v-model="form.password" type="password" id="password" name="password" required />

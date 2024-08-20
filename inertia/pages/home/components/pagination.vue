@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
+
 const props = defineProps<{ total: number; lastPage: number; currentPage: number }>()
 
 const emit = defineEmits<{
@@ -16,31 +18,34 @@ function handlePrevClick() {
 
 <template>
   <div class="pagination">
-    <button @click="handlePrevClick" :disabled="props.currentPage === 1">Prev</button>
+    <button @click="handlePrevClick" :disabled="props.currentPage === 1">
+      <ChevronLeft />
+    </button>
     <span>{{ props.currentPage }} / {{ props.lastPage }}</span>
-    <button @click="handleNextClick" :disabled="props.currentPage === props.lastPage">Next</button>
+    <button @click="handleNextClick" :disabled="props.currentPage === props.lastPage">
+      <ChevronRight />
+    </button>
   </div>
 </template>
 
 <style scoped lang="scss">
 .pagination {
   margin-inline: auto;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 
   button {
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
+    padding: 0.25rem;
+    border: 2px solid var(--gray-800);
     border-radius: 0.25rem;
-    background-color: white;
-  }
-
-  span {
-    margin-inline: 1rem;
+    background-color: var(--white);
   }
 
   button:disabled {
     cursor: not-allowed;
-    background-color: #ccc;
+    color: var(--gray-300);
   }
 }
 </style>

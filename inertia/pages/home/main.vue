@@ -9,6 +9,7 @@ import MainSection from './components/main_section.vue'
 import Pagination from './components/pagination.vue'
 import { Search } from 'lucide-vue-next'
 import type { WishlistTheme, HomeResponse, UserWishlistFilter, User } from '~/app/types'
+import Hero from './components/hero.vue'
 
 const props = defineProps<HomeResponse>()
 const params = useUrlSearchParams<Partial<UserWishlistFilter>>('history')
@@ -42,7 +43,6 @@ watch([username, theme], () => {
 })
 
 function fetchNewPageData(page: number) {
-  console.log('fetchNewPageData:')
   const props = {
     page,
     username: username.value,
@@ -58,35 +58,43 @@ function fetchNewPageData(page: number) {
 <template>
   <Head title="Homepage" />
   <Layout>
-    <div class="container">
-      <div class="whishlists" ref="scrollToTopRef">
-        <Filters
-          :themes="themes"
-          :users="users"
-          v-model:username="username"
-          v-model:theme="theme"
-        />
-        <div class="whishlists__content">
-          <div class="whishlists__content__filters">
-            <Input v-model:input="search" placeholder="Search by title" type="search">
-              <template #left-icon>
-                <Search />
-              </template>
-            </Input>
-            <select v-model="username">
-              <option value="">Tous</option>
-              <option v-for="user in users" :key="user.id" :value="user.username">
-                {{ user.username }}
-              </option>
-            </select>
-          </div>
-          <MainSection :wishlists="props.wishlists" />
-          <Pagination
-            :total="meta.total"
-            :last-page="meta.lastPage"
-            :current-page="meta.currentPage"
-            @update="fetchNewPageData"
+    <Hero />
+    <div class="relative" ref="scrollToTopRef">
+      <div class="container">
+        <div class="whishlists">
+          <Filters
+            :themes="themes"
+            :users="users"
+            v-model:username="username"
+            v-model:theme="theme"
           />
+          <div class="whishlists__content">
+            <div class="whishlists__content__filters">
+              <Input
+                v-model:input="search"
+                placeholder="Search by title"
+                type="search"
+                :rounded="true"
+              >
+                <template #left-icon>
+                  <Search />
+                </template>
+              </Input>
+              <select v-model="username">
+                <option value="">Tous</option>
+                <option v-for="user in users" :key="user.id" :value="user.username">
+                  {{ user.username }}
+                </option>
+              </select>
+            </div>
+            <MainSection :wishlists="props.wishlists" />
+            <Pagination
+              :total="meta.total"
+              :last-page="meta.lastPage"
+              :current-page="meta.currentPage"
+              @update="fetchNewPageData"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -99,6 +107,7 @@ function fetchNewPageData(page: number) {
     display: grid;
     grid-template-columns: 18rem 1fr;
     gap: 3rem;
+    align-items: flex-start;
   }
 
   &__content {
