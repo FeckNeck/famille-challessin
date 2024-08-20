@@ -58,6 +58,7 @@
     "@inertiajs/vue3": "^1.2.0",
     "@langchain/openai": "^0.2.7",
     "@vinejs/vine": "^2.1.0",
+    "@vue/server-renderer": "^3.4.38",
     "@vueuse/core": "^10.11.1",
     "edge.js": "^6.0.2",
     "lucide-vue-next": "^0.428.0",
