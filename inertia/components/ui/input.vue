@@ -25,8 +25,8 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
       <slot name="left-icon" />
     </div>
     <input
-      :type="type"
       v-model="inputModel"
+      :type="type"
       :placeholder="placeholder"
       class="input"
       :class="[
