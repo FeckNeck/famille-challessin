@@ -3,8 +3,7 @@ import { InputHTMLAttributes, useSlots, computed } from 'vue'
 
 withDefaults(
   defineProps<{
-    type: InputHTMLAttributes['type']
-    placeholder?: string
+    rounded?: boolean
   }>(),
   {
     type: 'text',
@@ -25,14 +24,14 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
       <slot name="left-icon" />
     </div>
     <input
+      v-bind="$attrs"
       v-model="inputModel"
-      :type="type"
-      :placeholder="placeholder"
       class="input"
       :class="[
         {
           '--left-icon': hasLeftIcon,
           '--right-icon': hasRightIcon,
+          '--rounded': rounded,
         },
       ]"
     />
@@ -45,11 +44,16 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
 <style scoped lang="scss">
 .input {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  border: 2px solid var(--gray-800);
   border-radius: 0.25rem;
 
   &::placeholder {
-    color: #ccc;
+    color: var(--gray-500);
+  }
+
+  &.--rounded {
+    border-radius: 9999px;
   }
 
   &:focus {
