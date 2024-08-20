@@ -1,5 +1,11 @@
 @import './functions';
 
+.container {
+  margin-inline: auto;
+  max-width: 1230px;
+  padding-inline: spacePx(2);
+}
+
 .visually-hidden {
   border: none;
   clip: rect(0 0 0 0);
