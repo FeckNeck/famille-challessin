@@ -10,8 +10,8 @@ export default class LoginController {
     })
   )
 
-  async render({ inertia }: HttpContext) {
-    return inertia.render('auth/login')
+  async render({ response }: HttpContext) {
+    return response.redirect().withQs({ modal: 'login' }).back()
   }
 
   async handle({ request, auth, response }: HttpContext) {
