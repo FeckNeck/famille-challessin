@@ -17,7 +17,7 @@ const checkModel = defineModel<CheckboxCheckedState>('check')
 
 <template>
   <Checkbox.Root v-model:checked="checkModel">
-    <Checkbox.Control :class="[color]">
+    <Checkbox.Control :class="color">
       <Checkbox.Indicator>
         <CheckIcon :size="16" />
       </Checkbox.Indicator>

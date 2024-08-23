@@ -16,7 +16,7 @@ const switchModel = defineModel<boolean>('switch')
 
 <template>
   <Switch.Root v-model:checked="switchModel">
-    <Switch.Control :class="[color]">
+    <Switch.Control :class="color">
       <Switch.Thumb />
     </Switch.Control>
     <Switch.Label>{{ label }}</Switch.Label>
@@ -53,7 +53,6 @@ const switchModel = defineModel<boolean>('switch')
     transform;
   transition-duration: 150ms;
 
-  // --switch-bg: #cbd5e0;
   --switch-bg: var(--gray-300);
   background: var(--switch-bg);
 }
