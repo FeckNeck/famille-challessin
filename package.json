@@ -53,7 +53,7 @@
     "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^3.0.0",
-    "@ark-ui/vue": "^3.8.0",
+    "@ark-ui/vue": "^3.10.0",
     "@formkit/auto-animate": "^0.8.2",
     "@iconify/vue": "^4.1.2",
     "@inertiajs/vue3": "^1.2.0",
