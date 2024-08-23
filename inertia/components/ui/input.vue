@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { InputHTMLAttributes, useSlots, computed } from 'vue'
+import { useSlots, computed } from 'vue'
 
-withDefaults(
-  defineProps<{
-    rounded?: boolean
-  }>(),
-  {
-    type: 'text',
-  }
-)
+defineProps<{
+  radius?: 'rsmall' | 'rmedium' | 'rfull'
+}>()
 
 const slots = useSlots()
 
@@ -28,10 +23,10 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
       v-model="inputModel"
       class="input"
       :class="[
+        radius,
         {
           '--left-icon': hasLeftIcon,
           '--right-icon': hasRightIcon,
-          '--rounded': rounded,
         },
       ]"
     />
@@ -46,19 +41,26 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
   padding: 0.5rem;
   background-color: var(--white);
   border: 2px solid var(--gray-800);
-  border-radius: 0.25rem;
+  outline: none;
 
-  &::placeholder {
-    color: var(--gray-500);
+  &:focus {
+    box-shadow: var(--shadow-tiny);
   }
 
-  &.--rounded {
+  &.rsmall {
+    border-radius: var(--rounded-sm);
+  }
+
+  &.rmedium {
+    border-radius: var(--rounded-md);
+  }
+
+  &.rfull {
     border-radius: 9999px;
   }
 
-  &:focus {
-    outline: none;
-    border-color: #333;
+  &::placeholder {
+    color: var(--gray-500);
   }
 
   &.--left-icon {
