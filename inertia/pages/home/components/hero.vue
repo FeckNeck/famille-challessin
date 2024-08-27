@@ -12,7 +12,7 @@ import Button from '../../../components/ui/button.vue'
             Listes de souhaits <br />
             de la famille <span>challessin</span>
           </h1>
-          <Button color="yellow" href="#">
+          <Button color="yellow" :href="'wishlists/create'">
             <div class="d-flex items-center g-2">
               <span>Créer une liste</span>
               <Gift />
@@ -29,14 +29,21 @@ import Button from '../../../components/ui/button.vue'
 .hero {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   gap: 2rem;
 
   &__title {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 1rem;
+
+    @media (min-width: 768px) {
+      align-items: flex-start;
+      text-align: left;
+    }
 
     h1 {
       color: var(--gray-800);
@@ -66,6 +73,10 @@ import Button from '../../../components/ui/button.vue'
         }
       }
     }
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
   }
 }
 </style>
