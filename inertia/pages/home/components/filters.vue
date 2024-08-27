@@ -4,7 +4,13 @@ import { Icon } from '@iconify/vue'
 
 defineProps<{ themes: WishlistTheme[]; users: User[] }>()
 
-const usernameModel = defineModel<string | null>('username')
+/**
+ * Workaround to works with the Select component
+ */
+const usernameModel = defineModel<string[] | string>('username', {
+  get: (value) => value[0],
+  set: (value) => [value],
+})
 const themeModel = defineModel<string | null>('theme')
 </script>
 
@@ -34,7 +40,7 @@ const themeModel = defineModel<string | null>('theme')
         <button
           v-for="user in users"
           :key="user.id"
-          @click="usernameModel = usernameModel === user.username ? null : user.username"
+          @click="usernameModel = usernameModel === user.username ? '' : user.username"
         >
           <div :class="{ '--active': usernameModel === user.username }">
             <Icon icon="lucide:cat" :ssr="true" />
