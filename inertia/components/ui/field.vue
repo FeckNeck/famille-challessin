@@ -1,42 +1,57 @@
 <script setup lang="ts">
-import { Field } from '@ark-ui/vue'
 import { defineProps, computed, ref } from 'vue'
 
-const props = withDefaults(
-  defineProps<{
-    label?: string
-    error?: any
-    info?: string
-    required?: boolean
-  }>(),
-  {
-    required: false,
-  }
-)
-
-// const isInvalid = computed(() => !!props.error)
-const isInvalid = ref<boolean>(false)
+const props = defineProps<{
+  label?: string
+  error?: any
+  info?: string
+}>()
 </script>
 
 <template>
-  <div>
-    <Field.Root :required="required" :invalid="isInvalid">
-      <Field.Label v-if="label">{{ label }}</Field.Label>
-      <Field.Input asChild>
-        <slot />
-      </Field.Input>
-      <Field.HelperText v-if="info">{{ info }}</Field.HelperText>
-      <Field.ErrorText>Error Text</Field.ErrorText>
-    </Field.Root>
-    <button @click="isInvalid = !isInvalid" type="button">error</button>
-    <p>{{ isInvalid }}</p>
+  <div class="form_group">
+    <label v-if="label" class="form_label">{{ label }}</label>
+    <slot />
+    <span v-if="info" class="form_info">{{ info }}</span>
+    <span v-else-if="error" class="form_error">{{ error }}</span>
   </div>
 </template>
 
 <style scoped>
-[data-scope='field'][data-part='root'] {
+.form_group {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.form_label {
+  color: var(--gray-800);
+}
+
+.form_control {
+  border: 2px solid var(--gray-800);
+  border-radius: var(--rounded);
+  background: transparent;
+  padding: 0.5rem 1rem;
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: var(--gray-600);
+    font-weight: var(--text-bold);
+  }
+}
+
+.form_group .form_error {
+  color: var(--red-500);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+
+.form_group .form_help {
+  color: var(--cyan-500);
+  font-size: var(--text-sm);
 }
 </style>
