@@ -13,14 +13,14 @@ withDefaults(
   }
 )
 
-const titleModel = defineModel<string>('title', { required: true })
+const titleModel = defineModel<string>({ required: true })
 </script>
 
 <template>
   <Accordion.Root collapsible>
     <Accordion.Item :value="titleModel">
       <Accordion.ItemTrigger>
-        <Editable v-if="editable" v-model:input="titleModel" :label="label" />
+        <Editable v-if="editable" v-model="titleModel" :label="label" />
         <span v-else> {{ titleModel }} </span>
         <Accordion.ItemIndicator>
           <ChevronDownIcon />

@@ -49,7 +49,7 @@ function destroy() {
     </form>
     <button @click="destroy" v-if="!isDeleting">X</button>
   </div> -->
-  <Accordion v-model:title="category.name" :editable="true" :label="'Nom de la catégorie'">
+  <Accordion v-model="category.name" :editable="true" :label="'Nom de la catégorie'">
     <div class="stack">
       <gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
     </div>

@@ -12,7 +12,7 @@ withDefaults(
   }
 )
 
-const checkModel = defineModel<CheckboxCheckedState>('check')
+const checkModel = defineModel<CheckboxCheckedState>()
 </script>
 
 <template>

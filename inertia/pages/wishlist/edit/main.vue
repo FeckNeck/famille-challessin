@@ -57,7 +57,7 @@ const title = ref<string>('XD')
 <template>
   <Layout>
     <div class="container">
-      <Input v-model:input="title" label="Title">
+      <Input v-model="title" label="Title">
         <Menu :size="12" />
       </Input>
       <!-- Edit wishlist -->

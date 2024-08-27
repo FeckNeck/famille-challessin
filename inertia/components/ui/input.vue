@@ -7,7 +7,7 @@ defineProps<{
 
 const slots = useSlots()
 
-const inputModel = defineModel<string>('input')
+const inputModel = defineModel<string>()
 
 const hasLeftIcon = computed(() => !!slots['left-icon'])
 const hasRightIcon = computed(() => !!slots['right-icon'])
@@ -42,6 +42,7 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
   background-color: var(--white);
   border: 2px solid var(--gray-800);
   outline: none;
+  width: 100%;
 
   &:focus {
     box-shadow: var(--shadow-tiny);
