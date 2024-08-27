@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Header from '~/components/header.vue'
 import Footer from '~/components/footer.vue'
+import Login from '~/pages/auth/login.vue'
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import Footer from '~/components/footer.vue'
     </main>
     <Footer />
   </div>
+  <Login />
 </template>
 
 <style scoped lang="scss">
