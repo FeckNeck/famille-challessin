@@ -7,6 +7,7 @@ import { usePage } from '@inertiajs/vue3'
 import { onUpdated, ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import { computed } from 'vue'
+import Checkbox from '~/components/ui/checkbox.vue'
 
 const page = usePage()
 const showLoginModal = ref<boolean>(page.url.includes('modal=login'))
@@ -18,6 +19,7 @@ const showLoginModal = ref<boolean>(page.url.includes('modal=login'))
 const form = useForm({
   email: '',
   password: '',
+  remember: false,
 })
 
 function submit() {
@@ -36,7 +38,7 @@ const btnText = computed(() => {
 </script>
 
 <template>
-  <Dialog position="top" v-model:open="showLoginModal">
+  <Dialog position="top" v-model="showLoginModal">
     <template #title>
       <div>
         <h4>S'identifier</h4>
@@ -49,29 +51,26 @@ const btnText = computed(() => {
           No account found with the provided credentials
         </p>
         <Field label="Email" :error="form.errors.email">
-          <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
+          <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
         </Field>
-        <div>
-          <Field label="Password" :error="form.errors.password">
-            <Input
-              v-model:input="form.password"
-              type="password"
-              autocomplete="current-password"
-              class="w-full"
-            />
-          </Field>
-        </div>
-        <div>
-          <Button
-            :disabled="form.processing"
-            color="yellow"
-            size="small"
+        <Field label="Password" :error="form.errors.password">
+          <Input
+            v-model="form.password"
+            type="password"
+            autocomplete="current-password"
             class="w-full"
-            type="submit"
-          >
-            {{ btnText }}
-          </Button>
-        </div>
+          />
+        </Field>
+        <Checkbox v-model="form.remember" label="Se souvenir de moi">Remember me</Checkbox>
+        <Button
+          :disabled="form.processing"
+          color="yellow"
+          size="small"
+          class="w-full"
+          type="submit"
+        >
+          {{ btnText }}
+        </Button>
       </form>
     </template>
   </Dialog>
