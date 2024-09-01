@@ -8,16 +8,31 @@ export default class HomeController {
     const page = request.input('page', 1)
     const limit = 9
 
-    const { username, title, theme } = request.qs()
+    const { username, title, theme, order, orderBy } = request.qs()
 
+    /**
+     * Fetch users and their public wishlists count
+     */
     const users = await User.query()
       .select('id', 'username')
       .withCount('wishlists', (builder) => builder.where('is_public', true).as('count'))
 
+    /**
+     * Fetch themes and their public wishlists count
+     */
     const themes = await WishlistTheme.query().withCount('wishlists', (builder) =>
       builder.where('is_public', true).as('count')
     )
-    const query = Wishlist.query().where('is_public', true)
+
+    /**
+     * Fetch wishlists
+     * Filter by title, theme and username
+     */
+    const query = Wishlist.query().where('is_public', true).preload('wishlistTheme').preload('user')
+
+    if (orderBy && order) {
+      query.orderBy(orderBy, order)
+    }
 
     if (title) {
       query.where('title', 'LIKE', `%${title}%`)
