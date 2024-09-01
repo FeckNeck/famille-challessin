@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, Teleport } from 'vue'
+import { Teleport } from 'vue'
 import { Dialog } from '@ark-ui/vue'
 import Card from './card.vue'
 import { XIcon } from 'lucide-vue-next'
@@ -13,7 +13,7 @@ withDefaults(
   }
 )
 
-const openModel = ref<boolean>(false)
+const openModel = defineModel<boolean>()
 </script>
 
 <template>
