@@ -12,7 +12,7 @@ import Button from '../../../components/ui/button.vue'
             Listes de souhaits <br />
             de la famille <span>challessin</span>
           </h1>
-          <Button color="yellow" :href="'wishlists/create'">
+          <Button color="yellow" href="wishlists/create">
             <div class="d-flex items-center g-2">
               <span>Créer une liste</span>
               <Gift />

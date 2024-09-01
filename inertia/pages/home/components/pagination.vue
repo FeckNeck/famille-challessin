@@ -17,7 +17,7 @@ function handlePrevClick() {
 </script>
 
 <template>
-  <div class="pagination">
+  <div class="pagination" v-if="total">
     <button @click="handlePrevClick" :disabled="props.currentPage === 1">
       <ChevronLeft />
     </button>

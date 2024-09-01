@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import type { Wishlist } from '~/app/types'
-import { Link } from '@inertiajs/vue3'
+import { computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
 import Card from '~/components/ui/card.vue'
+import type { Wishlist, User } from '~/app/types'
 
-defineProps<{ wishlist: Wishlist }>()
+const page = usePage()
+const user = computed(() => page.props.user as User | undefined)
+const props = defineProps<{ wishlist: Wishlist }>()
+
+const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? 'edit/' : ''))
 </script>
 
 <template>
-  <Link :href="`/wishlists/${wishlist.id}`" class="card">
+  <Link :href="`/wishlists/${editLink}${wishlist.id}`" class="card">
     <Card>
-      <h6>{{ wishlist.title }}</h6>
-      <div class="card__header__image">
-        <img :src="wishlist.imageUrl" alt="wishlist.title" />
+      <div>
+        <h6 :style="{ backgroundColor: wishlist.user.iconColor }">{{ wishlist.title }}</h6>
+        <div class="card__header__image">
+          <img :src="wishlist.imageUrl" :alt="wishlist.title + 'image'" />
+        </div>
       </div>
       <div class="card__content">
         <p class="card__content__desc">{{ wishlist.description }}</p>
@@ -36,7 +43,6 @@ defineProps<{ wishlist: Wishlist }>()
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    background-color: var(--cyan-200);
     border-bottom: 2px solid var(--gray-800);
   }
 
@@ -56,6 +62,10 @@ defineProps<{ wishlist: Wishlist }>()
 
     &__desc {
       font-size: var(--text-sm);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
 
     &__event {
