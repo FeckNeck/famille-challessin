@@ -8,34 +8,47 @@ defineProps<{
 
 <template>
   <div class="hero">
-    <div :style="{ backgroundImage: `url(${wishlist.image})` }" class="hero-img"></div>
-    <div class="hero__content">
-      <h1>{{ wishlist.title }}</h1>
-      <p>{{ wishlist.eventDate }}</p>
-      <p>{{ wishlist.description }}</p>
+    <div>
+      <img :src="wishlist.imageUrl" :alt="wishlist.title + ' image'" />
     </div>
+    <p>
+      {{ wishlist.title }}
+    </p>
   </div>
 </template>
 
 <style scoped lang="scss">
 .hero {
+  background-color: var(--white);
+  border-radius: var(--rounded-lg);
+  border: 2px solid black;
+  box-shadow: var(--shadow-medium);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5rem;
+  flex-direction: column;
+  height: calc(100vh - 5rem);
+  margin-bottom: 2rem;
+  padding: 1rem 1rem 0 1rem;
 
-  &-img {
-    display: block;
-    width: 25rem;
-    height: 25rem;
-    background-size: cover;
-    background-position: center;
-    border-radius: 50%;
+  & > div {
+    border: 2px solid var(--gray-800);
+    overflow: hidden;
+    border-radius: var(--rounded);
+
+    & > img {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+      border-radius: var(--rounded);
+    }
   }
 
-  &__content {
-    flex: 1;
-    max-width: 40rem;
+  p {
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--white);
+    text-align: center;
+    font-size: var(--text-xl);
+    font-style: italic;
   }
 }
 </style>

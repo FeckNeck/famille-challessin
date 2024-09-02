@@ -116,8 +116,16 @@
   flex-grow: 1;
 }
 
+.items-start {
+  align-items: start;
+}
+
 .items-center {
   align-items: center;
+}
+
+.items-end {
+  align-items: end;
 }
 
 .justify-center {
