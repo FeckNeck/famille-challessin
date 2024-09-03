@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {
   Checkbox,
+  useForwardPropsEmits,
   type CheckboxRootProps,
   type CheckboxRootEmits,
-  useForwardPropsEmits,
 } from '@ark-ui/vue'
 import { CheckIcon } from 'lucide-vue-next'
 

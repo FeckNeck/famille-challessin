@@ -22,19 +22,6 @@ const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <!-- <Accordion.Root collapsible>
-    <Accordion.Item :value="title">
-      <Accordion.ItemTrigger>
-        <h5>{{ title }}</h5>
-        <Accordion.ItemIndicator>
-          <ChevronDownIcon />
-        </Accordion.ItemIndicator>
-      </Accordion.ItemTrigger>
-      <Accordion.ItemContent>
-        <slot />
-      </Accordion.ItemContent>
-    </Accordion.Item>
-  </Accordion.Root> -->
   <Collapsible.Root v-bind="forwarded">
     <Collapsible.Trigger>
       <h5>{{ title }}</h5>
