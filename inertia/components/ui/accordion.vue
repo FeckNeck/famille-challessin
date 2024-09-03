@@ -5,23 +5,22 @@ import Editable from './editable.vue'
 
 withDefaults(
   defineProps<{
-    editable: boolean
-    label: string
+    editable?: boolean
+    title: string
   }>(),
   {
     editable: false,
   }
 )
 
-const titleModel = defineModel<string>({ required: true })
+// const titleModel = defineModel<string>({ required: true })
 </script>
 
 <template>
   <Accordion.Root collapsible>
-    <Accordion.Item :value="titleModel">
+    <Accordion.Item :value="title">
       <Accordion.ItemTrigger>
-        <Editable v-if="editable" v-model="titleModel" :label="label" />
-        <span v-else> {{ titleModel }} </span>
+        <h5>{{ title }}</h5>
         <Accordion.ItemIndicator>
           <ChevronDownIcon />
         </Accordion.ItemIndicator>
@@ -38,7 +37,7 @@ const titleModel = defineModel<string>({ required: true })
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 1rem;
+  padding: 1rem;
   background: none;
   border: none;
   cursor: pointer;

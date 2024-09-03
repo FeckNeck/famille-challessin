@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
-  color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
-  href?: string
+  color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime' | 'blank'
   size?: 'small' | 'medium'
 }>()
 
+const attrs = useAttrs()
+
 const buttonOrLink = computed(() => {
-  return props.href ? Link : 'button'
+  return attrs.href ? Link : 'button'
 })
 </script>
 
 <template>
-  <Component v-bind="$attrs" :is="buttonOrLink" class="button" :class="[props.color, props.size]">
+  <Component v-bind="$attrs" :is="buttonOrLink" class="button" :class="[color, size]">
     <slot />
   </Component>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defineProps, computed, ref } from 'vue'
+import { defineProps } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   label?: string
   error?: any
   info?: string
