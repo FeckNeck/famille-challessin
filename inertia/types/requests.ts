@@ -26,6 +26,7 @@ export interface WishlistTheme {
   name: string
   icon: string
   count: string
+  iconColor: string
 }
 
 export interface WishlistCategory {
@@ -45,6 +46,7 @@ export interface Wishlist {
   imageUrl: string
   categories: WishlistCategory[]
   theme: WishlistTheme
+  user: User
 }
 
 export interface User {
@@ -54,6 +56,7 @@ export interface User {
   roleId: number
   wishlists: Wishlist[]
   count: string
+  iconColor: string
 }
 
 /**

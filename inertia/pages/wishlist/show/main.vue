@@ -2,7 +2,8 @@
 import type { Wishlist } from '~/app/types'
 import Layout from '~/layouts/default.vue'
 import Hero from './components/hero.vue'
-import Category from './components/category.vue'
+import Accordion from '~/components/ui/accordion.vue'
+import Gift from './components/gift.vue'
 
 const wishlist = defineProps<Wishlist>()
 </script>
@@ -12,10 +13,44 @@ const wishlist = defineProps<Wishlist>()
     <div class="container">
       <div class="wishlist">
         <Hero :wishlist="wishlist" />
-        <Category v-for="category in wishlist.categories" :key="category.id" :category="category" />
+        <div class="d-flex column g-4">
+          <div
+            v-for="category in wishlist.categories"
+            :key="category.id"
+            :category="category"
+            class="wishlist__category"
+          >
+            <Accordion :title="category.name">
+              <div class="d-flex column">
+                <Gift
+                  v-for="gift in category.gifts"
+                  :key="gift.id"
+                  :gift="gift"
+                  class="wishlist__category__gift"
+                />
+              </div>
+            </Accordion>
+          </div>
+        </div>
       </div>
     </div>
   </Layout>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.wishlist {
+  &__category {
+    border: 2px solid var(--gray-800);
+    box-shadow: var(--shadow-tiny);
+    background-color: var(--white);
+
+    &__gift {
+      border-bottom: 2px solid var(--gray-800);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+</style>
