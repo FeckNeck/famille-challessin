@@ -2,7 +2,7 @@
 import type { Wishlist } from '~/app/types'
 import Layout from '~/layouts/default.vue'
 import Hero from './components/hero.vue'
-import Accordion from '~/components/ui/accordion.vue'
+import Collapsible from '~/components/ui/collapsible.vue'
 import Gift from './components/gift.vue'
 
 const wishlist = defineProps<Wishlist>()
@@ -20,7 +20,7 @@ const wishlist = defineProps<Wishlist>()
             :category="category"
             class="wishlist__category"
           >
-            <Accordion :title="category.name">
+            <Collapsible :title="category.name">
               <div class="d-flex column">
                 <Gift
                   v-for="gift in category.gifts"
@@ -29,7 +29,7 @@ const wishlist = defineProps<Wishlist>()
                   class="wishlist__category__gift"
                 />
               </div>
-            </Accordion>
+            </Collapsible>
           </div>
         </div>
       </div>

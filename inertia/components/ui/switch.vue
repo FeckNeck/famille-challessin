@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { Switch } from '@ark-ui/vue'
+import {
+  Switch,
+  useForwardPropsEmits,
+  type SwitchRootProps,
+  type SwitchRootEmits,
+} from '@ark-ui/vue'
 
-withDefaults(
-  defineProps<{
-    color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
-    label: string
-  }>(),
-  {
-    color: 'cyan',
-  }
-)
+export interface SwitchProps extends SwitchRootProps {
+  color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
+  label: string
+}
 
-const switchModel = defineModel<boolean>('switch')
+const props = withDefaults(defineProps<SwitchProps>(), {
+  color: 'cyan',
+})
+
+const emits = defineEmits<SwitchRootEmits>()
+const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <Switch.Root v-model:checked="switchModel">
+  <Switch.Root v-bind="forwarded">
     <Switch.Control :class="color">
       <Switch.Thumb />
     </Switch.Control>

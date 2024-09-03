@@ -104,7 +104,7 @@ function fetchNewPageData(page: number) {
           <div class="whishlist__content">
             <div class="whishlist__content__filters">
               <Input
-                v-model="search"
+                v-model:input="search"
                 placeholder="Search by title"
                 type="search"
                 radius="rfull"

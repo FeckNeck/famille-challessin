@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import { Checkbox, CheckboxCheckedState } from '@ark-ui/vue'
+import {
+  Checkbox,
+  type CheckboxRootProps,
+  type CheckboxRootEmits,
+  useForwardPropsEmits,
+} from '@ark-ui/vue'
 import { CheckIcon } from 'lucide-vue-next'
 
-withDefaults(
-  defineProps<{
-    color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
-    label: string
-  }>(),
-  {
-    color: 'violet',
-  }
-)
+export interface CheckboxProps extends CheckboxRootProps {
+  color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
+  label: string
+}
 
-const checkModel = defineModel<CheckboxCheckedState>()
+const props = withDefaults(defineProps<CheckboxProps>(), {
+  color: 'violet',
+})
+
+const emits = defineEmits<CheckboxRootEmits>()
+const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <Checkbox.Root v-model:checked="checkModel">
+  <Checkbox.Root v-bind="forwarded">
     <Checkbox.Control :class="color">
       <Checkbox.Indicator>
         <CheckIcon :size="16" />

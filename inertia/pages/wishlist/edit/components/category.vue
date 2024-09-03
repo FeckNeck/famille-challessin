@@ -3,7 +3,7 @@ import { router, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import type { WishlistCategory } from '~/types'
 import Gift from './gift.vue'
-import Accordion from '~/components/ui/accordion.vue'
+import Collapsible from '~/components/ui/collapsible.vue'
 
 const isDeleting = ref<boolean>(false)
 
@@ -49,11 +49,11 @@ function destroy() {
     </form>
     <button @click="destroy" v-if="!isDeleting">X</button>
   </div> -->
-  <Accordion v-model="category.name" :editable="true" :label="'Nom de la catégorie'">
+  <Collapsible :title="category.name">
     <div class="stack">
       <gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
     </div>
-  </Accordion>
+  </Collapsible>
 </template>
 
 <style scoped></style>

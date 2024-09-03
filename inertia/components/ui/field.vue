@@ -22,6 +22,8 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  position: relative;
+  padding-bottom: 1.25rem;
 }
 
 .form_label {
@@ -48,10 +50,14 @@ defineProps<{
   color: var(--red-500);
   font-size: var(--text-sm);
   text-transform: uppercase;
+  position: absolute;
+  bottom: 0;
 }
 
 .form_group .form_help {
   color: var(--cyan-500);
   font-size: var(--text-sm);
+  position: absolute;
+  bottom: 0;
 }
 </style>

@@ -56,10 +56,10 @@ function submit() {
       </Button>
       <form @submit.prevent="submit()" class="w-full d-flex items-center g-4" id="patch-gift">
         <Field label="Nom" class="w-full" :error="form.errors.giverName">
-          <Input v-model="form.giverName" type="text" class="gift__form-input" />
+          <Input v-model:input="form.giverName" type="text" class="gift__form-input" />
         </Field>
         <Field label="Email" class="w-full">
-          <Input v-model="form.giverEmail" type="email" class="gift__form-input" />
+          <Input v-model:input="form.giverEmail" type="email" class="gift__form-input" />
         </Field>
       </form>
       <Button type="submit" size="small" color="yellow" form="patch-gift">Confirmer</Button>

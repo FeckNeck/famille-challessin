@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import { usePage } from '@inertiajs/vue3'
-import { onUpdated, ref } from 'vue'
+import { ref, watch } from 'vue'
 import Button from '~/components/ui/button.vue'
 import { computed } from 'vue'
 import Checkbox from '~/components/ui/checkbox.vue'
@@ -12,9 +12,11 @@ import Checkbox from '~/components/ui/checkbox.vue'
 const page = usePage()
 const showLoginModal = ref<boolean>(page.url.includes('modal=login'))
 
-// onUpdated(() => {
-//   showLoginModal.value = page.url.includes('modal=login')
-// })
+watch(showLoginModal, (open) => {
+  if (!open) {
+    window.history.back()
+  }
+})
 
 const form = useForm({
   email: '',
@@ -25,7 +27,7 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.post('auth/login', {
+  form.post('/auth/login', {
     onError: () => {
       form.reset('password')
     },
@@ -38,7 +40,7 @@ const btnText = computed(() => {
 </script>
 
 <template>
-  <Dialog position="top" v-model="showLoginModal">
+  <Dialog v-model:open="showLoginModal" position="top">
     <template #title>
       <div>
         <h4>S'identifier</h4>
@@ -51,7 +53,7 @@ const btnText = computed(() => {
           No account found with the provided credentials
         </p>
         <Field label="Email" :error="form.errors.email">
-          <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
+          <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
         </Field>
         <Field label="Password" :error="form.errors.password">
           <Input
@@ -61,7 +63,7 @@ const btnText = computed(() => {
             class="w-full"
           />
         </Field>
-        <Checkbox v-model="form.remember" label="Se souvenir de moi">Remember me</Checkbox>
+        <Checkbox label="Se souvenir de moi" v-model:checked="form.remember">Remember me</Checkbox>
         <Button
           :disabled="form.processing"
           color="yellow"

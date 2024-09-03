@@ -1,23 +1,28 @@
 <script setup lang="ts">
 import { Teleport } from 'vue'
-import { Dialog } from '@ark-ui/vue'
+import {
+  Dialog,
+  useForwardPropsEmits,
+  type DialogRootEmits,
+  type DialogRootProps,
+} from '@ark-ui/vue'
 import Card from './card.vue'
 import { XIcon } from 'lucide-vue-next'
 
-withDefaults(
-  defineProps<{
-    position?: 'center' | 'top'
-  }>(),
-  {
-    position: 'center',
-  }
-)
+export interface DialogProps extends DialogRootProps {
+  position?: 'center' | 'top'
+}
 
-const openModel = defineModel<boolean>()
+const props = withDefaults(defineProps<DialogProps>(), {
+  position: 'center',
+})
+
+const emits = defineEmits<DialogRootEmits>()
+const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <Dialog.Root v-model:open="openModel">
+  <Dialog.Root v-bind="forwarded">
     <Teleport to="body">
       <Dialog.Backdrop />
       <Dialog.Positioner :class="position">
@@ -70,11 +75,11 @@ const openModel = defineModel<boolean>()
   height: 100vh;
   z-index: 1000;
 
-  &.--center {
+  &.center {
     align-items: center;
   }
 
-  &.--top {
+  &.top {
     align-items: start;
   }
 }

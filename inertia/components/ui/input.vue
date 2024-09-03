@@ -7,7 +7,7 @@ defineProps<{
 
 const slots = useSlots()
 
-const inputModel = defineModel<string>()
+const inputModel = defineModel<string>('input')
 
 const hasLeftIcon = computed(() => !!slots['left-icon'])
 const hasRightIcon = computed(() => !!slots['right-icon'])

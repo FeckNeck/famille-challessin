@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import Accordion from '~/components/ui/accordion.vue'
+import Accordion from '~/components/ui/collapsible.vue'
 import category from './components/category.vue'
 import Editable from '~/components/ui/editable.vue'
 import Hero from './components/hero.vue'
@@ -57,7 +57,7 @@ const title = ref<string>('XD')
 <template>
   <Layout>
     <div class="container">
-      <Input v-model="title" label="Title">
+      <Input v-model:input="title" label="Title">
         <Menu :size="12" />
       </Input>
       <!-- Edit wishlist -->
@@ -67,7 +67,7 @@ const title = ref<string>('XD')
       <form @submit.prevent="submitCategory()">
         <div>
           <label for="category">Category</label>
-          <input type="text" id="category" name="category" v-model="categoryForm.name" />
+          <input type="text" id="category" name="category" v-model:input="categoryForm.name" />
         </div>
         <div>
           <button disabled v-if="categoryForm.processing">Processing...</button>
@@ -88,7 +88,7 @@ const title = ref<string>('XD')
         <form @submit.prevent="submitGift()">
           <div>
             <label for="url">Gift URL</label>
-            <input type="text" id="url" name="url" v-model="giftForm.url" />
+            <input type="text" id="url" name="url" v-model:input="giftForm.url" />
           </div>
           <div>
             <button disabled v-if="giftForm.processing">Processing...</button>
