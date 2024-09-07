@@ -41,7 +41,7 @@ export interface Wishlist {
   userId: string
   title: string
   description: string
-  eventDate: DateTime
+  eventDate: Date
   isPublic: boolean
   imageUrl: string
   categories: WishlistCategory[]
