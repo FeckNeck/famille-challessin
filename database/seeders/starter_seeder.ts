@@ -65,6 +65,14 @@ export default class extends BaseSeeder {
           wishlistCategory.with('gifts', 10)
         )
       )
-      .createMany(10)
+      .createMany(5)
+
+    await UserFactory.client(trx)
+      .merge({
+        email: 'mathis.dousse@example.com',
+        username: 'Mathis Dousse',
+        roleId: Roles.Admin,
+      })
+      .create()
   }
 }

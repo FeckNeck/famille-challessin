@@ -10,6 +10,7 @@ export const UserFactory = factory
       email: faker.internet.email(),
       password: 'Pizza1234*',
       roleId: Roles.User,
+      iconColor: faker.internet.color(),
     }
   })
   .relation('wishlists', () => WishlistFactory)
