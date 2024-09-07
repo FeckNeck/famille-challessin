@@ -19,7 +19,29 @@ import Button from '../../../components/ui/button.vue'
             </div>
           </Button>
         </div>
-        <img src="https://placehold.co/600x400" alt="" />
+        <model-viewer
+          alt="AdonisJS 3d logo"
+          class="hero__model-viewer"
+          :class="{
+            '--hidden': modelViewerScriptLoaded.value === false,
+            '--visible': modelViewerScriptLoaded.value === true,
+          }"
+          auto-rotate
+          disable-zoom
+          interaction-prompt="none"
+          orientation="0deg 0deg 0deg"
+          auto-rotate-delay="400"
+          rotation-per-second="30deg"
+          disable-pan
+          src="/titou.glb"
+          camera-controls
+          touch-action="pan-y"
+          camera-orbit="30.24deg 95.94deg 18.36m"
+          field-of-view="30deg"
+          shadow-intensity="0.6"
+          shadow-softness="1"
+          tone-mapping="commerce"
+        />
       </div>
     </div>
   </div>
@@ -72,6 +94,26 @@ import Button from '../../../components/ui/button.vue'
           transform: rotate(0deg);
         }
       }
+    }
+  }
+
+  &__model-viewer {
+    display: block;
+    height: 27.5rem;
+    flex: 1;
+    transition: opacity 4s ease-in-out;
+    --progress-bar-color: transparent;
+
+    &.--hidden {
+      opacity: 0;
+    }
+
+    &.--visible {
+      opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+      display: none;
     }
   }
 

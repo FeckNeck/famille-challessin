@@ -2,7 +2,7 @@
 /// <reference path="../../config/inertia.ts" />
 
 import '../css/app.scss'
-import { createApp, h } from 'vue'
+import { createApp, h, ref } from 'vue'
 import type { DefineComponent } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
@@ -23,9 +23,39 @@ createInertiaApp({
   },
 
   setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
+    const app = createApp({ render: () => h(App, props) })
       .use(autoAnimatePlugin)
       .use(plugin)
-      .mount(el)
+
+    const modelViewerScriptLoaded = ref(false)
+    app.config.globalProperties.modelViewerScriptLoaded = modelViewerScriptLoaded
+
+    function loadModelViewerScript() {
+      if (modelViewerScriptLoaded.value || !window.matchMedia('(min-width: 768px)').matches) {
+        return
+      }
+
+      const scriptEl = document.createElement('script')
+      scriptEl.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js'
+      scriptEl.async = true
+      scriptEl.type = 'module'
+      scriptEl.onload = () => {
+        modelViewerScriptLoaded.value = true
+      }
+
+      document.body.appendChild(scriptEl)
+    }
+
+    setTimeout(() => {
+      window.requestIdleCallback(() => {
+        loadModelViewerScript()
+      })
+
+      window.addEventListener('resize', () => {
+        loadModelViewerScript()
+      })
+    }, 100)
+
+    app.mount(el)
   },
 })
