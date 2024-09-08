@@ -21,13 +21,10 @@ withDefaults(
 )
 
 const selectModel = defineModel<string[]>()
-
-const attributs = useAttrs()
-console.log('attributs:', attributs)
 </script>
 
 <template>
-  <Select.Root :items="items" v-model="selectModel">
+  <Select.Root :items="items" v-model="selectModel" :positioning="{ sameWidth: true }">
     <Select.Control>
       <Select.Trigger>
         <Select.ValueText :placeholder="placeholder" />
@@ -36,26 +33,27 @@ console.log('attributs:', attributs)
         </Select.Indicator>
       </Select.Trigger>
     </Select.Control>
-    <Select.Positioner style="width: 100%">
-      <Select.Content>
-        <Select.ItemGroup>
-          <Select.Item v-for="item in items" :key="item.value" :item="item.value">
-            <Select.ItemText>{{ item.label }}</Select.ItemText>
-            <Select.ItemIndicator>
-              <Check :size="16" />
-            </Select.ItemIndicator>
-          </Select.Item>
-        </Select.ItemGroup>
-      </Select.Content>
-    </Select.Positioner>
-    <Select.HiddenSelect />
+    <Teleport to="body">
+      <Select.Positioner>
+        <Select.Content>
+          <Select.ItemGroup>
+            <Select.Item v-for="item in items" :key="item.value" :item="item.value">
+              <Select.ItemText>{{ item.label }}</Select.ItemText>
+              <Select.ItemIndicator>
+                <Check :size="16" />
+              </Select.ItemIndicator>
+            </Select.Item>
+          </Select.ItemGroup>
+        </Select.Content>
+      </Select.Positioner>
+      <Select.HiddenSelect />
+    </Teleport>
   </Select.Root>
 </template>
 
 <style scoped>
 [data-scope='select'][data-part='root'] {
   width: 100%;
-  position: relative;
 }
 
 [data-scope='select'][data-part='trigger'] {

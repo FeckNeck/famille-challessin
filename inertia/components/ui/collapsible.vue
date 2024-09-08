@@ -6,8 +6,6 @@ import {
   type CollapsibleRootEmits,
 } from '@ark-ui/vue'
 import { ChevronDownIcon } from 'lucide-vue-next'
-// import { ChevronDownIcon } from 'lucide-vue-next'
-// import { Accordion, AccordionRootProps, AccordionRootEmits, useForwardPropsEmits } from '@ark-ui/vue'
 
 export interface CollapsibleProps extends CollapsibleRootProps {
   title: string
@@ -15,8 +13,6 @@ export interface CollapsibleProps extends CollapsibleRootProps {
 
 const props = defineProps<CollapsibleProps>()
 const emits = defineEmits<CollapsibleRootEmits>()
-
-// props.ti
 
 const forwarded = useForwardPropsEmits(props, emits)
 </script>
