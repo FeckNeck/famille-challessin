@@ -34,7 +34,6 @@ const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? 'ed
 <style scoped lang="scss">
 .card {
   height: 16.5rem;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 
@@ -44,6 +43,8 @@ const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? 'ed
     overflow: hidden;
     white-space: nowrap;
     border-bottom: 2px solid var(--gray-800);
+    border-top-left-radius: var(--rounded);
+    border-top-right-radius: var(--rounded);
   }
 
   img {
