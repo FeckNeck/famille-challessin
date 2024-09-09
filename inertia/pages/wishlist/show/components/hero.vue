@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { Wishlist } from '~/types'
-
-defineProps<{
+import { useDateFormat } from '@vueuse/core'
+const props = defineProps<{
   wishlist: Wishlist
 }>()
+
+const eventDate = useDateFormat(props.wishlist.eventDate, 'D MMMM YYYY', {
+  locales: 'fr-FR',
+})
 </script>
 
 <template>
@@ -11,13 +15,19 @@ defineProps<{
     <div>
       <img :src="wishlist.imageUrl" :alt="wishlist.title + ' image'" />
     </div>
-    <p>
-      {{ wishlist.title }}
-    </p>
+    <div class="p-6 d-flex column g-2">
+      <p>{{ wishlist.title }}</p>
+      <div class="d-flex items-center">
+        <hr />
+        <p>{{ eventDate }}</p>
+        <hr />
+      </div>
+      <p>{{ wishlist.description }}</p>
+    </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .hero {
   background-color: var(--white);
   border-radius: var(--rounded-lg);
@@ -29,7 +39,7 @@ defineProps<{
   margin-bottom: 2rem;
   padding: 1rem 1rem 0 1rem;
 
-  & > div {
+  & > div:first-child {
     border: 2px solid var(--gray-800);
     overflow: hidden;
     border-radius: var(--rounded);
@@ -42,13 +52,36 @@ defineProps<{
     }
   }
 
-  p {
-    width: 100%;
-    padding: 2rem;
+  & p {
     background-color: var(--white);
     text-align: center;
-    font-size: var(--text-xl);
     font-style: italic;
+
+    &:first-child {
+      font-style: italic;
+      font-size: var(--text-xl);
+      font-weight: bold;
+    }
+
+    &:nth-child(2) {
+      padding-inline: 1rem;
+      font-size: var(--text-base);
+    }
+
+    &:last-child {
+      font-size: var(--text-lg);
+    }
+  }
+
+  & hr {
+    flex: 1;
+    height: 1px;
+    border: 0;
+    background-color: var(--gray-800);
+  }
+
+  @media (max-width: 768px) {
+    height: 100%;
   }
 }
 </style>
