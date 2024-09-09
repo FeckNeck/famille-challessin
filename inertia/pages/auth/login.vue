@@ -52,18 +52,22 @@ const btnText = computed(() => {
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
           No account found with the provided credentials
         </p>
-        <Field label="Email" :error="form.errors.email">
-          <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
-        </Field>
-        <Field label="Password" :error="form.errors.password">
-          <Input
-            v-model="form.password"
-            type="password"
-            autocomplete="current-password"
-            class="w-full"
-          />
-        </Field>
-        <Checkbox label="Se souvenir de moi" v-model:checked="form.remember">Remember me</Checkbox>
+        <div>
+          <Field label="Email" :error="form.errors.email">
+            <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
+          </Field>
+          <Field label="Password" :error="form.errors.password">
+            <Input
+              v-model="form.password"
+              type="password"
+              autocomplete="current-password"
+              class="w-full"
+            />
+          </Field>
+          <Checkbox label="Se souvenir de moi" v-model:checked="form.remember"
+            >Remember me</Checkbox
+          >
+        </div>
         <Button
           :disabled="form.processing"
           color="yellow"
