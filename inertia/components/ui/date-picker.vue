@@ -8,7 +8,11 @@ import {
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import Input from './input.vue'
 
-const props = withDefaults(defineProps<DatePickerRootProps>(), {
+export interface DatePickerProps extends DatePickerRootProps {
+  label: string
+}
+
+const props = withDefaults(defineProps<DatePickerProps>(), {
   positioning: {
     sameWidth: true,
   },
@@ -22,7 +26,7 @@ const forwarded = useForwardPropsEmits(props, emits)
 
 <template>
   <DatePicker.Root v-bind="forwarded" locale="fr-FR">
-    <DatePicker.Label>Label</DatePicker.Label>
+    <DatePicker.Label>{{ label }}</DatePicker.Label>
     <DatePicker.Control>
       <DatePicker.Input asChild>
         <Input />
