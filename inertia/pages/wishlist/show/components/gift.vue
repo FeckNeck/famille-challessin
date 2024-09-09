@@ -6,13 +6,15 @@ import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 import type { Gift, User } from '~/types'
+import { SharedProps } from '@adonisjs/inertia/types'
 
 const props = defineProps<{
   gift: Gift
 }>()
 
-const page = usePage()
-const user = computed(() => page.props.user as User)
+const page = usePage<SharedProps>()
+
+const user = computed(() => page.props.user as User | undefined)
 const isBooking = ref<boolean>(false)
 
 const form = useForm({
@@ -23,6 +25,8 @@ const form = useForm({
 })
 
 function submit() {
+  if (form.processing) return
+
   form.patch(`/gifts/${props.gift.id}`, {
     preserveState: true,
     preserveScroll: true,
@@ -32,6 +36,10 @@ function submit() {
     },
   })
 }
+
+const btnText = computed(() => {
+  return form.processing ? 'Processing...' : 'Envoyer'
+})
 </script>
 
 <template>
@@ -62,7 +70,9 @@ function submit() {
           <Input v-model:input="form.giverEmail" type="email" class="gift__form-input" />
         </Field>
       </form>
-      <Button type="submit" size="small" color="yellow" form="patch-gift">Confirmer</Button>
+      <Button type="submit" size="small" color="yellow" form="patch-gift">
+        {{ btnText }}
+      </Button>
     </div>
   </div>
 </template>
@@ -133,6 +143,7 @@ function submit() {
       & > form {
         flex-direction: column;
         text-align: start;
+        gap: 0.5rem;
       }
 
       &-input {
