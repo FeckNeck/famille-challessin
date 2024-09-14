@@ -7,32 +7,30 @@ import {
 } from '@ark-ui/vue'
 import Button from './button.vue'
 import { Trash2 } from 'lucide-vue-next'
-import { shallowRef } from 'vue'
-import { useObjectUrl } from '@vueuse/core'
 import { computed } from 'vue'
 
-const props = defineProps<FileUploadRootProps>()
+export interface FileUploadProps extends FileUploadRootProps {
+  url?: string | null
+}
+
+const props = withDefaults(defineProps<FileUploadProps>(), {
+  maxFiles: 1,
+})
 
 const emits = defineEmits<FileUploadRootEmits>()
 
 const forwarded = useForwardPropsEmits(props, emits)
 
-const file = shallowRef()
-const url = useObjectUrl(file)
-
 const backgroundImg = computed(() => ({
-  backgroundImage: url.value ? `url(${url.value})` : 'none',
+  backgroundImage: props.url ? `url(${props.url})` : 'none',
 }))
-
-function onFileChange(event: FileUpload.FileAcceptDetails) {
-  if (event.files.length === 1 && event.files[0].type.startsWith('image/')) {
-    file.value = event.files[0]
-  }
-}
 </script>
 
 <template>
-  <FileUpload.Root v-bind="forwarded" @file-accept="(details) => onFileChange(details)">
+  <FileUpload.Root
+    v-bind="forwarded"
+    @file-accept="(details: FileUpload.FileAcceptDetails) => emits('fileAccept', details)"
+  >
     <FileUpload.Dropzone :style="backgroundImg">
       <FileUpload.Label asChild>
         <span>Déposez vos fichiers ici</span>
@@ -67,10 +65,6 @@ function onFileChange(event: FileUpload.FileAcceptDetails) {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 [data-scope='file-upload'][data-part='dropzone'] {
@@ -78,12 +72,17 @@ function onFileChange(event: FileUpload.FileAcceptDetails) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--gray-800);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 0.125rem solid var(--gray-800);
   border-radius: var(--rounded);
   font-weight: bold;
   gap: 0.75rem;
   width: 100%;
   height: 100%;
+  padding: 1rem;
+  text-align: center;
 }
 
 [data-scope='file-upload'][data-part='item-group'] {
@@ -122,7 +121,7 @@ function onFileChange(event: FileUpload.FileAcceptDetails) {
   grid-template-areas:
     'preview name delete'
     'preview size delete';
-  border: 2px solid var(--gray-800);
+  border: 0.125rem solid var(--gray-800);
   border-radius: var(--rounded);
 }
 
@@ -140,7 +139,7 @@ function onFileChange(event: FileUpload.FileAcceptDetails) {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-0.625rem);
   }
   to {
     opacity: 1;
