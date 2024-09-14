@@ -1,12 +1,3 @@
-import { DateTime } from 'luxon'
-
-export interface AuthForm {
-  email: string
-  username?: string
-  password: string
-  password_confirmation?: string
-}
-
 export interface Gift {
   id: string
   title: string
