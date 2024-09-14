@@ -7,11 +7,7 @@ import {
 } from '@ark-ui/vue'
 import { ChevronDownIcon } from 'lucide-vue-next'
 
-export interface CollapsibleProps extends CollapsibleRootProps {
-  title: string
-}
-
-const props = defineProps<CollapsibleProps>()
+const props = defineProps<CollapsibleRootProps>()
 const emits = defineEmits<CollapsibleRootEmits>()
 
 const forwarded = useForwardPropsEmits(props, emits)
@@ -19,26 +15,28 @@ const forwarded = useForwardPropsEmits(props, emits)
 
 <template>
   <Collapsible.Root v-bind="forwarded">
-    <Collapsible.Trigger>
-      <h5>{{ title }}</h5>
-      <ChevronDownIcon />
-    </Collapsible.Trigger>
+    <div class="d-flex items-center justify-between pl-4">
+      <slot name="title" />
+      <Collapsible.Trigger>
+        <ChevronDownIcon />
+      </Collapsible.Trigger>
+    </div>
     <Collapsible.Content>
-      <slot />
+      <slot name="content" />
     </Collapsible.Content>
   </Collapsible.Root>
 </template>
 
 <style scoped>
 [data-scope='collapsible'][data-part='trigger'] {
+  flex-grow: 1;
   display: flex;
+  justify-content: end;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
   background: none;
+  padding: 1.5rem;
   border: none;
   cursor: pointer;
-  width: 100%;
 }
 
 [data-scope='collapsible'][data-part='trigger'] {
