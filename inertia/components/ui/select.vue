@@ -1,30 +1,23 @@
 <script setup lang="ts">
-// TODO: Use Ark-UI Select props and emit
-import { Select } from '@ark-ui/vue'
+import { Select, SelectRootProps, SelectRootEmits, useForwardPropsEmits } from '@ark-ui/vue'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
-import { useAttrs } from 'vue'
 
 interface SelectItem {
   label: string
   value: string
 }
 
-withDefaults(
-  defineProps<{
-    color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
-    items: SelectItem[]
-    placeholder?: string
-  }>(),
-  {
-    color: 'cyan',
-  }
-)
+const props = withDefaults(defineProps<SelectRootProps<SelectItem>>(), {
+  positioning: { sameWidth: true },
+})
 
-const selectModel = defineModel<string[]>()
+const emit = defineEmits<SelectRootEmits<string>>()
+
+const forwarded = useForwardPropsEmits(props, emit)
 </script>
 
 <template>
-  <Select.Root :items="items" v-model="selectModel" :positioning="{ sameWidth: true }">
+  <Select.Root v-bind="forwarded">
     <Select.Control>
       <Select.Trigger>
         <Select.ValueText :placeholder="placeholder" />

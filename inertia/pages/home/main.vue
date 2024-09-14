@@ -116,12 +116,12 @@ function fetchNewPageData(page: number) {
               </Input>
               <Select
                 :items="usersOptions"
-                v-model="username"
+                v-model:model-value="username"
                 class="whishlist__content__filters__users"
               />
               <div class="whishlist__content__filters__order">
                 <Order v-model:order="order" />
-                <Select :items="orderByOptions" v-model="orderBy" />
+                <Select :items="orderByOptions" v-model:model-value="orderBy" />
               </div>
             </div>
             <MainSection :wishlists="props.wishlists" />
