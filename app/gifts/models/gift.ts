@@ -18,19 +18,19 @@ export default class Gift extends BaseModel {
   declare categoryId: number
 
   @column()
-  declare title: string
+  declare title: string | null
 
   @column()
   declare description: string | null
 
   @column()
-  declare price: number
+  declare price: string | null
 
   @column()
-  declare link: string
+  declare link: string | null
 
   @column()
-  declare imageUrl: string
+  declare image: string | null
 
   @column()
   declare isReserved: boolean
@@ -45,12 +45,12 @@ export default class Gift extends BaseModel {
   declare giverEmail: string | null
 
   @computed()
-  get image() {
-    if (this.imageUrl.startsWith('https://')) {
-      return this.imageUrl
+  get imageUrl() {
+    if (this.image?.startsWith('https://')) {
+      return this.image
     }
 
-    return `/img/${this.imageUrl}`
+    return `/img/${this.image}`
   }
 
   @belongsTo(() => WishlistCategory, {

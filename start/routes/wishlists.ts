@@ -45,5 +45,7 @@ router
   .put('wishlists/:id/categories/:categoryId', [EditWishlistsCategoryController, 'handle'])
   .as('wishlists.categories.update')
 
-router.post('gifts/scrap', [ScrapGiftsController, 'handle']).as('gifts.scrap')
+router
+  .post('wishlists/:id/categories/:categoryId/gifts', [ScrapGiftsController, 'handle'])
+  .as('gifts.scrap')
 router.patch('gifts/:id', [updateGiftsController, 'handle']).as('gifts.update')
