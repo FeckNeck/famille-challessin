@@ -4,18 +4,24 @@ import { ref } from 'vue'
 import type { WishlistCategory } from '~/types'
 import Gift from './gift.vue'
 import Collapsible from '~/components/ui/collapsible.vue'
-
-const isDeleting = ref<boolean>(false)
+import Input from '~/components/ui/input.vue'
+import Button from '~/components/ui/button.vue'
+import { Trash2 } from 'lucide-vue-next'
+import Field from '~/components/ui/field.vue'
 
 const props = defineProps<{
   category: WishlistCategory
 }>()
 
 const form = useForm({
-  id: props.category.id,
   name: props.category.name,
-  wishlistId: props.category.wishlistId,
 })
+
+const giftForm = useForm({
+  url: '',
+})
+
+const isDeleting = ref<boolean>(false)
 
 function edit() {
   if (form.processing) return
@@ -37,23 +43,50 @@ function destroy() {
     },
   })
 }
+
+function createGift() {
+  if (giftForm.processing) return
+
+  giftForm.post(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}/gifts/`, {
+    preserveScroll: true,
+  })
+}
 </script>
 
 <template>
-  <!-- <div class="d-flex">
-    <form @submit.prevent="edit()">
-      <label for="name">Name</label>
-      <input id="name" v-model="form.name" type="text" />
-      <button disabled v-if="form.processing || isDeleting">Processing...</button>
-      <button type="submit" v-else>Envoyer</button>
-    </form>
-    <button @click="destroy" v-if="!isDeleting">X</button>
-  </div> -->
-  <Collapsible :title="category.name">
-    <div class="stack">
-      <gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
-    </div>
+  <Collapsible class="category">
+    <template #title>
+      <div class="d-flex items-center g-4">
+        <form @submit.prevent="edit()" class="d-flex items-center g-4">
+          <Input v-model:input="form.name" placeholder="Nom de la catégorie" />
+          <Button color="violet" size="small">Modifier</Button>
+        </form>
+        <form @submit.prevent="destroy()" class="d-flex items-center g-4">
+          <Button color="red" size="small">
+            <Trash2 />
+          </Button>
+        </form>
+      </div>
+    </template>
+    <template #content>
+      <form @submit.prevent="createGift()" class="d-flex items-center g-4 p-4">
+        <Field label="Ajouter un cadeau" :error="giftForm.errors.url" class="grow">
+          <Input
+            v-model:input="giftForm.url"
+            placeholder="https://www.flashjouet.fr/accueil/3119-zuru-pets-alive-bonnie-le-lama-4894680009653.html"
+          />
+        </Field>
+        <Button color="yellow" size="small">Ajouter</Button>
+      </form>
+      <Gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
+    </template>
   </Collapsible>
 </template>
 
-<style scoped></style>
+<style scoped>
+.category {
+  border: 2px solid var(--gray-800);
+  box-shadow: var(--shadow-tiny);
+  background-color: var(--white);
+}
+</style>

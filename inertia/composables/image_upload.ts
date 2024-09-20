@@ -1,15 +1,22 @@
+import { FileUpload } from '@ark-ui/vue'
 import { useObjectUrl } from '@vueuse/core'
 import { computed, shallowRef } from 'vue'
 
-export const useImageUpload = () => {
-  const file = shallowRef()
-  const url = useObjectUrl(file)
+export const useImageUpload = (image: string | null) => {
+  const uploadedFile = shallowRef()
+  const uploadedFileUrl = useObjectUrl(uploadedFile)
 
-  const imageUrl = computed(() => {
-    return url.value ?? imageUrl ?? null
-  })
+  const uploadedFilePreview = computed(() => uploadedFileUrl.value ?? image ?? null)
 
-  function onFileChange(e: Event) {
-    file.value = (e.target as HTMLInputElement).files![0]
+  function onfileChange(event: FileUpload.FileAcceptDetails) {
+    if (event.files.length === 1 && event.files[0].type.startsWith('image/')) {
+      uploadedFile.value = event.files[0]
+    }
+  }
+
+  return {
+    uploadedFile,
+    uploadedFilePreview,
+    onfileChange,
   }
 }

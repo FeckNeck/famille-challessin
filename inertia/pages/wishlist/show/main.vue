@@ -14,23 +14,23 @@ const wishlist = defineProps<Wishlist>()
       <div class="wishlist">
         <Hero :wishlist="wishlist" />
         <div class="d-flex column g-4">
-          <div
+          <Collapsible
             v-for="category in wishlist.categories"
             :key="category.id"
-            :category="category"
             class="wishlist__category"
           >
-            <Collapsible :title="category.name">
-              <div class="d-flex column">
-                <Gift
-                  v-for="gift in category.gifts"
-                  :key="gift.id"
-                  :gift="gift"
-                  class="wishlist__category__gift"
-                />
-              </div>
-            </Collapsible>
-          </div>
+            <template #title>
+              <h5>{{ category.name }}</h5>
+            </template>
+            <template #content>
+              <Gift
+                v-for="gift in category.gifts"
+                :key="gift.id"
+                :gift="gift"
+                class="wishlist__category__gift"
+              />
+            </template>
+          </Collapsible>
         </div>
       </div>
     </div>
@@ -43,6 +43,8 @@ const wishlist = defineProps<Wishlist>()
     border: 2px solid var(--gray-800);
     box-shadow: var(--shadow-tiny);
     background-color: var(--white);
+    display: flex;
+    flex-direction: column;
 
     &__gift {
       border-bottom: 2px solid var(--gray-800);

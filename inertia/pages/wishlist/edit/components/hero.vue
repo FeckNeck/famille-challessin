@@ -1,84 +1,112 @@
 <script setup lang="ts">
 import type { WishlistTheme, Wishlist } from '~/types'
 import { useForm } from '@inertiajs/vue3'
-import { useObjectUrl } from '@vueuse/core'
-import { computed, shallowRef } from 'vue'
+import Field from '~/components/ui/field.vue'
+import Input from '~/components/ui/input.vue'
+import DatePicker from '~/components/ui/date_picker.vue'
+import FileUpload from '~/components/ui/file_upload.vue'
+import Select from '~/components/ui/select.vue'
+import { computed } from 'vue'
+import Button from '~/components/ui/button.vue'
+import { useImageUpload } from '~/composables/image_upload'
 
 const props = defineProps<{
   themes: WishlistTheme[]
   wishlist: Wishlist
 }>()
 
+const themeOptions = props.themes.map((theme) => ({
+  label: theme.name,
+  value: theme.id.toString(),
+}))
+
 const form = useForm({
   id: props.wishlist.id,
   title: props.wishlist.title,
   description: props.wishlist.description,
   eventDate: props.wishlist.eventDate,
-  themeId: props.wishlist.theme.id,
+  themeId: [props.wishlist.theme.id.toString()],
   isPublic: props.wishlist.isPublic,
   categories: props.wishlist.categories,
   image: null,
 })
 
-const file = shallowRef()
-const url = useObjectUrl(file)
-
-const imageUrl = computed(() => {
-  return url.value ?? props.wishlist.imageUrl ?? null
-})
-
-function onFileChange(e: Event) {
-  file.value = (e.target as HTMLInputElement).files![0]
-}
+const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.wishlist.imageUrl)
 
 function submit() {
   if (form.processing) return
 
-  if (file.value) form.image = file.value
+  if (uploadedFile.value) form.image = uploadedFile.value
 
-  form.put(`/wishlists/${props.wishlist.id}`, {
-    preserveScroll: true,
-  })
+  form
+    .transform((data) => ({
+      ...data,
+      themeId: +data.themeId[0],
+    }))
+    .put(`/wishlists/${props.wishlist.id}`, {
+      preserveScroll: true,
+    })
 }
 </script>
 
 <template>
-  <form @submit.prevent="submit()">
-    <div>
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" v-model="form.title" />
+  <form @submit.prevent="submit()" class="hero">
+    <FileUpload
+      v-model:file="uploadedFile"
+      :max-file-size="10000000"
+      :accept="'image/*'"
+      :url="uploadedFilePreview"
+      @file-accept="onfileChange"
+      class="hero__img"
+    />
+    <div class="hero__form">
+      <Field label="Titre" for="title" :error="form.errors.title">
+        <Input v-model:input="form.title" id="title" type="text" class="w-full" />
+      </Field>
+      <Field label="Date de l'évènement" class="hero__form-date">
+        <DatePicker label="Date de l'évènement" />
+      </Field>
+      <Field label="Theme" for="theme" :error="form.errors.themeId">
+        <Select
+          :items="themeOptions"
+          v-model="form.themeId"
+          class="whishlist__content__filters__users"
+        />
+      </Field>
     </div>
-    <div>
-      <label for="description">Description</label>
-      <textarea v-model="form.description" id="description" name="description"></textarea>
-    </div>
-    <div>
-      <label for="event_date">Event Date</label>
-      <input type="date" id="event_date" name="event_date" v-model="form.eventDate" />
-    </div>
-    <div>
-      <label for="theme">Theme</label>
-      <select id="theme" name="theme" v-model="form.themeId">
-        <option v-for="theme in themes" :value="theme.id">
-          {{ theme.name }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <label for="is_public">Public</label>
-      <input type="checkbox" id="is_public" name="is_public" v-model="form.isPublic" />
-    </div>
-    <div>
-      <label for="image">Image</label>
-      <input type="file" id="image" name="image" @input="onFileChange($event)" />
-      <button @click="file.value = null" type="button">Remove</button>
-    </div>
-    <div>
-      <button disabled v-if="form.processing">Processing...</button>
-      <button type="submit" v-else>Envoyer</button>
-    </div>
+    <Field label="Description" :error="form.errors.description">
+      <Input v-model:input="form.description" type="text" class="w-full" />
+    </Field>
+    <Button :disabled="form.processing" color="yellow" size="small" class="w-full" type="submit">
+      Enregistrer
+    </Button>
   </form>
-  <!-- <img v-if="imageUrl" :src="imageUrl" alt="Image preview" /> -->
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.hero {
+  background-color: var(--white);
+  border-radius: var(--rounded-lg);
+  border: 2px solid black;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 5rem);
+  padding: 1rem 1rem 1rem;
+
+  &__img {
+    height: 100%;
+    padding-bottom: 1rem;
+  }
+
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr 0.3fr 0.3fr;
+    gap: 1rem;
+
+    &-date {
+      z-index: 10;
+    }
+  }
+}
+</style>

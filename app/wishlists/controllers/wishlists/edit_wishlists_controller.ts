@@ -45,8 +45,8 @@ export default class EditWishlistsController {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
 
     const image = request.file('image', {
-      size: '2mb',
-      extnames: ['jpg', 'png', 'gif', 'jpeg'],
+      size: '5mb',
+      extnames: ['jpg', 'png', 'gif', 'jpeg', 'webp'],
     })
 
     if (image) {

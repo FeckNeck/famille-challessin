@@ -1,15 +1,15 @@
 export interface Gift {
   id: string
   title: string
-  description: string | null
+  description: string
   categoryId: string
-  price: number
-  link: string | null
+  price: string
+  link: string
   image: string
   isReserved: boolean
-  giverId: string | null
+  giverId: string
   giverName: string
-  giverEmail: string | null
+  giverEmail: string
 }
 
 export interface WishlistTheme {

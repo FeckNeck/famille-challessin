@@ -41,12 +41,20 @@
     padding-bottom: spacePx($i);
   }
 
-  .px-#{$i} {
-    padding-inline: spacePx($i);
-  }
-
   .py-#{$i} {
     padding-block: spacePx($i);
+  }
+
+  .pr-#{$i} {
+    padding-right: spacePx($i);
+  }
+
+  .pl-#{$i} {
+    padding-left: spacePx($i);
+  }
+
+  .px-#{$i} {
+    padding-inline: spacePx($i);
   }
 
   .my-#{$i} {

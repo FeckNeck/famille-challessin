@@ -4,27 +4,23 @@ import vine from '@vinejs/vine'
 export default class EditWishlistsCategoryController {
   static updateWishlistCategoryValidator = vine.compile(
     vine.object({
-      id: vine.string(),
-      wishlistId: vine.string(),
-      name: vine.string().optional(),
+      name: vine.string(),
     })
   )
 
-  async handle({ response, auth, params, request }: HttpContext) {
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .where('id', params.id)
-      .firstOrFail()
-
+  async handle({ response, auth, request }: HttpContext) {
     const payload = await request.validateUsing(
       EditWishlistsCategoryController.updateWishlistCategoryValidator
     )
 
+    const { id, categoryId } = request.params()
+
+    const wishlist = await auth.user?.related('wishlists').query().where('id', id).firstOrFail()
+
     const wishlistCategory = await wishlist
       ?.related('wishlistCategory')
       .query()
-      .where('id', params.categoryId)
+      .where('id', categoryId)
       .firstOrFail()
 
     await wishlistCategory?.merge(payload).save()
