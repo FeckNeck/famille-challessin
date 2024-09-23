@@ -35,7 +35,7 @@ function submit() {
 }
 
 const btnText = computed(() => {
-  return form.processing ? 'Processing...' : 'Sign In'
+  return form.processing ? 'Processing...' : 'Se connecter'
 })
 </script>
 

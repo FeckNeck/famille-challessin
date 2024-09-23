@@ -1,6 +1,20 @@
 <script setup lang="ts">
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
+import { computed, ref, watch } from 'vue'
+import Button from '~/components/ui/button.vue'
+import Dialog from '~/components/ui/dialog.vue'
+import Field from '~/components/ui/field.vue'
+import Input from '~/components/ui/input.vue'
 import Layout from '~/layouts/default.vue'
+
+const page = usePage()
+const showLoginModal = ref<boolean>(page.url.includes('modal=register'))
+
+watch(showLoginModal, (open) => {
+  if (!open) {
+    window.history.back()
+  }
+})
 
 const form = useForm({
   email: '',
@@ -12,44 +26,65 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.post('register')
+  form.post('auth/register')
 }
+
+const btnText = computed(() => {
+  return form.processing ? 'Processing...' : 'Créer le compte'
+})
 </script>
 
 <template>
-  <Layout>
-    <div class="container">
-      <h1>Register</h1>
-      <p>Already have an account? <Link href="/auth/login">Login</Link></p>
-      {{ form.errors }}
-      <form @submit.prevent="submit()">
+  <Dialog v-model:open="showLoginModal" position="top">
+    <template #title>
+      <div>
+        <h4>S'identifier</h4>
+        <p>
+          Vous avez déjà un compte ? <Button href="/auth/login" color="blank">Se connecter</Button>
+        </p>
+      </div>
+    </template>
+    <template #description>
+      <form @submit.prevent="submit()" class="login">
+        <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
+          No account found with the provided credentials
+        </p>
         <div>
-          <label for="email">Email</label>
-          <input v-model="form.email" type="email" id="email" name="email" />
+          <Field label="Email" :error="form.errors.email">
+            <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
+          </Field>
+          <Field label="Nom de famille" :error="form.errors.username">
+            <Input v-model="form.username" class="w-full" />
+          </Field>
+          <Field label="Mot de passe" :error="form.errors.password">
+            <Input
+              v-model="form.password"
+              type="password"
+              autocomplete="current-password"
+              class="w-full"
+            />
+          </Field>
+          <Field label="Confirmer le mot de passe" :error="form.errors.password_confirmation">
+            <Input
+              v-model="form.password_confirmation"
+              type="password"
+              autocomplete="current-password"
+              class="w-full"
+            />
+          </Field>
         </div>
-        <div>
-          <label for="username">Username</label>
-          <input v-model="form.username" type="text" id="username" name="username" />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input v-model="form.password" type="password" id="password" name="password" />
-        </div>
-        <div>
-          <label for="password_confirmation">Confirm Password</label>
-          <input
-            v-model="form.password_confirmation"
-            type="password"
-            id="password_confirmation"
-            name="password_confirmation"
-          />
-        </div>
-        <div>
-          <button type="submit" :disabled="form.processing">Register</button>
-        </div>
+        <Button
+          :disabled="form.processing"
+          color="yellow"
+          size="small"
+          class="w-full"
+          type="submit"
+        >
+          {{ btnText }}
+        </Button>
       </form>
-    </div>
-  </Layout>
+    </template>
+  </Dialog>
 </template>
 
 <style scoped lang="scss"></style>

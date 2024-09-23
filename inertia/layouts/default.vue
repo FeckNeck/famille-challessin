@@ -2,6 +2,7 @@
 import Header from '~/components/header.vue'
 import Footer from '~/components/footer.vue'
 import Login from '~/pages/auth/login.vue'
+import Register from '~/pages/auth/register.vue'
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import Login from '~/pages/auth/login.vue'
     <Footer />
   </div>
   <Login />
+  <Register />
 </template>
 
 <style scoped lang="scss">
