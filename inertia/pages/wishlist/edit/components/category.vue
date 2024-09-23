@@ -69,24 +69,32 @@ function createGift() {
       </div>
     </template>
     <template #content>
-      <form @submit.prevent="createGift()" class="d-flex items-center g-4 p-4">
-        <Field label="Ajouter un cadeau" :error="giftForm.errors.url" class="grow">
-          <Input
-            v-model:input="giftForm.url"
-            placeholder="https://www.flashjouet.fr/accueil/3119-zuru-pets-alive-bonnie-le-lama-4894680009653.html"
-          />
-        </Field>
-        <Button color="yellow" size="small">Ajouter</Button>
-      </form>
-      <Gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
+      <div class="category__content">
+        <form @submit.prevent="createGift()" class="d-flex items-center g-4 p-4">
+          <Field label="Ajouter un cadeau" :error="giftForm.errors.url" class="grow">
+            <Input
+              v-model:input="giftForm.url"
+              placeholder="https://www.flashjouet.fr/accueil/3119-zuru-pets-alive-bonnie-le-lama-4894680009653.html"
+            />
+          </Field>
+          <Button color="yellow" size="small">Ajouter</Button>
+        </form>
+        <Gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
+      </div>
     </template>
   </Collapsible>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .category {
   border: 2px solid var(--gray-800);
   box-shadow: var(--shadow-tiny);
   background-color: var(--white);
+
+  &__content {
+    & > *:not(:last-child) {
+      border-bottom: 2px solid var(--gray-800);
+    }
+  }
 }
 </style>

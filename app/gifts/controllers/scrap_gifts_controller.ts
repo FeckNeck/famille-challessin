@@ -59,6 +59,7 @@ export default class ScrapGiftsController {
       console.log('title:', title)
 
       const slug = title?.split(' ')[0]
+      console.log('slug:', slug)
 
       /**
        * Get the image of the product

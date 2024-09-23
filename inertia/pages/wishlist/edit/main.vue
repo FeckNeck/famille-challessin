@@ -51,7 +51,7 @@ function submitGift() {
         <Hero :themes="props.themes" :wishlist="props.wishlist" />
 
         <!-- Create category-->
-        <form @submit.prevent="submitCategory()" class="d-flex items-center g-4">
+        <form @submit.prevent="submitCategory()" class="d-flex items-center g-4 pt-4">
           <Field label="Ajouter une catégorie" :error="categoryForm.errors.name" class="grow">
             <Input v-model:input="categoryForm.name" placeholder="Nom de la catégorie" />
           </Field>
@@ -74,19 +74,5 @@ function submitGift() {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
-  // &__category {
-  //   border: 2px solid var(--gray-800);
-  //   box-shadow: var(--shadow-tiny);
-  //   background-color: var(--white);
-
-  //   &__gift {
-  //     border-bottom: 2px solid var(--gray-800);
-
-  //     &:last-child {
-  //       border-bottom: none;
-  //     }
-  //   }
-  // }
 }
 </style>
