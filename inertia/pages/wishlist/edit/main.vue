@@ -59,11 +59,13 @@ function submitGift() {
         </form>
 
         <!-- Categories -->
-        <Category
-          v-for="category in props.wishlist.categories"
-          :key="category.id"
-          :category="category"
-        />
+        <div class="d-flex column g-4" v-auto-animate>
+          <Category
+            v-for="category in props.wishlist.categories"
+            :key="category.id"
+            :category="category"
+          />
+        </div>
       </div>
     </div>
   </Layout>

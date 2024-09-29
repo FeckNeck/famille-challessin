@@ -48,7 +48,11 @@ export default class ScrapGiftsController {
       /**
        * Get the title of the product
        */
-      const rawTtitle = await page.textContent('h1')
+      const rawTtitle = await page
+        .locator('h1')
+        .filter({ hasNotText: 'Essai gratuit Prime' })
+        .first()
+        .textContent()
       console.log('rawTtitle:', rawTtitle)
       title = rawTtitle
         ? rawTtitle

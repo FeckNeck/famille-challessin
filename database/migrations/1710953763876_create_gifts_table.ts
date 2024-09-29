@@ -13,6 +13,7 @@ export default class extends BaseSchema {
         .unsigned()
         .references('id')
         .inTable('wishlist_categories')
+        .onDelete('CASCADE')
         .notNullable()
       table.text('title')
       table.text('description')

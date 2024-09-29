@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import Gift from '#gifts/models/gift'
+import Gift from '#wishlists/models/gift'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Wishlist from './wishlist.js'
 

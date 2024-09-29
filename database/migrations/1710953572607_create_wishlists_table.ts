@@ -38,7 +38,13 @@ export default class extends BaseSchema {
       table.uuid('id').primary().defaultTo(this.db.rawQuery('gen_random_uuid()').knexQuery)
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
-      table.uuid('wishlist_id').unsigned().references('id').inTable('wishlists').notNullable()
+      table
+        .uuid('wishlist_id')
+        .unsigned()
+        .references('id')
+        .inTable('wishlists')
+        .onDelete('CASCADE')
+        .notNullable()
       table.text('name').notNullable()
     })
   }

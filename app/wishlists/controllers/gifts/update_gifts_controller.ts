@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Gift from '#gifts/models/gift'
+import Gift from '#wishlists/models/gift'
 import vine from '@vinejs/vine'
 
 export default class UpdateGiftsController {
@@ -14,7 +14,6 @@ export default class UpdateGiftsController {
   async handle({ params, request, response, auth }: HttpContext) {
     const gift = await Gift.findOrFail(params.id)
     const payload = await request.validateUsing(UpdateGiftsController.updateGiftValidator)
-    console.log('payload:', payload)
 
     /**
      * The giverId must be the same as the authenticated user id

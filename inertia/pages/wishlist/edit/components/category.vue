@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { router, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import type { WishlistCategory } from '~/types'
-import Gift from './gift.vue'
-import Collapsible from '~/components/ui/collapsible.vue'
-import Input from '~/components/ui/input.vue'
-import Button from '~/components/ui/button.vue'
+import { router, useForm } from '@inertiajs/vue3'
 import { Trash2 } from 'lucide-vue-next'
-import Field from '~/components/ui/field.vue'
+import Button from '~/components/ui/button.vue'
+import Collapsible from '~/components/ui/collapsible.vue'
+import CreateGift from './create_gift.vue'
+import Gift from './gift.vue'
+import Input from '~/components/ui/input.vue'
+import type { WishlistCategory } from '~/types'
 
 const props = defineProps<{
   category: WishlistCategory
@@ -15,10 +15,6 @@ const props = defineProps<{
 
 const form = useForm({
   name: props.category.name,
-})
-
-const giftForm = useForm({
-  url: '',
 })
 
 const isDeleting = ref<boolean>(false)
@@ -43,14 +39,6 @@ function destroy() {
     },
   })
 }
-
-function createGift() {
-  if (giftForm.processing) return
-
-  giftForm.post(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}/gifts/`, {
-    preserveScroll: true,
-  })
-}
 </script>
 
 <template>
@@ -70,16 +58,15 @@ function createGift() {
     </template>
     <template #content>
       <div class="category__content">
-        <form @submit.prevent="createGift()" class="d-flex items-center g-4 p-4">
-          <Field label="Ajouter un cadeau" :error="giftForm.errors.url" class="grow">
-            <Input
-              v-model:input="giftForm.url"
-              placeholder="https://www.flashjouet.fr/accueil/3119-zuru-pets-alive-bonnie-le-lama-4894680009653.html"
-            />
-          </Field>
-          <Button color="yellow" size="small">Ajouter</Button>
-        </form>
-        <Gift v-for="gift in category.gifts" :key="gift.id" :gift="gift" />
+        <CreateGift :wishlistId="props.category.wishlistId" :categoryId="props.category.id" />
+        <div v-auto-animate>
+          <Gift
+            v-for="gift in category.gifts"
+            :key="gift.id"
+            :gift="gift"
+            :wishlistId="category.wishlistId"
+          />
+        </div>
       </div>
     </template>
   </Collapsible>
@@ -92,7 +79,8 @@ function createGift() {
   background-color: var(--white);
 
   &__content {
-    & > *:not(:last-child) {
+    & > div,
+    & > div > :not(:last-child) {
       border-bottom: 2px solid var(--gray-800);
     }
   }

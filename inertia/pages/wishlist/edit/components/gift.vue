@@ -10,6 +10,7 @@ import { Trash2 } from 'lucide-vue-next'
 
 const props = defineProps<{
   gift: Gift
+  wishlistId: string
 }>()
 
 const form = useForm({
@@ -29,17 +30,23 @@ function submit() {
 
   if (uploadedFile.value) form.image = uploadedFile.value
 
-  form.put(`/wishlists/${1}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`, {
-    preserveScroll: true,
-  })
+  form.put(
+    `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
+    {
+      preserveScroll: true,
+    }
+  )
 }
 
 function deleteGift() {
   if (form.processing) return
 
-  form.delete(`/wishlists/${1}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`, {
-    preserveScroll: true,
-  })
+  form.delete(
+    `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
+    {
+      preserveScroll: true,
+    }
+  )
 }
 </script>
 

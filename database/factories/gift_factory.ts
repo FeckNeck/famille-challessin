@@ -1,5 +1,5 @@
 import factory from '@adonisjs/lucid/factories'
-import Gift from '#gifts/models/gift'
+import Gift from '#wishlists/models/gift'
 
 export const GiftFactory = factory
   .define(Gift, async ({ faker }) => {
