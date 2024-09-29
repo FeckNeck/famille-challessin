@@ -4,6 +4,7 @@ import { BaseSchema } from '@adonisjs/lucid/schema'
 export default class extends BaseSchema {
   protected usersTableName = 'users'
   protected RolestableName = 'roles'
+  protected TokenTableName = 'remember_me_tokens'
 
   async up() {
     this.schema.createTable(this.RolestableName, (table) => {
@@ -24,10 +25,27 @@ export default class extends BaseSchema {
       table.text('icon').nullable()
       table.text('icon_color').nullable()
     })
+
+    this.schema.createTable(this.TokenTableName, (table) => {
+      table.increments()
+      table
+        .uuid('tokenable_id')
+        .notNullable()
+        .unsigned()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+
+      table.string('hash').notNullable().unique()
+      table.timestamp('created_at').notNullable()
+      table.timestamp('updated_at').notNullable()
+      table.timestamp('expires_at').notNullable()
+    })
   }
 
   async down() {
     this.schema.dropTable(this.usersTableName)
     this.schema.dropTable(this.RolestableName)
+    this.schema.dropTable(this.TokenTableName)
   }
 }

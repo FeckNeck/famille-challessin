@@ -7,6 +7,7 @@ import Role from '#auth/models/role'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import type { Roles } from '#auth/enums/roles'
 import Wishlist from '#wishlists/models/wishlist'
+import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -40,6 +41,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column()
   declare iconColor: string | null
+
+  static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>

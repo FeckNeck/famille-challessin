@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import { SharedData } from '@adonisjs/inertia/types'
 import { Link, usePage, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import Button from '~/components/ui/button.vue'
 import { User } from '~/types'
 
-const page = usePage()
+const page = usePage<SharedData>()
 const user = computed(() => page.props.user as User)
 </script>
 
@@ -24,8 +25,18 @@ const user = computed(() => page.props.user as User)
           </form>
         </template>
         <template v-else>
-          <Link href="/auth/login">Login</Link>
-          <Link href="/auth/register">Register</Link>
+          <Button
+            href="/auth/login"
+            size="small"
+            color="yellow"
+            :preserve-scroll="true"
+            :preserve-state="true"
+          >
+            <div class="d-flex items-center g-2">
+              <UserRound :size="16" :stroke-width="3" />
+              <span> Connexion </span>
+            </div>
+          </Button>
         </template>
       </div>
     </div>
