@@ -65,7 +65,7 @@ const forwarded = useForwardPropsEmits(props, emits)
 [data-scope='dialog'][data-part='positioner'] {
   display: flex;
   justify-content: center;
-  padding-block: 1.5rem;
+  padding: 1.5rem;
   left: 0px;
   overflow: auto;
   position: fixed;
