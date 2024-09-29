@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { useForm, Link, usePage } from '@inertiajs/vue3'
-import { computed, ref, watch } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import Layout from '~/layouts/default.vue'
+import { useAuthDialog } from '~/composables/auth_dialog'
 
-const page = usePage()
-const showLoginModal = ref<boolean>(page.url.includes('modal=register'))
+const { authDialogState, open, close } = useAuthDialog()
 
-watch(showLoginModal, (open) => {
-  if (!open) {
-    window.history.back()
-  }
-})
+const isDialogOpen = computed(
+  () => authDialogState.value.isOpen && authDialogState.value.mode === 'register'
+)
 
 const form = useForm({
   email: '',
@@ -35,12 +32,13 @@ const btnText = computed(() => {
 </script>
 
 <template>
-  <Dialog v-model:open="showLoginModal" position="top">
+  <Dialog :open="isDialogOpen" @open-change="close()" position="top">
     <template #title>
       <div>
-        <h4>S'identifier</h4>
+        <h4>S'inscrire</h4>
         <p>
-          Vous avez déjà un compte ? <Button href="/auth/login" color="blank">Se connecter</Button>
+          Vous avez déjà un compte ?
+          <Button @click="open('login')" color="blank">Se connecter</Button>
         </p>
       </div>
     </template>

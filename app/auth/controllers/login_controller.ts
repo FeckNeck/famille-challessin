@@ -11,13 +11,13 @@ export default class LoginController {
     })
   )
 
-  async render({ inertia, response, session, route, request }: HttpContext) {
-    session.flashMessages.merge({
-      errors: [{ message: 'Titou is the best' }],
-    })
-    console.log(request.headers())
-    return response.redirect().toPath('/')
-  }
+  // async render({ inertia, response, session, route, request }: HttpContext) {
+  //   session.flashMessages.merge({
+  //     errors: [{ message: 'Titou is the best' }],
+  //   })
+  //   console.log(request.headers())
+  //   return response.redirect().toPath('/')
+  // }
 
   async handle({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(LoginController.validator)

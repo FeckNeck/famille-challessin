@@ -3,16 +3,16 @@ import { useForm } from '@inertiajs/vue3'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 import Dialog from '~/components/ui/dialog.vue'
-import { usePage } from '@inertiajs/vue3'
-import { ref, watch } from 'vue'
 import Button from '~/components/ui/button.vue'
 import { computed } from 'vue'
 import Checkbox from '~/components/ui/checkbox.vue'
-import { SharedData } from '@adonisjs/inertia/types'
+import { useAuthDialog } from '~/composables/auth_dialog'
 
-const page = usePage<SharedData>()
-const errors = computed(() => page.props.errors)
-const showLoginModal = ref<boolean>(page.url.includes('modal=login'))
+const { authDialogState, open, close } = useAuthDialog()
+
+const isDialogOpen = computed(
+  () => authDialogState.value.isOpen && authDialogState.value.mode === 'login'
+)
 
 const form = useForm({
   email: '',
@@ -36,11 +36,13 @@ const btnText = computed(() => {
 </script>
 
 <template>
-  <Dialog v-model:open="showLoginModal" position="top">
+  <Dialog :open="isDialogOpen" @open-change="close()" position="top">
     <template #title>
       <div>
         <h4>S'identifier</h4>
-        <p>Pas de compte ? <Button href="/auth/register" color="blank">Créer un compte</Button></p>
+        <!-- <p>
+          Pas de compte ? <Button @click="open('register')" color="blank">Créer un compte</Button>
+        </p> -->
       </div>
     </template>
     <template #description>
