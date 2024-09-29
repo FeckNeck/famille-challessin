@@ -57,7 +57,7 @@ export type SortOrder = 'asc' | 'desc'
 export interface WishlistFilter {
   username: string
   theme: string
-  search: string
+  title: string
   order: SortOrder
   orderBy: 'name' | 'created' | 'updated' | 'event_date'
   page: number

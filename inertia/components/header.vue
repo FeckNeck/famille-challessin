@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-import { SharedData } from '@adonisjs/inertia/types'
-import { Link, usePage, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import Button from '~/components/ui/button.vue'
-import { useAuthDialog } from '~/composables/auth_dialog'
+import { Link, usePage, router } from '@inertiajs/vue3'
+import { SharedData } from '@adonisjs/inertia/types'
 import { User } from '~/types'
+import { UserRound } from 'lucide-vue-next'
+import Button from '~/components/ui/button.vue'
 
 const page = usePage<SharedData>()
 const user = computed(() => page.props.user as User)
-
-const { open } = useAuthDialog()
 </script>
 
 <template>
@@ -28,10 +26,10 @@ const { open } = useAuthDialog()
           </form>
         </template>
         <template v-else>
-          <Button @click="open('login')" size="small" color="yellow">
+          <Button href="/auth/login" size="small" color="yellow">
             <div class="d-flex items-center g-2">
               <UserRound :size="16" :stroke-width="3" />
-              <span> Connexion </span>
+              <span>Connexion</span>
             </div>
           </Button>
         </template>

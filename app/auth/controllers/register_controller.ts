@@ -22,12 +22,8 @@ export default class RegisterController {
     })
   )
 
-  async render({ response, request }: HttpContext) {
-    const qs = request.qs()
-    return response
-      .redirect()
-      .withQs({ ...qs, modal: 'register' })
-      .back()
+  async render({ response }: HttpContext) {
+    return response.redirect().withQs({ modal: 'register' }).back()
   }
 
   async handle({ request, auth, response }: HttpContext) {

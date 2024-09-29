@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
+import { useForm, usePage } from '@inertiajs/vue3'
+import Button from '~/components/ui/button.vue'
+import Checkbox from '~/components/ui/checkbox.vue'
+import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import Dialog from '~/components/ui/dialog.vue'
-import Button from '~/components/ui/button.vue'
-import { computed } from 'vue'
-import Checkbox from '~/components/ui/checkbox.vue'
-import { useAuthDialog } from '~/composables/auth_dialog'
 
-const { authDialogState, open, close } = useAuthDialog()
-
-const isDialogOpen = computed(
-  () => authDialogState.value.isOpen && authDialogState.value.mode === 'login'
-)
+const page = usePage()
+const isLoginDialogOpen = ref<boolean>(page.url.includes('modal=login'))
 
 const form = useForm({
   email: '',
@@ -27,6 +23,9 @@ function submit() {
     onError: () => {
       form.reset('password')
     },
+    onSuccess: () => {
+      isLoginDialogOpen.value = false
+    },
   })
 }
 
@@ -36,13 +35,11 @@ const btnText = computed(() => {
 </script>
 
 <template>
-  <Dialog :open="isDialogOpen" @open-change="close()" position="top">
+  <Dialog v-model:open="isLoginDialogOpen" position="top">
     <template #title>
       <div>
         <h4>S'identifier</h4>
-        <!-- <p>
-          Pas de compte ? <Button @click="open('register')" color="blank">Créer un compte</Button>
-        </p> -->
+        <p>Pas de compte ? <Button href="/auth/register" color="blank">Créer un compte</Button></p>
       </div>
     </template>
     <template #description>

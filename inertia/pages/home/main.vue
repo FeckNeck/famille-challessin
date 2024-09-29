@@ -26,7 +26,7 @@ function scrollToTop() {
 /**
  * Search
  */
-const search = ref<string>((params.search as string) || '')
+const search = ref<string>((params.title as string) || '')
 watchDebounced(search, () => fetchNewPageData(1), { debounce: 400 })
 
 /**
