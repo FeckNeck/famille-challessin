@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router, useForm } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -8,20 +8,16 @@ import { ref, watch } from 'vue'
 import Button from '~/components/ui/button.vue'
 import { computed } from 'vue'
 import Checkbox from '~/components/ui/checkbox.vue'
+import { SharedData } from '@adonisjs/inertia/types'
 
-const page = usePage()
+const page = usePage<SharedData>()
+const errors = computed(() => page.props.errors)
 const showLoginModal = ref<boolean>(page.url.includes('modal=login'))
-
-watch(showLoginModal, (open) => {
-  if (!open) {
-    window.history.back()
-  }
-})
 
 const form = useForm({
   email: '',
   password: '',
-  remember: false,
+  remember_me: false,
 })
 
 function submit() {
@@ -50,7 +46,7 @@ const btnText = computed(() => {
     <template #description>
       <form @submit.prevent="submit()" class="login">
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
-          No account found with the provided credentials
+          Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
         <div>
           <Field label="Email" :error="form.errors.email">
@@ -64,9 +60,9 @@ const btnText = computed(() => {
               class="w-full"
             />
           </Field>
-          <Checkbox label="Se souvenir de moi" v-model:checked="form.remember"
-            >Remember me</Checkbox
-          >
+          <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
+            Remember me
+          </Checkbox>
         </div>
         <Button
           :disabled="form.processing"
