@@ -25,10 +25,14 @@
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
 /**
  * Spacing.
  */
-@for $i from 0 through 24 {
+@for $i from 0 through 30 {
   .p-#{$i} {
     padding: spacePx($i);
   }
