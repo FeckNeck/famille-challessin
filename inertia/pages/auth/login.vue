@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { router, useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -11,8 +11,8 @@ const page = usePage()
 const isLoginDialogOpen = ref<boolean>(page.url.includes('modal=login'))
 
 const form = useForm({
-  email: '',
-  password: '',
+  email: 'mathis.dousse@example.com',
+  password: 'Pizza1234*',
   remember_me: false,
 })
 
@@ -20,18 +20,17 @@ function submit() {
   if (form.processing) return
 
   form.post('/auth/login', {
+    preserveScroll: true,
     onError: () => {
       form.reset('password')
     },
     onSuccess: () => {
       isLoginDialogOpen.value = false
+      // reload the page to get the authenticated user
+      setTimeout(() => router.visit('/', { preserveScroll: true }), 200)
     },
   })
 }
-
-const btnText = computed(() => {
-  return form.processing ? 'Processing...' : 'Se connecter'
-})
 </script>
 
 <template>
@@ -49,11 +48,11 @@ const btnText = computed(() => {
         </p>
         <div>
           <Field label="Email" :error="form.errors.email">
-            <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
+            <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
           </Field>
           <Field label="Password" :error="form.errors.password">
             <Input
-              v-model="form.password"
+              v-model:input="form.password"
               type="password"
               autocomplete="current-password"
               class="w-full"
@@ -65,12 +64,13 @@ const btnText = computed(() => {
         </div>
         <Button
           :disabled="form.processing"
+          :loading="form.processing"
           color="yellow"
           size="small"
           class="w-full"
           type="submit"
         >
-          {{ btnText }}
+          Se connecter
         </Button>
       </form>
     </template>

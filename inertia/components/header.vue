@@ -8,6 +8,12 @@ import Button from '~/components/ui/button.vue'
 
 const page = usePage<SharedData>()
 const user = computed(() => page.props.user as User)
+
+function logout() {
+  router.delete('/logout', {
+    preserveScroll: true,
+  })
+}
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const user = computed(() => page.props.user as User)
         <template v-if="user">
           <Link href="/account">{{ user.username }}</Link>
           <span> | </span>
-          <form @submit.prevent="router.delete('/logout')">
+          <form @submit.prevent="logout()">
             <Button type="submit" color="yellow" size="small">Se déconnecter</Button>
           </form>
         </template>
@@ -42,7 +48,7 @@ const user = computed(() => page.props.user as User)
 header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   backdrop-filter: blur(8px);
 
   & img {
