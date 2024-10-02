@@ -129,6 +129,18 @@ const forwarded = useForwardPropsEmits(props, emits)
 <style scoped>
 [data-scope='date-picker'][data-part='input'] {
   width: 100%;
+  padding: 0.5rem;
+  background-color: var(--white);
+  border: 2px solid var(--gray-800);
+  outline: none;
+
+  &::placeholder {
+    color: var(--gray-500);
+  }
+}
+
+[data-scope='date-picker'][data-part='input'][data-state='open'] {
+  box-shadow: var(--shadow-tiny);
 }
 
 [data-scope='date-picker'][data-part='content'] {
