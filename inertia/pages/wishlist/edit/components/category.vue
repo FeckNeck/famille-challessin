@@ -19,7 +19,7 @@ const form = useForm({
 
 const isDeleting = ref<boolean>(false)
 
-function edit() {
+function submit() {
   if (form.processing) return
 
   form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
@@ -27,7 +27,7 @@ function edit() {
   })
 }
 
-function destroy() {
+function remove() {
   if (isDeleting.value) return
 
   isDeleting.value = true
@@ -45,12 +45,14 @@ function destroy() {
   <Collapsible class="category">
     <template #title>
       <div class="d-flex items-center g-4">
-        <form @submit.prevent="edit()" class="d-flex items-center g-4">
+        <form @submit.prevent="submit()" class="d-flex items-center g-4">
           <Input v-model:input="form.name" placeholder="Nom de la catégorie" />
-          <Button color="violet" size="small">Modifier</Button>
+          <Button :disabled="form.processing" :loading="form.processing" color="violet" size="small"
+            >Modifier</Button
+          >
         </form>
-        <form @submit.prevent="destroy()" class="d-flex items-center g-4">
-          <Button color="red" size="small">
+        <form @submit.prevent="remove()" class="d-flex items-center g-4">
+          <Button :disabled="isDeleting" :loading="isDeleting" color="red" size="small">
             <Trash2 />
           </Button>
         </form>
