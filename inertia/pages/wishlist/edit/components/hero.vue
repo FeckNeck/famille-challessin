@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { WishlistTheme, Wishlist } from '~/types'
 import { useForm } from '@inertiajs/vue3'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
-import DatePicker from '~/components/ui/date_picker.vue'
-import FileUpload from '~/components/ui/file_upload.vue'
-import Select from '~/components/ui/select.vue'
-import { computed } from 'vue'
-import Button from '~/components/ui/button.vue'
 import { useImageUpload } from '~/composables/image_upload'
+import Button from '~/components/ui/button.vue'
+import DatePicker from '~/components/ui/date_picker.vue'
+import Field from '~/components/ui/field.vue'
+import FileUpload from '~/components/ui/file_upload.vue'
+import Input from '~/components/ui/input.vue'
+import Select from '~/components/ui/select.vue'
+import Switch from '~/components/ui/switch.vue'
+import type { WishlistTheme, Wishlist } from '~/types'
 
 const props = defineProps<{
   themes: WishlistTheme[]
@@ -63,7 +63,7 @@ function submit() {
       <Field label="Titre" for="title" :error="form.errors.title">
         <Input v-model:input="form.title" id="title" type="text" class="w-full" />
       </Field>
-      <Field label="Date de l'évènement" class="hero__form-date">
+      <Field label="Date de l'évènement">
         <DatePicker label="Date de l'évènement" />
       </Field>
       <Field label="Theme" for="theme" :error="form.errors.themeId">
@@ -74,10 +74,20 @@ function submit() {
         />
       </Field>
     </div>
-    <Field label="Description" :error="form.errors.description">
-      <Input v-model:input="form.description" type="text" class="w-full" />
-    </Field>
-    <Button :disabled="form.processing" color="yellow" size="small" class="w-full" type="submit">
+    <div class="d-flex g-4">
+      <Field label="Description" :error="form.errors.description" class="grow">
+        <Input v-model:input="form.description" type="text" class="w-full" />
+      </Field>
+      <Switch v-model:checked="form.isPublic" label="Publier" />
+    </div>
+    <Button
+      :disabled="form.processing"
+      :loading="form.processing"
+      color="yellow"
+      size="small"
+      class="w-full"
+      type="submit"
+    >
       Enregistrer
     </Button>
   </form>
@@ -100,12 +110,23 @@ function submit() {
   }
 
   &__form {
-    display: grid;
-    grid-template-columns: 1fr 0.3fr 0.3fr;
-    gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
 
-    &-date {
+    div:first-child {
+      flex: 65%;
+    }
+
+    div:nth-child(2) {
       z-index: 10;
+      flex: 15%;
+      min-width: 13rem;
+    }
+
+    div:last-child {
+      flex: 15%;
+      min-width: 13rem;
     }
   }
 }

@@ -1,12 +1,12 @@
-import { Roles } from '#auth/enums/roles'
-import Role from '#auth/models/role'
-import db from '@adonisjs/lucid/services/db'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import { Roles } from '#auth/enums/roles'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
-import app from '@adonisjs/core/services/app'
 import { UserFactory } from '#database/factories/user_factory'
-import WishlistTheme from '#wishlists/models/wishlist_theme'
 import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import app from '@adonisjs/core/services/app'
+import db from '@adonisjs/lucid/services/db'
+import Role from '#auth/models/role'
+import WishlistTheme from '#wishlists/models/wishlist_theme'
 
 export default class extends BaseSeeder {
   async run() {
@@ -42,17 +42,17 @@ export default class extends BaseSeeder {
       [
         {
           id: WishlistThemes.Christmas,
-          name: 'Christmas',
+          name: 'Noël',
           icon: 'lucide:candy-cane',
           iconColor: '#FF0000',
         },
         {
           id: WishlistThemes.Birthday,
-          name: 'Birthday',
+          name: 'Anniversaire',
           icon: 'lucide:cake',
           iconColor: '#FFA500',
         },
-        { id: WishlistThemes.Other, name: 'Other', icon: 'lucide:tree-palm', iconColor: '#FFA500' },
+        { id: WishlistThemes.Other, name: 'Autre', icon: 'lucide:tree-palm', iconColor: '#FFA500' },
       ],
       { client: trx }
     )
