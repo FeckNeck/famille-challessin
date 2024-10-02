@@ -28,6 +28,7 @@ defineProps<{ wishlists: Wishlist[] }>()
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1rem;
+  width: 100%;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));

@@ -8,11 +8,11 @@ const page = usePage()
 const user = computed(() => page.props.user as User | undefined)
 const props = defineProps<{ wishlist: Wishlist }>()
 
-const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? 'edit/' : ''))
+const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/edit/' : ''))
 </script>
 
 <template>
-  <Link :href="`/wishlists/${editLink}${wishlist.id}`" class="card">
+  <Link :href="`/wishlists/${wishlist.id}${editLink}`" class="card">
     <Card>
       <div>
         <h6 :style="{ backgroundColor: wishlist.user.iconColor }">{{ wishlist.title }}</h6>

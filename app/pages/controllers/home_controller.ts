@@ -4,7 +4,7 @@ import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
 
 export default class HomeController {
-  async render({ request, inertia }: HttpContext) {
+  async render({ request, inertia, auth }: HttpContext) {
     const page = request.input('page', 1)
     const limit = 9
 
@@ -15,7 +15,17 @@ export default class HomeController {
      */
     const users = await User.query()
       .select('id', 'username')
-      .withCount('wishlists', (builder) => builder.where('is_public', true).as('count'))
+      .withCount('wishlists', (wishlists) =>
+        wishlists
+          .where((builder) => {
+            builder.where('is_public', true)
+
+            if (auth.user) {
+              builder.orWhere('user_id', auth.user.id)
+            }
+          })
+          .as('count')
+      )
 
     /**
      * Fetch themes and their public wishlists count
@@ -28,7 +38,16 @@ export default class HomeController {
      * Fetch wishlists
      * Filter by title, theme and username
      */
-    const query = Wishlist.query().where('is_public', true).preload('wishlistTheme').preload('user')
+    const query = Wishlist.query()
+      .where((builder) => {
+        builder.where('is_public', true)
+
+        if (auth.user) {
+          builder.orWhere('user_id', auth.user.id)
+        }
+      })
+      .preload('wishlistTheme')
+      .preload('user')
 
     if (orderBy && order) {
       query.orderBy(orderBy, order)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { User, WishlistTheme } from '~/app/types'
 import { Icon } from '@iconify/vue'
+import type { User, WishlistTheme } from '~/app/types'
 
 defineProps<{ themes: WishlistTheme[]; users: User[] }>()
 

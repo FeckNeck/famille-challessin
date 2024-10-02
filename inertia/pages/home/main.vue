@@ -69,7 +69,6 @@ const theme = ref<string>(params.theme || '')
  * Refetch when any of the filters change
  */
 watch([username, theme, order, orderBy], () => {
-  console.log('theme:', theme)
   fetchNewPageData(1)
 })
 
