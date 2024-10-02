@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useForm, Link, usePage } from '@inertiajs/vue3'
-import { computed, ref, watch } from 'vue'
+import { useForm, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import Layout from '~/layouts/default.vue'
 
 const page = usePage()
 const isRegisterDialogOpen = ref<boolean>(page.url.includes('modal=register'))
@@ -21,19 +20,16 @@ function submit() {
   if (form.processing) return
 
   form.post('auth/register', {
+    preserveScroll: true,
     onSuccess: () => {
       isRegisterDialogOpen.value = false
     },
   })
 }
-
-const btnText = computed(() => {
-  return form.processing ? 'Processing...' : 'Créer le compte'
-})
 </script>
 
 <template>
-  <Dialog :open="isRegisterDialogOpen" @open-change="close()" position="top">
+  <Dialog :open="isRegisterDialogOpen" position="top">
     <template #title>
       <div>
         <h4>S'inscrire</h4>
@@ -46,18 +42,18 @@ const btnText = computed(() => {
     <template #description>
       <form @submit.prevent="submit()" class="login">
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
-          No account found with the provided credentials
+          Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
         <div>
           <Field label="Email" :error="form.errors.email">
-            <Input v-model="form.email" type="email" autocomplete="email" class="w-full" />
+            <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
           </Field>
           <Field label="Nom de famille" :error="form.errors.username">
-            <Input v-model="form.username" class="w-full" />
+            <Input v-model:input="form.username" class="w-full" />
           </Field>
           <Field label="Mot de passe" :error="form.errors.password">
             <Input
-              v-model="form.password"
+              v-model:input="form.password"
               type="password"
               autocomplete="current-password"
               class="w-full"
@@ -65,7 +61,7 @@ const btnText = computed(() => {
           </Field>
           <Field label="Confirmer le mot de passe" :error="form.errors.password_confirmation">
             <Input
-              v-model="form.password_confirmation"
+              v-model:input="form.password_confirmation"
               type="password"
               autocomplete="current-password"
               class="w-full"
@@ -74,12 +70,13 @@ const btnText = computed(() => {
         </div>
         <Button
           :disabled="form.processing"
+          :loading="form.processing"
           color="yellow"
           size="small"
           class="w-full"
           type="submit"
         >
-          {{ btnText }}
+          Créer le compte
         </Button>
       </form>
     </template>
