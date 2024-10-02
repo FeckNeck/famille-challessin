@@ -27,13 +27,10 @@ export default class Gift extends BaseModel {
   declare price: string | null
 
   @column()
-  declare link: string | null
+  declare url: string | null
 
   @column()
   declare image: string | null
-
-  @column()
-  declare isReserved: boolean
 
   @column()
   declare giverId: string | null

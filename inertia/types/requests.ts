@@ -4,9 +4,8 @@ export interface Gift {
   description: string
   categoryId: string
   price: string
-  link: string
+  url: string
   image: string
-  isReserved: boolean
   giverId: string
   giverName: string
   giverEmail: string

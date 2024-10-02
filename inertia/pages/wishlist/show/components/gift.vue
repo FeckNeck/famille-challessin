@@ -13,15 +13,13 @@ const props = defineProps<{
 }>()
 
 const page = usePage<SharedProps>()
-
 const user = computed(() => page.props.user as User | undefined)
+
 const isBooking = ref<boolean>(false)
 
 const form = useForm({
-  giverId: user.value?.id ?? '',
   giverName: user.value?.username ?? '',
   giverEmail: user.value?.email ?? '',
-  isReserved: true,
 })
 
 function submit() {
@@ -36,20 +34,16 @@ function submit() {
     },
   })
 }
-
-const btnText = computed(() => {
-  return form.processing ? 'Processing...' : 'Envoyer'
-})
 </script>
 
 <template>
   <div class="gift">
     <img :src="gift.image" :alt="gift.title + 'image'" />
     <div class="gift__content" v-if="!isBooking">
-      <Button :href="gift.link" color="blank">{{ gift.title }}</Button>
+      <Button :href="gift.url" color="blank">{{ gift.title }}</Button>
       <p class="gift__content-description">{{ gift.description }}</p>
       <p>{{ gift.price }} €</p>
-      <p v-if="gift.isReserved">
+      <p v-if="gift.giverName">
         Réservé par
         <span class="gift__content-gifter">{{ gift.giverName }}</span>
       </p>
@@ -70,8 +64,15 @@ const btnText = computed(() => {
           <Input v-model:input="form.giverEmail" type="email" class="gift__form-input" />
         </Field>
       </form>
-      <Button type="submit" size="small" color="yellow" form="patch-gift">
-        {{ btnText }}
+      <Button
+        :disabled="form.processing"
+        :loading="form.processing"
+        type="submit"
+        size="small"
+        color="yellow"
+        form="patch-gift"
+      >
+        Envoyer
       </Button>
     </div>
   </div>

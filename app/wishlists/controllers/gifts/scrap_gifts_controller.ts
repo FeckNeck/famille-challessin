@@ -42,46 +42,83 @@ export default class ScrapGiftsController {
         [id*="modal"], [class*="modal"]
       `)
       await elementsToRemove.evaluateAll((elements) => {
+        console.log('elements:', elements)
         elements.forEach((element) => element.remove())
       })
 
       /**
        * Get the title of the product
        */
-      const rawTtitle = await page
-        .locator('h1')
-        .filter({ hasNotText: 'Essai gratuit Prime' })
-        .first()
-        .textContent()
-      console.log('rawTtitle:', rawTtitle)
-      title = rawTtitle
-        ? rawTtitle
-            .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, '')
-            .replace(/\s+/g, ' ')
-            .trim()
-        : null
-      console.log('title:', title)
+      let productTitle = null
 
-      const slug = title?.split(' ')[0]
-      console.log('slug:', slug)
+      try {
+        // Essayer de récupérer le titre à partir des sélecteurs fournis
+        productTitle = await page
+          .locator('h1.title, h1.product-title, h1.product_title, h1#product-title, h1#title')
+          .first()
+          .textContent({ timeout: 1000 })
+        console.log('1 productTitle:', productTitle)
+      } catch (e) {
+        console.log('error:', e)
+      }
+
+      // Si "Essai gratuit Prime" est trouvé, chercher un autre h1 sans ce texte
+      try {
+        if (!productTitle || productTitle.includes('Essai gratuit Prime')) {
+          console.log('Essai gratuit Prime')
+          productTitle = await page.locator('h1').first().textContent({ timeout: 1000 })
+          console.log('2 productTitle:', productTitle)
+        }
+      } catch (e) {
+        console.log('error:', e)
+      }
+
+      if (productTitle) {
+        title = productTitle
+        //   .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, '')
+        //   .replace(/\s+/g, ' ')
+        //   .trim()
+        // console.log('title:', title)
+      }
 
       /**
        * Get the image of the product
        */
-      let productImage = page
-        .locator('.product_image, .product-image, .product-img, .product_img, #product-image')
-        .first()
-      if (!(await productImage.count())) {
-        const imageSelector = `//img[not(contains(@src, 'data:image')) and (contains(@title, "${slug}") or contains(@alt, "${slug}") or contains(@src, "${slug?.toLowerCase()}"))]`
-        productImage = page.locator(imageSelector).first()
+      let productImage = null
+
+      try {
+        // Essayer de récupérer l'image à partir des sélecteurs fournis
+        productImage = page
+          .locator(
+            'img.product_image, img.product-image, img.product-img, img.product_img, img#product-image, img.landingImage, img#landingImage'
+          )
+          .first()
+        console.log('productImage 1: ', await productImage.all())
+      } catch (e) {
+        console.log('error:', e)
       }
-      if (await productImage.count()) {
-        imageUrl = await productImage.getAttribute('src')
-        if (!imageUrl) {
-          imageUrl = await productImage
-            .getAttribute('srcset')
-            .then((srcset) => srcset?.split(' ')[0]! ?? null)
+      // Si aucun résultat trouvé, utiliser le titre pour rechercher une image correspondante
+      try {
+        if ((!productImage || !(await productImage.count())) && title !== null) {
+          const slug = title.split(' ').slice(0, 2).join(' ')
+          console.log('slug:', slug)
+          productImage = page
+            .locator(
+              `//img[not(contains(@src, 'data:image')) and (contains(@title, "${slug}") or contains(@alt, "${slug}") or contains(@srcset, "${slug}") or contains(@src, "${slug}"))]`
+            )
+            .first()
         }
+      } catch (e) {
+        console.log('error:', e)
+      }
+
+      // Si une image est trouvée, obtenir l'URL de l'image
+      if (productImage && (await productImage.count())) {
+        imageUrl =
+          (await productImage.getAttribute('src')) ||
+          (await productImage
+            .getAttribute('srcset')
+            .then((srcset) => srcset?.split(' ')[0] ?? null))
         console.log('imageUrl:', imageUrl)
       }
 
@@ -89,7 +126,7 @@ export default class ScrapGiftsController {
        * Get the price of the product
        */
       let productPrice = page
-        .locator('.product_price, .product-price, .price, #product-price, #price')
+        .locator('.product_price, .product-price, .price, .price-value, #product-price, #price')
         .first()
       if (!(await productPrice.count())) {
         const priceSelector = `//span[contains(text(), "€") or contains(text(), "$") or contains(text(), "£")]`
@@ -97,11 +134,13 @@ export default class ScrapGiftsController {
       }
       if (await productPrice.count()) {
         priceText = await productPrice.textContent()
+        console.log('priceText:', priceText)
         if (priceText) {
           priceText = priceText
-            .replace(/[^0-9.,]/g, '') // Supprimer tout sauf chiffres et virgules
+            .replace(/[^0-9,]/g, '') // Supprimer tout sauf chiffres et virgules
             .replace(',', '.') // Remplacer les virgules par des points
             .trim()
+          console.log('priceText:', priceText)
         }
       }
     } catch (error) {
@@ -128,9 +167,9 @@ export default class ScrapGiftsController {
       title: title ?? null,
       image: imageUrl ?? null,
       price: priceText ?? null,
-      link: url,
+      url: url,
     })
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })
+    return response.redirect().back()
   }
 }

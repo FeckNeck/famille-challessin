@@ -6,10 +6,9 @@ export const GiftFactory = factory
     return {
       title: faker.lorem.words(10),
       description: faker.lorem.paragraph(),
-      price: faker.number.float().toString(),
-      link: faker.internet.url(),
+      price: faker.finance.amount(),
+      url: faker.internet.url(),
       image: faker.image.url(),
-      isReserved: faker.datatype.boolean(),
       giverName: faker.internet.userName(),
       giverEmail: faker.internet.email(),
     }
