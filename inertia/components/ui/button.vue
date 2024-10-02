@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { LoaderCircle } from 'lucide-vue-next'
 
-const props = defineProps<{
+defineProps<{
   color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime' | 'blank'
   size?: 'small' | 'medium'
+  loading?: boolean
 }>()
 
 const attrs = useAttrs()
@@ -15,7 +17,19 @@ const buttonOrLink = computed(() => {
 </script>
 
 <template>
-  <Component v-bind="$attrs" :is="buttonOrLink" class="button" :class="[color, size]">
+  <Component
+    v-bind="$attrs"
+    :is="buttonOrLink"
+    class="button"
+    :class="[
+      color,
+      size,
+      {
+        '--loading': loading,
+      },
+    ]"
+  >
+    <LoaderCircle v-if="loading" class="button-spin" />
     <slot />
   </Component>
 </template>
@@ -27,11 +41,12 @@ const buttonOrLink = computed(() => {
   border-radius: var(--rounded);
   border: 2px solid var(--gray-800);
   box-shadow: var(--shadow-small);
-  display: inline-block;
   cursor: pointer;
+  display: inline-block;
   font-size: var(--text-base);
   font-weight: bold;
   padding: 0.75rem 1.25rem;
+  position: relative;
   transition: background-color 100ms ease-in;
 
   &:not(.blank):hover {
@@ -86,6 +101,26 @@ const buttonOrLink = computed(() => {
     &:hover {
       --bg-color: var(--lime-500);
     }
+  }
+
+  &.--loading {
+    pointer-events: none;
+    color: transparent;
+  }
+}
+
+.button-spin {
+  animation: spin 1s linear infinite;
+  color: var(--gray-800) !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+@keyframes spin {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 </style>
