@@ -21,10 +21,10 @@ const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/e
         </div>
       </div>
       <div class="card__content">
-        <p class="card__content__desc">{{ wishlist.description }}</p>
+        <p>{{ wishlist.description }}</p>
         <div class="d-flex items-center justify-between">
-          <p class="card__content__event">{{ wishlist.eventDate }}</p>
-          <p class="card__content__event">{{ wishlist.theme.name }}</p>
+          <p>{{ wishlist.eventDate }}</p>
+          <p>{{ wishlist.theme.name }}</p>
         </div>
       </div>
     </Card>
@@ -61,7 +61,7 @@ const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/e
     flex-grow: 1;
     gap: 1rem;
 
-    &__desc {
+    & > p:first-child {
       font-size: var(--text-sm);
       overflow: hidden;
       display: -webkit-box;
@@ -69,7 +69,7 @@ const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/e
       -webkit-box-orient: vertical;
     }
 
-    &__event {
+    & > div {
       font-size: var(--text-xs);
     }
   }

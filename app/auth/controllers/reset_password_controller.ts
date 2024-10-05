@@ -19,8 +19,6 @@ export default class ResetPasswordController {
 
     const token = request.param('token')
 
-    console.log(DateTime.now().toSQL())
-
     ResetPasswordToken.query()
       .where('expires_at', '>', DateTime.now().toSQL())
       .where('token', token)
