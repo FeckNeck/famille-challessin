@@ -1,7 +1,7 @@
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { renderToString } from '@vue/server-renderer'
-import { createSSRApp, h, type DefineComponent } from 'vue'
+import { createSSRApp, h, ref, type DefineComponent } from 'vue'
 
 export default function render(page: any) {
   return createInertiaApp({
@@ -15,9 +15,13 @@ export default function render(page: any) {
     },
 
     setup({ App, props, plugin }) {
-      return createSSRApp({ render: () => h(App, props) })
+      const app = createSSRApp({ render: () => h(App, props) })
         .use(plugin)
         .directive('autoAnimate', {})
+
+      app.config.globalProperties.modelViewerScriptLoaded = ref(false)
+
+      return app
     },
   })
 }

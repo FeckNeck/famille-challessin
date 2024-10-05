@@ -1,13 +1,13 @@
-import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { compose } from '@adonisjs/core/helpers'
 import { DateTime } from 'luxon'
+import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import hash from '@adonisjs/core/services/hash'
-import Role from '#auth/models/role'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import type { Roles } from '#auth/enums/roles'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import type { IUserRole } from '#auth/enums/user_role'
 import Wishlist from '#wishlists/models/wishlist'
-import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
+import ResetPasswordToken from './reset_password_tokens.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -25,7 +25,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare updatedAt: DateTime | null
 
   @column()
-  declare roleId: Roles
+  declare roleId: IUserRole
 
   @column()
   declare username: string
@@ -44,11 +44,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 
-  @belongsTo(() => Role)
-  declare role: BelongsTo<typeof Role>
-
   @hasMany(() => Wishlist)
   declare wishlists: HasMany<typeof Wishlist>
+
+  @hasMany(() => ResetPasswordToken)
+  declare resetPasswordTokens: HasMany<typeof ResetPasswordToken>
 
   serializeExtras() {
     return {

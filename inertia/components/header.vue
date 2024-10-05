@@ -12,6 +12,9 @@ const user = computed(() => page.props.user as User)
 function logout() {
   router.delete('/logout', {
     preserveScroll: true,
+    onSuccess: () => {
+      router.visit('/', { preserveScroll: true })
+    },
   })
 }
 </script>

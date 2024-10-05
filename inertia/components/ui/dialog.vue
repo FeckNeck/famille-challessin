@@ -85,7 +85,7 @@ const forwarded = useForwardPropsEmits(props, emits)
 
 [data-scope='dialog'][data-part='content'] {
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
   max-height: 85vh;
   position: relative;
 }

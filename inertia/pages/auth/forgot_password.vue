@@ -1,33 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
-import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 
 const page = usePage()
-const isDialogOpen = ref<boolean>(page.url.includes('modal=login'))
+const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'))
 
 const form = useForm({
   email: 'mathis.dousse@example.com',
-  password: 'Pizza1234*',
-  remember_me: false,
 })
+
+const isEmailSent = ref<boolean>(false)
 
 function submit() {
   if (form.processing) return
 
-  form.post('/auth/login', {
+  form.post('/auth/forgot-password', {
     preserveScroll: true,
-    onError: () => {
-      form.reset('password')
-    },
     onSuccess: () => {
-      isDialogOpen.value = false
-      // reload the page to get the authenticated user
-      setTimeout(() => router.visit('/', { preserveScroll: true }), 200)
+      isEmailSent.value = true
     },
   })
 }
@@ -37,12 +31,17 @@ function submit() {
   <Dialog v-model:open="isDialogOpen" position="top">
     <template #title>
       <div>
-        <h4>S'identifier</h4>
-        <p>Pas de compte ? <Button href="/auth/register" color="blank">Créer un compte</Button></p>
+        <h4>Mot de passe oublié</h4>
       </div>
     </template>
     <template #description>
-      <form @submit.prevent="submit()" class="login">
+      <div v-if="isEmailSent">
+        <p>Un email de réinitialisation de mot de passe a été envoyé à l'adresse email fournie.</p>
+        <Button @click="isDialogOpen = false" color="yellow" size="small" class="w-full mt-4">
+          Fermer
+        </Button>
+      </div>
+      <form v-else @submit.prevent="submit()" class="login">
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
           Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
@@ -50,17 +49,6 @@ function submit() {
           <Field label="Email" :error="form.errors.email">
             <Input v-model:input="form.email" type="email" autocomplete="email" class="w-full" />
           </Field>
-          <Field label="Password" :error="form.errors.password">
-            <Input
-              v-model:input="form.password"
-              type="password"
-              autocomplete="current-password"
-              class="w-full"
-            />
-          </Field>
-          <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
-            Remember me
-          </Checkbox>
         </div>
         <Button
           :disabled="form.processing"
@@ -70,17 +58,11 @@ function submit() {
           class="w-full"
           type="submit"
         >
-          Se connecter
+          Réinitialiser le mot de passe
         </Button>
       </form>
     </template>
   </Dialog>
 </template>
 
-<style scoped>
-.login {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-</style>
+<style scoped></style>

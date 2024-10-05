@@ -7,7 +7,7 @@ import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 
 const page = usePage()
-const isRegisterDialogOpen = ref<boolean>(page.url.includes('modal=register'))
+const isDialogOpen = ref<boolean>(page.url.includes('modal=register'))
 
 const form = useForm({
   email: '',
@@ -22,14 +22,14 @@ function submit() {
   form.post('auth/register', {
     preserveScroll: true,
     onSuccess: () => {
-      isRegisterDialogOpen.value = false
+      isDialogOpen.value = false
     },
   })
 }
 </script>
 
 <template>
-  <Dialog :open="isRegisterDialogOpen" position="top">
+  <Dialog :open="isDialogOpen" position="top">
     <template #title>
       <div>
         <h4>S'inscrire</h4>
@@ -40,7 +40,7 @@ function submit() {
       </div>
     </template>
     <template #description>
-      <form @submit.prevent="submit()" class="login">
+      <form @submit.prevent="submit()">
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
           Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
