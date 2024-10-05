@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Head } from '@inertiajs/vue3'
 import Category from './components/category.vue'
 import CreateCategory from './components/create_category.vue'
 import Hero from './components/hero.vue'
@@ -12,6 +13,7 @@ const props = defineProps<{
 </script>
 
 <template>
+  <Head title="Création d'une liste" />
   <Layout>
     <div class="container">
       <div class="wishlist">

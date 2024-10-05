@@ -23,7 +23,7 @@ function logout() {
   <header>
     <div class="w-full d-flex items-center justify-between py-4 container">
       <Link href="/" :preserve-scroll="true" :preserve-state="true" aria-label="Homepage">
-        <img src="../assets/icons/logo_saint-vulbas.svg" alt="" />
+        <img src="../assets/icons/logo_saint-vulbas.svg" alt="Logo du village de Saint Vulbas" />
       </Link>
 
       <div class="d-flex items-center g-2">
@@ -56,7 +56,6 @@ header {
 
   & img {
     width: 3rem;
-    height: 3rem;
   }
 }
 </style>

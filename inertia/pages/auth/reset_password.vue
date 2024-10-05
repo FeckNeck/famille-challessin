@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { router, useForm, usePage, Head } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
@@ -31,6 +31,7 @@ function submit() {
 </script>
 
 <template>
+  <Head v-if="isDialogOpen" title="Réinitialiser le mot de passe" />
   <Dialog v-model:open="isDialogOpen" position="top">
     <template #title>
       <h4>Réinitialiser le mot de passe</h4>

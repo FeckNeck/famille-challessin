@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Link, router, useForm, usePage } from '@inertiajs/vue3'
+import { Link, router, useForm, usePage, Head } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -34,6 +34,7 @@ function submit() {
 </script>
 
 <template>
+  <Head v-if="isDialogOpen" title="S'identifier" />
   <Dialog v-model:open="isDialogOpen" position="top">
     <template #title>
       <div>

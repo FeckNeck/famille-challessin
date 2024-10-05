@@ -88,7 +88,7 @@ function fetchNewPageData(page: number) {
 </script>
 
 <template>
-  <Head title="Homepage" />
+  <Head title="Page d'accueil" />
   <Layout>
     <Hero />
     <div class="relative" ref="scrollToTopRef">

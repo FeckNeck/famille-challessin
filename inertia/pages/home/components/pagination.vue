@@ -18,11 +18,15 @@ function handlePrevClick() {
 
 <template>
   <div class="pagination" v-if="total">
-    <button @click="handlePrevClick" :disabled="props.currentPage === 1">
+    <button @click="handlePrevClick" :disabled="props.currentPage === 1" title="Page précédente">
       <ChevronLeft />
     </button>
     <span>{{ props.currentPage }} / {{ props.lastPage }}</span>
-    <button @click="handleNextClick" :disabled="props.currentPage === props.lastPage">
+    <button
+      @click="handleNextClick"
+      :disabled="props.currentPage === props.lastPage"
+      title="Page suivante"
+    >
       <ChevronRight />
     </button>
   </div>

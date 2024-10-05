@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import type { Wishlist } from '~/app/types'
-import Layout from '~/layouts/default.vue'
-import Hero from './components/hero.vue'
+import { Head } from '@inertiajs/vue3'
 import Collapsible from '~/components/ui/collapsible.vue'
 import Gift from './components/gift.vue'
+import Hero from './components/hero.vue'
+import Layout from '~/layouts/default.vue'
+import type { Wishlist } from '~/app/types'
 
 const wishlist = defineProps<Wishlist>()
 </script>
 
 <template>
+  <Head title="Liste de souhaits" />
   <Layout>
     <div class="container">
       <div class="wishlist">

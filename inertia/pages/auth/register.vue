@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3'
+import { useForm, usePage, Head } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -29,6 +29,7 @@ function submit() {
 </script>
 
 <template>
+  <Head v-if="isDialogOpen" title="S'inscrire" />
   <Dialog :open="isDialogOpen" position="top">
     <template #title>
       <div>
