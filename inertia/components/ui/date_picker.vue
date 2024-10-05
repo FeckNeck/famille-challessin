@@ -6,7 +6,6 @@ import {
   useForwardPropsEmits,
 } from '@ark-ui/vue'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import Input from './input.vue'
 
 const props = withDefaults(defineProps<DatePickerRootProps>(), {
   positioning: {

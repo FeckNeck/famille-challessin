@@ -11,14 +11,15 @@ export default class EditWishlistsController {
   static createWishlistValidator = vine.compile(
     vine.object({
       id: vine.string(),
-      title: vine.string(),
-      description: vine.string().optional(),
+      title: vine.string().optional().requiredWhen('isPublic', '=', true),
+      description: vine.string().optional().requiredWhen('isPublic', '=', true),
       isPublic: vine.boolean().optional(),
-      themeId: vine.number().in(Object.values(WishlistThemes)).optional(),
+      themeId: vine.number().in(Object.values(WishlistThemes)),
       eventDate: vine
         .date()
         .transform((value) => DateTime.fromJSDate(value))
-        .optional(),
+        .optional()
+        .requiredWhen('isPublic', '=', true),
     })
   )
 
@@ -39,10 +40,14 @@ export default class EditWishlistsController {
     })
   }
 
-  async handle({ request, response, params }: HttpContext) {
-    const wishlist = await Wishlist.findOrFail(params.id)
-
+  async handle({ request, response, params, auth }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
+
+    const wishlist = await auth.user
+      ?.related('wishlists')
+      .query()
+      .where('id', params.id)
+      .firstOrFail()
 
     const image = request.file('image', {
       size: '5mb',
@@ -63,9 +68,9 @@ export default class EditWishlistsController {
       payload.image = fileName
     }
 
-    wishlist.merge(payload)
-    await wishlist.save()
+    wishlist?.merge(payload)
+    await wishlist?.save()
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist.id })
+    return response.redirect().back()
   }
 }
