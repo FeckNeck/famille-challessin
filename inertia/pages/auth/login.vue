@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { Link, router, useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -58,9 +58,12 @@ function submit() {
               class="w-full"
             />
           </Field>
-          <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
-            Remember me
-          </Checkbox>
+          <div class="d-flex items-center justify-between">
+            <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
+              Remember me
+            </Checkbox>
+            <Link href="/auth/forgot-password" class="login-forgot">Mot de passe oublié ?</Link>
+          </div>
         </div>
         <Button
           :disabled="form.processing"
@@ -77,10 +80,16 @@ function submit() {
   </Dialog>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .login {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  &-forgot {
+    font-size: var(--text-sm);
+    text-decoration: underline;
+    color: var(--gray-600);
+  }
 }
 </style>
