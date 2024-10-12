@@ -23,3 +23,6 @@ yarn-error.log
 
 # Platform specific
 .DS_Store
+
+# db user seed
+user_seeder.ts
