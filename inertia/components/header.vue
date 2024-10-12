@@ -55,7 +55,7 @@ header {
   backdrop-filter: blur(8px);
 
   & img {
-    width: 3rem;
+    width: 4rem;
   }
 }
 </style>
