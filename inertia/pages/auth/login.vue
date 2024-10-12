@@ -11,8 +11,8 @@ const page = usePage()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=login'))
 
 const form = useForm({
-  email: 'mathis.dousse@example.com',
-  password: 'Pizza1234*',
+  email: '',
+  password: '',
   remember_me: false,
 })
 
