@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { ref } from 'vue'
 import type { User, WishlistTheme } from '~/app/types'
 
 defineProps<{ themes: WishlistTheme[]; users: User[] }>()
@@ -12,6 +13,17 @@ const usernameModel = defineModel<string[] | string>('username', {
   set: (value) => [value],
 })
 const themeModel = defineModel<string | null>('theme')
+
+const hoveredTheme = ref<number | null>(null)
+const hoveredUser = ref<number | null>(null)
+
+const handleThemeClick = (theme: string) => {
+  themeModel.value = themeModel.value === theme ? null : theme
+}
+
+const handleUserClick = (username: string) => {
+  usernameModel.value = usernameModel.value === username ? '' : username
+}
 </script>
 
 <template>
@@ -20,11 +32,18 @@ const themeModel = defineModel<string | null>('theme')
       <h4>Themes</h4>
       <div class="filters__btns">
         <button
-          v-for="theme in themes"
+          v-for="(theme, index) in themes"
           :key="theme.id"
-          @click="themeModel = themeModel === theme.name ? null : theme.name"
+          @click="handleThemeClick(theme.name)"
+          @mouseover="hoveredTheme = index"
+          @mouseleave="hoveredTheme = null"
         >
-          <div :class="{ '--active': theme.name === themeModel }">
+          <div
+            :style="{
+              backgroundColor:
+                theme.name === themeModel || hoveredTheme === index ? theme.color : '',
+            }"
+          >
             <Icon :icon="theme.icon" :ssr="true" />
           </div>
           <div>
@@ -38,12 +57,19 @@ const themeModel = defineModel<string | null>('theme')
       <h4>Familles</h4>
       <div class="filters__btns">
         <button
-          v-for="user in users"
+          v-for="(user, index) in users"
           :key="user.id"
-          @click="usernameModel = usernameModel === user.username ? '' : user.username"
+          @click="handleUserClick(user.username)"
+          @mouseover="hoveredUser = index"
+          @mouseleave="hoveredUser = null"
         >
-          <div :class="{ '--active': usernameModel === user.username }">
-            <Icon icon="lucide:cat" :ssr="true" />
+          <div
+            :style="{
+              backgroundColor:
+                user.username === usernameModel || hoveredUser === index ? user.color : '',
+            }"
+          >
+            <Icon :icon="user.icon" :ssr="true" />
           </div>
           <div>
             <p>{{ user.username }}</p>
@@ -86,18 +112,10 @@ const themeModel = defineModel<string | null>('theme')
         background-color: var(--white);
         border: 2px solid var(--gray-800);
         transition: background-color 0.5s;
-
-        &.--active {
-          background-color: var(--violet-600);
-        }
       }
 
       &:hover {
         transform: translateX(0.5rem);
-
-        div:first-child {
-          background-color: var(--violet-600);
-        }
       }
 
       p:last-child {

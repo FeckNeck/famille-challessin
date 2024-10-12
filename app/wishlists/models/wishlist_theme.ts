@@ -20,7 +20,7 @@ export default class WishlistTheme extends BaseModel {
   declare icon: string | null
 
   @column()
-  declare iconColor: string | null
+  declare color: string | null
 
   @hasMany(() => Wishlist, {
     foreignKey: 'themeId',

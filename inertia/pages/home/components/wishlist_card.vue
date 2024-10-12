@@ -9,13 +9,18 @@ const user = computed(() => page.props.user as User | undefined)
 const props = defineProps<{ wishlist: Wishlist }>()
 
 const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/edit/' : ''))
+const backgroundColor = computed(() => {
+  return {
+    backgroundColor: props.wishlist.user.color,
+  }
+})
 </script>
 
 <template>
   <Link :href="`/wishlists/${wishlist.id}${editLink}`" class="card">
     <Card>
       <div>
-        <h6 :style="{ backgroundColor: wishlist.user.iconColor }">{{ wishlist.title }}</h6>
+        <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
         <div class="card__header__image">
           <img :src="wishlist.imageUrl" :alt="wishlist.title + 'image'" />
         </div>
