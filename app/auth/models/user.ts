@@ -40,7 +40,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare icon: string | null
 
   @column()
-  declare iconColor: string | null
+  declare color: string | null
 
   static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 

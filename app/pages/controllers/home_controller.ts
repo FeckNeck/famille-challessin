@@ -14,7 +14,7 @@ export default class HomeController {
      * Fetch users and their public wishlists count
      */
     const users = await User.query()
-      .select('id', 'username')
+      .select('id', 'username', 'color', 'icon')
       .withCount('wishlists', (wishlists) =>
         wishlists
           .where((builder) => {

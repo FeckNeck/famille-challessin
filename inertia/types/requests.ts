@@ -16,7 +16,7 @@ export interface WishlistTheme {
   name: string
   icon: string
   count: string
-  iconColor: string
+  color: string
 }
 
 export interface WishlistCategory {
@@ -46,7 +46,8 @@ export interface User {
   roleId: number
   wishlists: Wishlist[]
   count: string
-  iconColor: string
+  icon: string
+  color: string
 }
 
 /**

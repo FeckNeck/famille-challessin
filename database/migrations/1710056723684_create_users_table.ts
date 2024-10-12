@@ -16,7 +16,7 @@ export default class extends BaseSchema {
       table.text('email').notNullable().unique()
       table.text('password').notNullable()
       table.text('icon').nullable()
-      table.text('icon_color').nullable()
+      table.text('color').nullable()
     })
 
     this.schema.createTable(this.rememberMeTableName, (table) => {

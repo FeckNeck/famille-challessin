@@ -13,7 +13,7 @@ export default class extends BaseSchema {
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.string('name').notNullable().unique()
       table.string('icon')
-      table.string('icon_color')
+      table.string('color')
     })
 
     this.schema.createTable(this.wishlistsTableName, (table) => {
