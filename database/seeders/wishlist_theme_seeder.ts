@@ -9,15 +9,15 @@ export default class extends BaseSeeder {
         id: WishlistThemes.Christmas,
         name: 'Noël',
         icon: 'lucide:candy-cane',
-        color: '#FF0000',
+        color: '#aef5a8',
       },
       {
         id: WishlistThemes.Birthday,
         name: 'Anniversaire',
         icon: 'lucide:cake',
-        color: '#FFA500',
+        color: '#93d2f6',
       },
-      { id: WishlistThemes.Other, name: 'Autre', icon: 'lucide:tree-palm', color: '#FFA500' },
+      { id: WishlistThemes.Other, name: 'Autre', icon: 'lucide:tree-palm', color: '#f7a9a9' },
     ])
   }
 }
