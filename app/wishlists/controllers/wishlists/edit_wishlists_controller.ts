@@ -1,11 +1,11 @@
 import { cuid } from '@adonisjs/core/helpers'
 import { DateTime } from 'luxon'
 import { HttpContext } from '@adonisjs/core/http'
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 import app from '@adonisjs/core/services/app'
 import vine from '@vinejs/vine'
 import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class EditWishlistsController {
   static createWishlistValidator = vine.compile(
@@ -14,7 +14,7 @@ export default class EditWishlistsController {
       title: vine.string().optional().requiredWhen('isPublic', '=', true),
       description: vine.string().optional().requiredWhen('isPublic', '=', true),
       isPublic: vine.boolean().optional(),
-      themeId: vine.number().in(Object.values(WishlistThemes)),
+      themeId: vine.enum(WishlistThemes),
       eventDate: vine
         .date()
         .transform((value) => DateTime.fromJSDate(value))
@@ -65,7 +65,7 @@ export default class EditWishlistsController {
         name: fileName,
       })
 
-      payload.image = fileName
+      wishlist!.image = fileName
     }
 
     wishlist?.merge(payload)

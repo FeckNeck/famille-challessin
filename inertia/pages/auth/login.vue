@@ -39,7 +39,8 @@ function submit() {
     <template #title>
       <div>
         <h4>S'identifier</h4>
-        <p>Pas de compte ? <Button href="/auth/register" color="blank">Créer un compte</Button></p>
+        <!-- TODO: Add Account Creation in V2.0 -->
+        <!-- <p>Pas de compte ? <Button href="/auth/register" color="blank">Créer un compte</Button></p> -->
       </div>
     </template>
     <template #description>

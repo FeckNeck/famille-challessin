@@ -1,5 +1,4 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Gift from '#wishlists/models/gift'
 import vine from '@vinejs/vine'
 import Wishlist from '#wishlists/models/wishlist'
 
