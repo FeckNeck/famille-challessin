@@ -50,10 +50,6 @@ export default class HomeController {
       .preload('wishlistTheme')
       .preload('user')
 
-    if (orderBy && order) {
-      query.orderBy(orderBy, order)
-    }
-
     if (title) {
       query.where('title', 'LIKE', `%${title}%`)
     }
@@ -68,6 +64,10 @@ export default class HomeController {
       await query.whereHas('user', (builder) => {
         builder.where('username', username)
       })
+    }
+
+    if (orderBy && order) {
+      query.orderBy(orderBy, order)
     }
 
     const wishlists = await query.paginate(page, limit)
