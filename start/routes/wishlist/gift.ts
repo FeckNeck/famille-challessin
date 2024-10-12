@@ -16,7 +16,9 @@ router
   .as('gifts.edit')
   .use(middleware.auth())
 
-router.patch('gifts/:id', [BookGiftsController, 'handle']).as('gifts.book')
+router
+  .patch('wishlists/:id/categories/:categoryId/gifts/:giftId/book', [BookGiftsController, 'handle'])
+  .as('gifts.book')
 
 router
   .delete('wishlists/:id/categories/:categoryId/gifts/:giftId', [RemoveGiftsController, 'handle'])

@@ -14,8 +14,6 @@ export interface ClipboardProps extends ClipboardRootProps {
 
 const props = defineProps<ClipboardProps>()
 
-console.log(props)
-
 const emits = defineEmits<ClipboardRootEmits>()
 const forwarded = useForwardPropsEmits(props, emits)
 </script>
@@ -27,7 +25,7 @@ const forwarded = useForwardPropsEmits(props, emits)
       <Clipboard.Input as-child>
         <Input />
       </Clipboard.Input>
-      <Clipboard.Trigger>
+      <Clipboard.Trigger type="button">
         <Clipboard.Indicator>
           <ClipboardCopyIcon :size="20" />
           <template #copied>

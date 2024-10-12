@@ -29,6 +29,8 @@ const wishlist = defineProps<Wishlist>()
                 v-for="gift in category.gifts"
                 :key="gift.id"
                 :gift="gift"
+                :wishlistId="wishlist.id"
+                :categoryId="category.id"
                 class="wishlist__category__gift"
               />
             </template>

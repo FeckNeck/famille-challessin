@@ -10,6 +10,8 @@ import { SharedProps } from '@adonisjs/inertia/types'
 
 const props = defineProps<{
   gift: Gift
+  wishlistId: string
+  categoryId: string
 }>()
 
 const page = usePage<SharedProps>()
@@ -25,14 +27,16 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.patch(`/gifts/${props.gift.id}`, {
-    preserveState: true,
-    preserveScroll: true,
-    onSuccess: () => {
-      isBooking.value = false
-      form.reset()
-    },
-  })
+  form.patch(
+    `/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/${props.gift.id}/book`,
+    {
+      preserveScroll: true,
+      onSuccess: () => {
+        isBooking.value = false
+        form.reset()
+      },
+    }
+  )
 }
 </script>
 
@@ -56,7 +60,7 @@ function submit() {
           <span>Annuler</span>
         </div>
       </Button>
-      <form @submit.prevent="submit()" class="w-full d-flex items-center g-4" id="patch-gift">
+      <form @submit.prevent="submit()" id="patch-gift" class="w-full d-flex items-center g-4">
         <Field label="Nom" class="w-full" :error="form.errors.giverName">
           <Input v-model:input="form.giverName" type="text" class="gift__form-input" />
         </Field>
