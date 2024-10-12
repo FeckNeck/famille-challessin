@@ -34,6 +34,7 @@ export interface Wishlist {
   eventDate: Date
   isPublic: boolean
   imageUrl: string
+  url: string
   categories: WishlistCategory[]
   theme: WishlistTheme
   user: User

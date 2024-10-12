@@ -9,6 +9,7 @@ import Input from '~/components/ui/input.vue'
 import Select from '~/components/ui/select.vue'
 import Switch from '~/components/ui/switch.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
+import Clipboard from '~/components/ui/clipboard.vue'
 
 const props = defineProps<{
   themes: WishlistTheme[]
@@ -81,6 +82,12 @@ function submit() {
       </Field>
       <Switch v-model:checked="form.isPublic" label="Publier" />
     </div>
+    <Clipboard
+      v-if="wishlist.url"
+      :value="wishlist.url"
+      label="Lien partageable"
+      class="w-full pb-5"
+    />
     <Button
       :disabled="form.processing"
       :loading="form.processing"
@@ -102,11 +109,11 @@ function submit() {
   box-shadow: var(--shadow-medium);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 5rem);
+  min-height: calc(100vh - 5rem);
   padding: 1rem 1rem 1rem;
 
   &__img {
-    height: 100%;
+    flex-grow: 1;
     padding-bottom: 1rem;
   }
 

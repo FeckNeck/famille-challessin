@@ -64,6 +64,8 @@ const backgroundImg = computed(() => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-grow: 1;
+  height: 100%;
   gap: 0.5rem;
 }
 
@@ -72,13 +74,14 @@ const backgroundImg = computed(() => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  flex-grow: 1;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border: 0.125rem solid var(--gray-800);
   border-radius: var(--rounded);
   font-weight: bold;
-  gap: 0.75rem;
   width: 100%;
   height: 100%;
   padding: 1rem;

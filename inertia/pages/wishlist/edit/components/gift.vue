@@ -60,14 +60,15 @@ function remove() {
 <template>
   <div class="gift">
     <form id="gift-form" class="gift__form" @submit.prevent="submit()">
-      <FileUploadC
-        v-model:file="uploadedFile"
-        :max-file-size="10000000"
-        :accept="'image/*'"
-        :url="uploadedFilePreview"
-        @file-accept="onfileChange"
-        class="gift__form-img"
-      />
+      <div class="gift__form-img">
+        <FileUploadC
+          v-model:file="uploadedFile"
+          :max-file-size="10000000"
+          :accept="'image/*'"
+          :url="uploadedFilePreview"
+          @file-accept="onfileChange"
+        />
+      </div>
       <div class="gift__form__content">
         <Field label="Titre" :error="form.errors.title">
           <Input v-model:input="form.title" />

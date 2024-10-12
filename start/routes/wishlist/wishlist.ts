@@ -12,10 +12,25 @@ const ShowWishlistsController = () =>
   import('#wishlists/controllers/wishlists/show_wishlists_controller')
 
 router.get('wishlists', [IndexWishlistsController, 'render']).as('wishlists.index')
-router.get('wishlists/create', [CreateWishlistsController, 'handle']).as('wishlists.create').use(middleware.auth())
-router.get('wishlists/:id', [ShowWishlistsController, 'render']).as('wishlists.show')
-router.get('wishlists/:id/edit', [EditWishlistsController, 'render']).as('wishlists.edit').use(middleware.auth())
+router
+  .get('wishlists/create', [CreateWishlistsController, 'handle'])
+  .as('wishlists.create')
+  .use(middleware.auth())
+router
+  .get('wishlists/:id', [ShowWishlistsController, 'render'])
+  .as('wishlists.show')
+  .use(middleware.wishlist())
+router
+  .get('wishlists/:id/edit', [EditWishlistsController, 'render'])
+  .as('wishlists.edit')
+  .use(middleware.auth())
 
-router.post('wishlists', [CreateWishlistsController, 'handle']).as('wishlists.store').use(middleware.auth())
+router
+  .post('wishlists', [CreateWishlistsController, 'handle'])
+  .as('wishlists.store')
+  .use(middleware.auth())
 
-router.put('wishlists/:id', [EditWishlistsController, 'handle']).as('wishlists.update').use(middleware.auth())
+router
+  .put('wishlists/:id', [EditWishlistsController, 'handle'])
+  .as('wishlists.update')
+  .use(middleware.auth())

@@ -39,6 +39,7 @@ export default class HomeController {
      * Filter by title, theme and username
      */
     const query = Wishlist.query()
+      .select('id', 'title', 'description', 'created_at', 'user_id', 'theme_id')
       .where((builder) => {
         builder.where('is_public', true)
 

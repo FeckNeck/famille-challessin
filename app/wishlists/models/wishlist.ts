@@ -5,6 +5,8 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import WishlistCategory from '#wishlists/models/wishlist_category'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
 import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import router from '@adonisjs/core/services/router'
+import env from '#start/env'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -48,6 +50,17 @@ export default class Wishlist extends BaseModel {
     }
 
     return `/img/${this.image}`
+  }
+
+  @computed()
+  get url() {
+    if (!this.isPublic) return null
+
+    return router
+      .builder()
+      .prefixUrl(env.get('DOMAIN'))
+      .params({ id: this.id })
+      .makeSigned('wishlists.show')
   }
 
   @belongsTo(() => User)
