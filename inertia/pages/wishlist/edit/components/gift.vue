@@ -24,7 +24,7 @@ const form = useForm({
   image: null,
 })
 
-const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.gift.image)
+const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.gift.imageUrl)
 const isDeleting = ref<boolean>(false)
 
 function submit() {

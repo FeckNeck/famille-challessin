@@ -42,7 +42,7 @@ function submit() {
 
 <template>
   <div class="gift">
-    <img :src="gift.image" :alt="gift.title + 'image'" />
+    <img :src="gift.imageUrl" :alt="gift.title + 'image'" />
     <div class="gift__content" v-if="!isBooking">
       <Button :href="gift.url" color="blank">{{ gift.title }}</Button>
       <p class="gift__content-description">{{ gift.description }}</p>

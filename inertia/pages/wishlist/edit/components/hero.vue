@@ -25,7 +25,7 @@ const form = useForm({
   id: props.wishlist.id,
   title: props.wishlist.title,
   description: props.wishlist.description,
-  eventDate: [props.wishlist.eventDate],
+  eventDate: [props.wishlist.eventDate.toString()],
   themeId: [props.wishlist.theme.id.toString()],
   isPublic: props.wishlist.isPublic,
   categories: props.wishlist.categories,
@@ -42,7 +42,7 @@ function submit() {
   form
     .transform((data) => ({
       ...data,
-      themeId: +data.themeId[0],
+      themeId: data.themeId[0],
       eventDate: data.eventDate[0],
     }))
     .put(`/wishlists/${props.wishlist.id}`, {
@@ -65,7 +65,7 @@ function submit() {
       <Field label="Titre" for="title" :error="form.errors.title">
         <Input v-model:input="form.title" id="title" type="text" class="w-full" />
       </Field>
-      <Field label="Date de l'évènement">
+      <Field label="Date de l'évènement" for="eventDate" :error="form.errors.eventDate">
         <DatePicker label="Date de l'évènement" v-model:model-value="form.eventDate" />
       </Field>
       <Field label="Theme" for="theme" :error="form.errors.themeId">

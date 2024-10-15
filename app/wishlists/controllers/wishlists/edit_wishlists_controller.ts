@@ -14,7 +14,7 @@ export default class EditWishlistsController {
       title: vine.string().optional().requiredWhen('isPublic', '=', true),
       description: vine.string().optional().requiredWhen('isPublic', '=', true),
       isPublic: vine.boolean().optional(),
-      themeId: vine.enum(WishlistThemes),
+      themeId: vine.string().transform((value) => +value as WishlistThemes),
       eventDate: vine
         .date()
         .transform((value) => DateTime.fromJSDate(value))

@@ -6,6 +6,7 @@ export interface Gift {
   price: string
   url: string
   image: string
+  imageUrl: string
   giverId: string
   giverName: string
   giverEmail: string
