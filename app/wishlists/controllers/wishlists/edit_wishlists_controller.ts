@@ -20,6 +20,13 @@ export default class EditWishlistsController {
         .transform((value) => DateTime.fromJSDate(value))
         .optional()
         .requiredWhen('isPublic', '=', true),
+      image: vine
+        .file({
+          size: '2mb',
+          extnames: ['jpg', 'png', 'jpeg', 'webp'],
+        })
+        .optional()
+        .requiredWhen('isPublic', '=', true),
     })
   )
 
@@ -42,6 +49,7 @@ export default class EditWishlistsController {
 
   async handle({ request, response, params, auth }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
+    console.log('payload:', payload)
 
     const wishlist = await auth.user
       ?.related('wishlists')
@@ -49,28 +57,29 @@ export default class EditWishlistsController {
       .where('id', params.id)
       .firstOrFail()
 
-    const image = request.file('image', {
-      size: '5mb',
-      extnames: ['jpg', 'png', 'gif', 'jpeg', 'webp'],
-    })
-
-    if (image) {
-      if (!image.isValid) {
-        return response.badRequest({ errors: image.errors })
+    if (payload.image) {
+      if (!payload.image.isValid) {
+        return response.badRequest({ errors: payload.image.errors })
       }
 
-      const fileName = `${cuid()}.${image.extname}`
+      const fileName = `${cuid()}.${payload.image.extname}`
 
-      await image.move(app.makePath('public/uploads'), {
+      await payload.image.move(app.makePath('public/uploads'), {
         name: fileName,
       })
 
-      wishlist!.image = fileName
+      wishlist?.merge({ image: fileName })
     }
 
-    wishlist?.merge(payload)
-    await wishlist?.save()
+    wishlist?.merge({
+      title: payload.title,
+      description: payload.description,
+      isPublic: payload.isPublic,
+      themeId: payload.themeId,
+      eventDate: payload.eventDate,
+    })
 
+    await wishlist?.save()
     return response.redirect().back()
   }
 }

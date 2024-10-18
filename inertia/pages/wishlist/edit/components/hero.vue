@@ -53,14 +53,13 @@ function submit() {
 
 <template>
   <form @submit.prevent="submit()" class="hero">
-    <FileUpload
-      v-model:file="uploadedFile"
-      :max-file-size="10000000"
-      :accept="'image/*'"
-      :url="uploadedFilePreview"
-      @file-accept="onfileChange"
-      class="hero__img"
-    />
+    <Field label="Image de fond" for="bg-img" :error="form.errors.image" class="hero__img">
+      <FileUpload
+        v-model:file="uploadedFile"
+        :url="uploadedFilePreview"
+        @file-accept="onfileChange"
+      />
+    </Field>
     <div class="hero__form">
       <Field label="Titre" for="title" :error="form.errors.title">
         <Input v-model:input="form.title" id="title" type="text" class="w-full" />

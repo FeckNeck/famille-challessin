@@ -53,31 +53,32 @@ function submit() {
       </p>
       <Button v-else @click="isBooking = true" size="small" color="yellow">Reserver</Button>
     </div>
-    <div v-else class="gift__form">
+    <div v-else class="gift__book">
       <Button @click="isBooking = false" color="blank">
         <div class="d-flex items-center g-2">
           <ArrowLeft :size="16" />
           <span>Annuler</span>
         </div>
       </Button>
-      <form @submit.prevent="submit()" id="patch-gift" class="w-full d-flex items-center g-4">
-        <Field label="Nom" class="w-full" :error="form.errors.giverName">
-          <Input v-model:input="form.giverName" type="text" class="gift__form-input" />
-        </Field>
-        <Field label="Email" class="w-full">
-          <Input v-model:input="form.giverEmail" type="email" class="gift__form-input" />
-        </Field>
+      <form @submit.prevent="submit()" class="d-flex column grow justify-between items-start">
+        <div class="gift__book__form">
+          <Field label="Nom" class="gift__book__form-field" :error="form.errors.giverName">
+            <Input v-model:input="form.giverName" type="text" />
+          </Field>
+          <Field label="Email" class="gift__book__form-field">
+            <Input v-model:input="form.giverEmail" type="email" />
+          </Field>
+        </div>
+        <Button
+          :disabled="form.processing"
+          :loading="form.processing"
+          type="submit"
+          size="small"
+          color="yellow"
+        >
+          Envoyer
+        </Button>
       </form>
-      <Button
-        :disabled="form.processing"
-        :loading="form.processing"
-        type="submit"
-        size="small"
-        color="yellow"
-        form="patch-gift"
-      >
-        Envoyer
-      </Button>
     </div>
   </div>
 </template>
@@ -113,20 +114,25 @@ function submit() {
     }
   }
 
-  &__form {
+  &__book {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: start;
     gap: 1rem;
 
-    &-input {
-      width: 20rem;
+    &__form {
+      display: flex;
+      gap: 1rem;
+
+      &-field {
+        width: 20rem;
+      }
     }
   }
 
   @media (max-width: 1024px) {
-    &__form-input {
+    &__book__form-field {
       width: 15rem;
     }
   }
@@ -141,17 +147,22 @@ function submit() {
       align-items: center;
     }
 
-    &__form {
+    &__book {
       width: 100%;
       align-items: stretch;
 
-      & > form {
-        flex-direction: column;
+      &__form {
         text-align: start;
+        flex-direction: column;
         gap: 0.5rem;
+        width: 100%;
+
+        &-field {
+          width: 100%;
+        }
       }
 
-      &-input {
+      button:last-child {
         width: 100%;
       }
     }

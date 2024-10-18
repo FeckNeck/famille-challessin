@@ -59,12 +59,10 @@ function remove() {
 
 <template>
   <div class="gift">
-    <form id="gift-form" class="gift__form" @submit.prevent="submit()">
+    <form :id="gift.id" class="gift__form" @submit.prevent="submit()">
       <div class="gift__form-img">
         <FileUploadC
           v-model:file="uploadedFile"
-          :max-file-size="10000000"
-          :accept="'image/*'"
           :url="uploadedFilePreview"
           @file-accept="onfileChange"
         />
@@ -88,7 +86,7 @@ function remove() {
     </form>
     <div class="gift-btns">
       <Button
-        form="gift-form"
+        :form="gift.id"
         :disabled="form.processing"
         :loading="form.processing"
         color="yellow"

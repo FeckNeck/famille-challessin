@@ -1,4 +1,6 @@
+import { cuid } from '@adonisjs/core/helpers'
 import { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 import vine from '@vinejs/vine'
 
 export default class EditGiftsController {
@@ -15,12 +17,18 @@ export default class EditGiftsController {
         })
         .optional(),
       price: vine.string().optional(),
-      imageUrl: vine.string().trim().optional(),
+      image: vine
+        .file({
+          size: '2mb',
+          extnames: ['jpg', 'png', 'jpeg', 'webp'],
+        })
+        .optional(),
     })
   )
 
   async handle({ params, request, response, auth }: HttpContext) {
     const payload = await request.validateUsing(EditGiftsController.editGiftValidator)
+    console.log('payload:', payload)
 
     const wishlist = await auth.user
       ?.related('wishlists')
@@ -41,7 +49,26 @@ export default class EditGiftsController {
       .where('id', params.giftId)
       .firstOrFail()
 
-    gift?.merge(payload)
+    if (payload.image) {
+      if (!payload.image.isValid) {
+        return response.badRequest({ errors: payload.image.errors })
+      }
+
+      const fileName = `${cuid()}.${payload.image.extname}`
+
+      await payload.image.move(app.makePath('public/uploads'), {
+        name: fileName,
+      })
+
+      gift?.merge({ image: fileName })
+    }
+
+    gift?.merge({
+      title: payload.title,
+      description: payload.description,
+      url: payload.url,
+      price: payload.price,
+    })
     await gift?.save()
     return response.redirect().back()
   }
