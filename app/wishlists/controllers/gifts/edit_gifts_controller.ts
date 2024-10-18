@@ -28,7 +28,6 @@ export default class EditGiftsController {
 
   async handle({ params, request, response, auth }: HttpContext) {
     const payload = await request.validateUsing(EditGiftsController.editGiftValidator)
-    console.log('payload:', payload)
 
     const wishlist = await auth.user
       ?.related('wishlists')

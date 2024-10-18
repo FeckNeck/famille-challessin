@@ -49,7 +49,6 @@ export default class EditWishlistsController {
 
   async handle({ request, response, params, auth }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
-    console.log('payload:', payload)
 
     const wishlist = await auth.user
       ?.related('wishlists')
