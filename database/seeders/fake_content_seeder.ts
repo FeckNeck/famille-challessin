@@ -22,6 +22,7 @@ export default class extends BaseSeeder {
         .merge({
           email: 'mathis.dousse@example.com',
           username: 'Mathis Dousse',
+          password: 'admin1234*',
           roleId: UserRole.Admin,
         })
         .create()
