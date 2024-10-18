@@ -40,6 +40,8 @@ export default class HomeController {
      */
     const query = Wishlist.query()
       .select('id', 'title', 'description', 'image', 'event_date', 'user_id', 'theme_id')
+      .preload('wishlistTheme')
+      .preload('user')
       .where((builder) => {
         builder.where('is_public', true)
 
@@ -47,8 +49,6 @@ export default class HomeController {
           builder.orWhere('user_id', auth.user.id)
         }
       })
-      .preload('wishlistTheme')
-      .preload('user')
 
     if (title) {
       query.where('title', 'LIKE', `%${title}%`)
