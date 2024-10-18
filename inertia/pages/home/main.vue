@@ -40,18 +40,13 @@ const orderByOptions = [
     description: 'Trier les listes par leur date de création',
   },
   {
-    label: 'Date de mise à jour',
-    value: 'updated_at',
-    description: 'Trier les listes par leur date de mise à jour',
-  },
-  {
     label: "Date d'évènement",
     value: 'event_date',
     description: "Trier les listes par leur date d'évènement",
   },
 ]
-const order = ref<SortOrder>(params.order || 'asc')
-const orderBy = ref<string[]>([params.orderBy || orderByOptions[0].value])
+const order = ref<SortOrder>(params.order || 'desc')
+const orderBy = ref<string[]>([params.orderBy || orderByOptions[1].value])
 
 /**
  * Filters

@@ -49,6 +49,7 @@ export default class HomeController {
           builder.orWhere('user_id', auth.user.id)
         }
       })
+      .orderBy(orderBy || 'created_at', order || 'desc')
 
     if (title) {
       query.where('title', 'LIKE', `%${title}%`)
@@ -64,10 +65,6 @@ export default class HomeController {
       await query.whereHas('user', (builder) => {
         builder.where('username', username)
       })
-    }
-
-    if (orderBy && order) {
-      query.orderBy(orderBy, order)
     }
 
     const wishlists = await query.paginate(page, limit)
