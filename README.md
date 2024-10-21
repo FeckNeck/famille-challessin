@@ -14,6 +14,7 @@ Christmas being near, I rushed and there's a lot of stuff for v2 lol :
 - [ ] Enable user registration
 - [ ] Make an account page
 - [ ] Make an admin zone
+- [ ] Use Tuyau library for links
 
 ### v3
 - [ ] Move the design system to an independent package using park-ui and pandacsss
