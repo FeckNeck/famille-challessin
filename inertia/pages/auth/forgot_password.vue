@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useForm, usePage, Head } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
+import { PageProps } from '@adonisjs/inertia/types'
 
-const page = usePage()
+const page = usePage<PageProps>()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'))
+const errors = computed(() => page.props.errors)
 
 const form = useForm({
   email: '',
@@ -36,6 +38,7 @@ function submit() {
       </div>
     </template>
     <template #description>
+      <p v-if="errors" class="pb-4">{{ errors }}</p>
       <div v-if="isEmailSent">
         <p>Un email de réinitialisation de mot de passe a été envoyé à l'adresse email fournie.</p>
         <Button @click="isDialogOpen = false" color="yellow" size="small" class="w-full mt-4">

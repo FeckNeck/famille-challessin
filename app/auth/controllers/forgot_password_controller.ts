@@ -17,12 +17,16 @@ export default class ForgotPasswordController {
     return response.redirect().withQs({ modal: 'forgot-password' }).back()
   }
 
-  async handle({ request, response }: HttpContext) {
+  async handle({ request, response, session }: HttpContext) {
     const { email } = await request.validateUsing(ForgotPasswordController.validator)
 
     // create a new token
     const token = string.random(64)
-    const user = await User.findByOrFail('email', email)
+    const user = await User.findBy('email', email)
+    if (!user) {
+      session.flash('errors', 'Utilisateur introuvable')
+      return response.redirect().back()
+    }
     await user.related('resetPasswordTokens').create({ token })
 
     // generate the reset link
