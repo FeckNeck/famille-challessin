@@ -25,8 +25,7 @@ export default class EditWishlistsController {
           size: '2mb',
           extnames: ['jpg', 'png', 'jpeg', 'webp'],
         })
-        .optional()
-        .requiredWhen('isPublic', '=', true),
+        .optional(),
     })
   )
 
