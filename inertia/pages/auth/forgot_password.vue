@@ -10,7 +10,7 @@ const page = usePage()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'))
 
 const form = useForm({
-  email: 'mathis.dousse@example.com',
+  email: '',
 })
 
 const isEmailSent = ref<boolean>(false)
