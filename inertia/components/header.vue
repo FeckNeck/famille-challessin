@@ -49,11 +49,6 @@ function logout() {
 
 <style scoped lang="scss">
 header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(8px);
-
   & img {
     width: 4rem;
   }
