@@ -15,6 +15,7 @@ Christmas being near, I rushed and there's a lot of stuff for v2 lol :
 - [ ] Make an account page
 - [ ] Make an admin zone
 - [ ] Use Tuyau library for links
+- [ ] Use Textarea for description fields
 
 ### v3
 - [ ] Move the design system to an independent package using park-ui and pandacsss
