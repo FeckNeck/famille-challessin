@@ -52,9 +52,10 @@ export default class ScrapGiftsController {
       let productTitle = null
 
       try {
-        // Essayer de récupérer le titre à partir des sélecteurs fournis
+        // Try to get the title from the provided selectors
         productTitle = await page
           .locator('h1.title, h1.product-title, h1.product_title, h1#product-title, h1#title')
+          .filter({ hasNotText: 'Essai gratuit Prime' })
           .first()
           .textContent({ timeout: 1000 })
         console.log('1 productTitle:', productTitle)
@@ -62,10 +63,9 @@ export default class ScrapGiftsController {
         console.log('error:', e)
       }
 
-      // Si "Essai gratuit Prime" est trouvé, chercher un autre h1 sans ce texte
+      // If "Essai gratuit Prime" is found, look for another h1 without this text
       try {
         if (!productTitle || productTitle.includes('Essai gratuit Prime')) {
-          console.log('Essai gratuit Prime')
           productTitle = await page.locator('h1').first().textContent({ timeout: 1000 })
           console.log('2 productTitle:', productTitle)
         }
@@ -75,10 +75,6 @@ export default class ScrapGiftsController {
 
       if (productTitle) {
         title = productTitle
-        //   .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, '')
-        //   .replace(/\s+/g, ' ')
-        //   .trim()
-        // console.log('title:', title)
       }
 
       /**
@@ -87,7 +83,7 @@ export default class ScrapGiftsController {
       let productImage = null
 
       try {
-        // Essayer de récupérer l'image à partir des sélecteurs fournis
+        // Try to get the image from the provided selectors
         productImage = page
           .locator(
             'img.product_image, img.product-image, img.product-img, img.product_img, img#product-image, img.landingImage, img#landingImage'
@@ -97,7 +93,7 @@ export default class ScrapGiftsController {
       } catch (e) {
         console.log('error:', e)
       }
-      // Si aucun résultat trouvé, utiliser le titre pour rechercher une image correspondante
+      // If no result found, use the title to search for a matching image
       try {
         if ((!productImage || !(await productImage.count())) && title !== null) {
           const slug = title.split(' ').slice(0, 2).join(' ')
@@ -112,7 +108,7 @@ export default class ScrapGiftsController {
         console.log('error:', e)
       }
 
-      // Si une image est trouvée, obtenir l'URL de l'image
+      // If an image is found, get the image URL
       if (productImage && (await productImage.count())) {
         imageUrl =
           (await productImage.getAttribute('src')) ||
@@ -137,8 +133,8 @@ export default class ScrapGiftsController {
         console.log('priceText:', priceText)
         if (priceText) {
           priceText = priceText
-            .replace(/[^0-9,]/g, '') // Supprimer tout sauf chiffres et virgules
-            .replace(',', '.') // Remplacer les virgules par des points
+            .replace(/[^0-9,]/g, '') // Remove all characters except numbers and commas
+            .replace(',', '.') // Replace commas with dots
             .trim()
           console.log('priceText:', priceText)
         }
