@@ -1,18 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="FeckNeck" />
+    <meta name="title" content="Famille Challessin" />
+    <meta name="keywords" content="famille, challessin, liste, souhaits" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Site de la famille challessin dédiée à la création de listes de souhaits"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="French" />
 
-  <title inertia>AdonisJS x Inertia x VueJS</title>
+    {{-- Favicons --}}
+    <link rel="icon" type="image/png" href="/favicon/favicon-48x48.png" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Famille Challessin" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
 
-  @vite(['inertia/app/app.ts', `inertia/pages/${page.component}.vue`])
-  @inertiaHead()
-</head>
+    {{-- Open Graph/ Facebook --}}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://famille.challessin.fr" />
+    <meta property="og:title" content="Famille Challessin" />
+    <meta
+      property="og:description"
+      content="Site de la famille challessin dédiée à la création de listes de souhaits"
+    />
+    <meta property="og:image" content="https://famille.challessin/og.png" />
 
-<body>
-  @inertia()
-</body>
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://famille.challessin.fr" />
+    <meta name="twitter:title" content="Famille Challessin" />
+    <meta
+      name="twitter:description"
+      content="Site de la famille challessin dédiée à la création de listes de souhaits"
+      meta
+      name="twitter:image"
+      content="https://famille.challessin/og.png"
+    />
+
+    <title inertia>
+      Famille Challessin
+    </title>
+
+    @vite(['inertia/app/app.ts', `inertia/pages/${page.component}.vue`])
+    @inertiaHead()
+  </head>
+
+  <body>
+    @inertia()
+  </body>
 
 </html>

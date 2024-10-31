@@ -1,6 +1,6 @@
 import factory from '@adonisjs/lucid/factories'
 import User from '#auth/models/user'
-import { Roles } from '#auth/enums/roles'
+import { UserRole } from '#auth/enums/user_role'
 import { WishlistFactory } from '#database/factories/wishlist_factory'
 
 export const UserFactory = factory
@@ -9,7 +9,8 @@ export const UserFactory = factory
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: 'Pizza1234*',
-      roleId: Roles.User,
+      roleId: UserRole.User,
+      color: faker.internet.color(),
     }
   })
   .relation('wishlists', () => WishlistFactory)

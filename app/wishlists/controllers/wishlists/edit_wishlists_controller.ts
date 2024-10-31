@@ -1,23 +1,30 @@
-import { HttpContext } from '@adonisjs/core/http'
-import Wishlist from '#wishlists/models/wishlist'
-import vine from '@vinejs/vine'
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
-import { DateTime } from 'luxon'
-import WishlistTheme from '#wishlists/models/wishlist_theme'
 import { cuid } from '@adonisjs/core/helpers'
+import { DateTime } from 'luxon'
+import { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
+import vine from '@vinejs/vine'
+import Wishlist from '#wishlists/models/wishlist'
+import WishlistTheme from '#wishlists/models/wishlist_theme'
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class EditWishlistsController {
   static createWishlistValidator = vine.compile(
     vine.object({
       id: vine.string(),
-      title: vine.string(),
-      description: vine.string().optional(),
+      title: vine.string().optional().requiredWhen('isPublic', '=', true),
+      description: vine.string().optional().requiredWhen('isPublic', '=', true),
       isPublic: vine.boolean().optional(),
-      themeId: vine.number().in(Object.values(WishlistThemes)).optional(),
+      themeId: vine.string().transform((value) => +value as WishlistThemes),
       eventDate: vine
         .date()
         .transform((value) => DateTime.fromJSDate(value))
+        .optional()
+        .requiredWhen('isPublic', '=', true),
+      image: vine
+        .file({
+          size: '2mb',
+          extnames: ['jpg', 'png', 'jpeg', 'webp'],
+        })
         .optional(),
     })
   )
@@ -39,33 +46,38 @@ export default class EditWishlistsController {
     })
   }
 
-  async handle({ request, response, params }: HttpContext) {
-    const wishlist = await Wishlist.findOrFail(params.id)
-
+  async handle({ request, response, params, auth }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
 
-    const image = request.file('image', {
-      size: '2mb',
-      extnames: ['jpg', 'png', 'gif', 'jpeg'],
-    })
+    const wishlist = await auth.user
+      ?.related('wishlists')
+      .query()
+      .where('id', params.id)
+      .firstOrFail()
 
-    if (image) {
-      if (!image.isValid) {
-        return response.badRequest({ errors: image.errors })
+    if (payload.image) {
+      if (!payload.image.isValid) {
+        return response.badRequest({ errors: payload.image.errors })
       }
 
-      const fileName = `${cuid()}.${image.extname}`
+      const fileName = `${cuid()}.${payload.image.extname}`
 
-      await image.move(app.makePath('public/uploads'), {
+      await payload.image.move(app.makePath('public/uploads'), {
         name: fileName,
       })
 
-      payload.image = fileName
+      wishlist?.merge({ image: fileName })
     }
 
-    wishlist.merge(payload)
-    await wishlist.save()
+    wishlist?.merge({
+      title: payload.title,
+      description: payload.description,
+      isPublic: payload.isPublic,
+      themeId: payload.themeId,
+      eventDate: payload.eventDate,
+    })
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist.id })
+    await wishlist?.save()
+    return response.redirect().back()
   }
 }

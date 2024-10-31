@@ -22,8 +22,8 @@ export default class RegisterController {
     })
   )
 
-  async render({ inertia }: HttpContext) {
-    return inertia.render('auth/register')
+  async render({ response }: HttpContext) {
+    return response.redirect().withQs({ modal: 'register' }).back()
   }
 
   async handle({ request, auth, response }: HttpContext) {

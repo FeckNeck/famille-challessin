@@ -1,84 +1,140 @@
 <script setup lang="ts">
-import type { WishlistTheme, Wishlist } from '~/types'
 import { useForm } from '@inertiajs/vue3'
-import { useObjectUrl } from '@vueuse/core'
-import { computed, shallowRef } from 'vue'
+import { useImageUpload } from '~/composables/image_upload'
+import Button from '~/components/ui/button.vue'
+import DatePicker from '~/components/ui/date_picker.vue'
+import Field from '~/components/ui/field.vue'
+import FileUpload from '~/components/ui/file_upload.vue'
+import Input from '~/components/ui/input.vue'
+import Select from '~/components/ui/select.vue'
+import Switch from '~/components/ui/switch.vue'
+import type { WishlistTheme, Wishlist } from '~/types'
+import Clipboard from '~/components/ui/clipboard.vue'
 
 const props = defineProps<{
   themes: WishlistTheme[]
   wishlist: Wishlist
 }>()
 
+const themeOptions = props.themes.map((theme) => ({
+  label: theme.name,
+  value: theme.id.toString(),
+}))
+
 const form = useForm({
   id: props.wishlist.id,
   title: props.wishlist.title,
   description: props.wishlist.description,
-  eventDate: props.wishlist.eventDate,
-  themeId: props.wishlist.theme.id,
+  eventDate: [props.wishlist.eventDate.toString()],
+  themeId: [props.wishlist.theme.id.toString()],
   isPublic: props.wishlist.isPublic,
   categories: props.wishlist.categories,
   image: null,
 })
 
-const file = shallowRef()
-const url = useObjectUrl(file)
-
-const imageUrl = computed(() => {
-  return url.value ?? props.wishlist.imageUrl ?? null
-})
-
-function onFileChange(e: Event) {
-  file.value = (e.target as HTMLInputElement).files![0]
-}
+const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.wishlist.imageUrl)
 
 function submit() {
   if (form.processing) return
 
-  if (file.value) form.image = file.value
+  if (uploadedFile.value) form.image = uploadedFile.value
 
-  form.put(`/wishlists/${props.wishlist.id}`, {
-    preserveScroll: true,
-  })
+  form
+    .transform((data) => ({
+      ...data,
+      themeId: data.themeId[0],
+      eventDate: data.eventDate[0],
+    }))
+    .put(`/wishlists/${props.wishlist.id}`, {
+      preserveScroll: true,
+    })
 }
 </script>
 
 <template>
-  <form @submit.prevent="submit()">
-    <div>
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" v-model="form.title" />
+  <form @submit.prevent="submit()" class="hero">
+    <Field label="Image de fond" for="bg-img" :error="form.errors.image" class="hero__img">
+      <FileUpload
+        v-model:file="uploadedFile"
+        :url="uploadedFilePreview"
+        @file-accept="onfileChange"
+      />
+    </Field>
+    <div class="hero__form">
+      <Field label="Titre" for="title" :error="form.errors.title">
+        <Input v-model:input="form.title" id="title" type="text" class="w-full" />
+      </Field>
+      <Field label="Date de l'évènement" for="eventDate" :error="form.errors.eventDate">
+        <DatePicker label="Date de l'évènement" v-model:model-value="form.eventDate" />
+      </Field>
+      <Field label="Theme" for="theme" :error="form.errors.themeId">
+        <Select
+          :items="themeOptions"
+          v-model="form.themeId"
+          class="whishlist__content__filters__users"
+        />
+      </Field>
     </div>
-    <div>
-      <label for="description">Description</label>
-      <textarea v-model="form.description" id="description" name="description"></textarea>
+    <div class="d-flex g-4">
+      <Field label="Description" :error="form.errors.description" class="grow">
+        <Input v-model:input="form.description" type="text" class="w-full" />
+      </Field>
+      <Switch v-model:checked="form.isPublic" label="Publier" />
     </div>
-    <div>
-      <label for="event_date">Event Date</label>
-      <input type="date" id="event_date" name="event_date" v-model="form.eventDate" />
-    </div>
-    <div>
-      <label for="theme">Theme</label>
-      <select id="theme" name="theme" v-model="form.themeId">
-        <option v-for="theme in themes" :value="theme.id">
-          {{ theme.name }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <label for="is_public">Public</label>
-      <input type="checkbox" id="is_public" name="is_public" v-model="form.isPublic" />
-    </div>
-    <div>
-      <label for="image">Image</label>
-      <input type="file" id="image" name="image" @input="onFileChange($event)" />
-      <button @click="file.value = null" type="button">Remove</button>
-    </div>
-    <div>
-      <button disabled v-if="form.processing">Processing...</button>
-      <button type="submit" v-else>Envoyer</button>
-    </div>
+    <Clipboard
+      v-if="wishlist.url"
+      :value="wishlist.url"
+      label="Lien partageable"
+      class="w-full pb-5"
+    />
+    <Button
+      :disabled="form.processing"
+      :loading="form.processing"
+      color="yellow"
+      size="small"
+      class="w-full"
+      type="submit"
+    >
+      Enregistrer
+    </Button>
   </form>
-  <!-- <img v-if="imageUrl" :src="imageUrl" alt="Image preview" /> -->
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.hero {
+  background-color: var(--white);
+  border-radius: var(--rounded-lg);
+  border: 2px solid black;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 5rem);
+  padding: 1rem 1rem 1rem;
+
+  &__img {
+    flex-grow: 1;
+    padding-bottom: 1rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+
+    div:first-child {
+      flex: 65%;
+    }
+
+    div:nth-child(2) {
+      z-index: 10;
+      flex: 15%;
+      min-width: 13rem;
+    }
+
+    div:last-child {
+      flex: 15%;
+      min-width: 13rem;
+    }
+  }
+}
+</style>

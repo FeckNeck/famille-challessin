@@ -1,45 +1,56 @@
 <script lang="ts" setup>
-import { Link, usePage, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
+import { Link, usePage, router } from '@inertiajs/vue3'
+import { SharedData } from '@adonisjs/inertia/types'
+import { User } from '~/types'
+import { UserRound } from 'lucide-vue-next'
+import Button from '~/components/ui/button.vue'
 
-const page = usePage()
-const user: any = computed(() => page.props.user)
+const page = usePage<SharedData>()
+const user = computed(() => page.props.user as User)
+
+function logout() {
+  router.delete('/logout', {
+    preserveScroll: true,
+    onSuccess: () => {
+      router.visit('/', { preserveScroll: true })
+    },
+  })
+}
 </script>
 
 <template>
   <header>
-    <nav class="container">
-      <ul class="d-flex items-center justify-between">
-        <li>
-          <Link href="/">Home</Link>
-        </li>
+    <div class="w-full d-flex items-center justify-between py-4 container">
+      <Link href="/" :preserve-scroll="true" :preserve-state="true" aria-label="Homepage">
+        <img src="../assets/icons/logo_saint-vulbas.svg" alt="Logo du village de Saint Vulbas" />
+      </Link>
+
+      <div class="d-flex items-center g-2">
         <template v-if="user">
-          <li>
-            <Link href="/account">{{ user.email }}</Link>
-          </li>
-          <li>
-            <form @submit.prevent="router.delete('/logout')">
-              <button type="submit">Logout</button>
-            </form>
-          </li>
+          <Link href="/account">{{ user.username }}</Link>
+          <span> | </span>
+          <form @submit.prevent="logout()">
+            <Button type="submit" color="yellow" size="small">Se déconnecter</Button>
+          </form>
         </template>
         <template v-else>
-          <li>
-            <Link href="/auth/login">Login</Link>
-          </li>
-          <li>
-            <Link href="/auth/register">Register</Link>
-          </li>
+          <Button href="/auth/login" size="small" color="yellow">
+            <div class="d-flex items-center g-2">
+              <UserRound :size="16" :stroke-width="3" />
+              <span>Connexion</span>
+            </div>
+          </Button>
         </template>
-        <li>
-          <Link href="/wishlists">Wishlist</Link>
-        </li>
-        <li>
-          <Link href="/wishlists/create">Create Wishlist</Link>
-        </li>
-      </ul>
-    </nav>
+      </div>
+    </div>
   </header>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+header {
+  & img {
+    width: 4rem;
+  }
+}
+</style>

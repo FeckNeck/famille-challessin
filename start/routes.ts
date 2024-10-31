@@ -1,5 +1,5 @@
 import './routes/auth.js'
-import './routes/wishlists.js'
+import './routes/wishlist/index.js'
 import router from '@adonisjs/core/services/router'
 
 const HomeController = () => import('../app/pages/controllers/home_controller.js')

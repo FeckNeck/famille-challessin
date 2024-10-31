@@ -12,13 +12,14 @@ export default class extends BaseSchema {
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
       table.string('name').notNullable().unique()
+      table.string('icon')
+      table.string('color')
     })
 
     this.schema.createTable(this.wishlistsTableName, (table) => {
       table.uuid('id').primary().defaultTo(this.db.rawQuery('gen_random_uuid()').knexQuery)
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
-      table.date('event_date')
       table.uuid('user_id').unsigned().references('id').inTable('users').notNullable()
       table
         .smallint('theme_id')
@@ -28,6 +29,7 @@ export default class extends BaseSchema {
         .defaultTo(WishlistThemes.Other)
       table.text('title')
       table.text('description')
+      table.date('event_date').defaultTo(this.db.rawQuery('now()').knexQuery)
       table.boolean('is_public').notNullable().defaultTo(false)
       table.text('image')
     })
@@ -36,7 +38,13 @@ export default class extends BaseSchema {
       table.uuid('id').primary().defaultTo(this.db.rawQuery('gen_random_uuid()').knexQuery)
       table.timestamp('created_at', { useTz: false }).notNullable()
       table.timestamp('updated_at', { useTz: false }).notNullable()
-      table.uuid('wishlist_id').unsigned().references('id').inTable('wishlists').notNullable()
+      table
+        .uuid('wishlist_id')
+        .unsigned()
+        .references('id')
+        .inTable('wishlists')
+        .onDelete('CASCADE')
+        .notNullable()
       table.text('name').notNullable()
     })
   }

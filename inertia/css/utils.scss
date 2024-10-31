@@ -1,5 +1,11 @@
 @import './functions';
 
+.container {
+  margin-inline: auto;
+  max-width: 1536px;
+  padding-inline: spacePx(4);
+}
+
 .visually-hidden {
   border: none;
   clip: rect(0 0 0 0);
@@ -19,10 +25,14 @@
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
 /**
  * Spacing.
  */
-@for $i from 0 through 12 {
+@for $i from 0 through 30 {
   .p-#{$i} {
     padding: spacePx($i);
   }
@@ -35,12 +45,20 @@
     padding-bottom: spacePx($i);
   }
 
-  .px-#{$i} {
-    padding-inline: spacePx($i);
-  }
-
   .py-#{$i} {
     padding-block: spacePx($i);
+  }
+
+  .pr-#{$i} {
+    padding-right: spacePx($i);
+  }
+
+  .pl-#{$i} {
+    padding-left: spacePx($i);
+  }
+
+  .px-#{$i} {
+    padding-inline: spacePx($i);
   }
 
   .my-#{$i} {
@@ -110,8 +128,16 @@
   flex-grow: 1;
 }
 
+.items-start {
+  align-items: start;
+}
+
 .items-center {
   align-items: center;
+}
+
+.items-end {
+  align-items: end;
 }
 
 .justify-center {

@@ -7,18 +7,19 @@ export default class LoginController {
     vine.object({
       email: vine.string().email(),
       password: vine.string(),
+      remember_me: vine.boolean(),
     })
   )
 
-  async render({ inertia }: HttpContext) {
-    return inertia.render('auth/login')
+  async render({ response }: HttpContext) {
+    return response.redirect().withQs({ modal: 'login' }).back()
   }
 
   async handle({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(LoginController.validator)
 
     const user = await User.verifyCredentials(email, password)
-    await auth.use('web').login(user)
+    await auth.use('web').login(user, !!request.input('remember_me'))
     return response.redirect().toPath('/')
   }
 }

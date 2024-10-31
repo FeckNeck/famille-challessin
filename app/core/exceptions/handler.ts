@@ -28,8 +28,9 @@ export default class HttpExceptionHandler extends ExceptionHandler {
   /**
    * The method is used for handling errors and returning
    * response to the client
+   * TODO: BETTER WAY THAN THIS, error: unknown
    */
-  async handle(error: unknown, ctx: HttpContext) {
+  async handle(error: any, ctx: HttpContext) {
     if (error.code === 'E_INVALID_CREDENTIALS') {
       ctx.session.flash({
         errors: {

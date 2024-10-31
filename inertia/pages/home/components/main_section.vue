@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { Gift } from 'lucide-vue-next'
+import Button from '~/components/ui/button.vue'
 import type { Wishlist } from '~/app/types'
 import WishListCard from './wishlist_card.vue'
-import { Link } from '@inertiajs/vue3'
 
 defineProps<{ wishlists: Wishlist[] }>()
 </script>
@@ -11,9 +12,14 @@ defineProps<{ wishlists: Wishlist[] }>()
     <WishListCard v-for="wishlist in wishlists" :key="wishlist.id" :wishlist="wishlist" />
   </section>
   <div v-else class="no-wishlists">
-    <p>Aucune liste de cadeaux trouvée !</p>
+    <h5>Aucune liste de cadeaux trouvée !</h5>
     <p>Si vous souhaitez en créer une, cliquez sur le bouton ci-dessous.</p>
-    <Link href="/wishlists/create" as="button" type="button">Créer une liste</Link>
+    <Button href="/wishlists/create" as="button" type="button" color="violet">
+      <div class="d-flex items-center g-2">
+        <span>Créer une liste</span>
+        <Gift />
+      </div>
+    </Button>
   </div>
 </template>
 
@@ -22,6 +28,7 @@ defineProps<{ wishlists: Wishlist[] }>()
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1rem;
+  width: 100%;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -39,6 +46,7 @@ defineProps<{ wishlists: Wishlist[] }>()
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   text-align: center;
   height: 24rem;
   width: 100%;

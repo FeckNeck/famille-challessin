@@ -17,10 +17,11 @@ const inertiaConfig = defineConfig({
 
   /**
    * Options for the server-side rendering
+   * TODO: Enable this when ark-ui works with server-side rendering
    */
   ssr: {
     enabled: false,
-    entrypoint: 'inertia/app/ssr.ts',
+    // entrypoint: 'inertia/app/ssr.ts',
   },
 })
 

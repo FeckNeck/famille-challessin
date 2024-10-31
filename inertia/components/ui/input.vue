@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { InputHTMLAttributes, useSlots, computed } from 'vue'
+import { useSlots, computed } from 'vue'
 
-withDefaults(
-  defineProps<{
-    type: InputHTMLAttributes['type']
-    placeholder?: string
-  }>(),
-  {
-    type: 'text',
-  }
-)
+defineProps<{
+  radius?: 'rsmall' | 'rmedium' | 'rfull'
+}>()
 
 const slots = useSlots()
 
@@ -25,11 +19,11 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
       <slot name="left-icon" />
     </div>
     <input
-      :type="type"
+      v-bind="$attrs"
       v-model="inputModel"
-      :placeholder="placeholder"
       class="input"
       :class="[
+        radius,
         {
           '--left-icon': hasLeftIcon,
           '--right-icon': hasRightIcon,
@@ -45,16 +39,29 @@ const hasRightIcon = computed(() => !!slots['right-icon'])
 <style scoped lang="scss">
 .input {
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-
-  &::placeholder {
-    color: #ccc;
-  }
+  background-color: var(--white);
+  border: 2px solid var(--gray-800);
+  outline: none;
+  width: 100%;
 
   &:focus {
-    outline: none;
-    border-color: #333;
+    box-shadow: var(--shadow-tiny);
+  }
+
+  &.rsmall {
+    border-radius: var(--rounded-sm);
+  }
+
+  &.rmedium {
+    border-radius: var(--rounded-md);
+  }
+
+  &.rfull {
+    border-radius: 9999px;
+  }
+
+  &::placeholder {
+    color: var(--gray-500);
   }
 
   &.--left-icon {

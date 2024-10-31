@@ -2,7 +2,6 @@ import { HttpContext } from '@adonisjs/core/http'
 
 export default class RemoveWishlistsCategoryController {
   async handle({ response, auth, params }: HttpContext) {
-    console.log('handle:')
     const wishlist = await auth.user
       ?.related('wishlists')
       .query()

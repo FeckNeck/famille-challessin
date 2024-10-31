@@ -1,30 +1,23 @@
-import { DateTime } from 'luxon'
-
-export interface AuthForm {
-  email: string
-  username?: string
-  password: string
-  password_confirmation?: string
-}
-
 export interface Gift {
   id: string
   title: string
-  description: string | null
+  description: string
   categoryId: string
-  price: number
-  link: string | null
+  price: string
+  url: string
   image: string
-  isReserved: boolean
-  giverId: string | null
+  imageUrl: string
+  giverId: string
   giverName: string
-  giverEmail: string | null
+  giverEmail: string
 }
 
 export interface WishlistTheme {
   id: number
   name: string
+  icon: string
   count: string
+  color: string
 }
 
 export interface WishlistCategory {
@@ -39,11 +32,13 @@ export interface Wishlist {
   userId: string
   title: string
   description: string
-  eventDate: DateTime
+  eventDate: Date
   isPublic: boolean
   imageUrl: string
+  url: string
   categories: WishlistCategory[]
   theme: WishlistTheme
+  user: User
 }
 
 export interface User {
@@ -53,10 +48,19 @@ export interface User {
   roleId: number
   wishlists: Wishlist[]
   count: string
+  icon: string
+  color: string
 }
 
-export interface UserWishlistFilter {
-  username?: string
-  title?: string
-  theme?: string
+/**
+ * Sort order. -1 is descending, 1 is ascending
+ */
+export type SortOrder = 'asc' | 'desc'
+export interface WishlistFilter {
+  username: string
+  theme: string
+  title: string
+  order: SortOrder
+  orderBy: 'name' | 'created' | 'updated' | 'event_date'
+  page: number
 }

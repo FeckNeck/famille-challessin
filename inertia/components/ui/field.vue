@@ -1,74 +1,61 @@
 <script setup lang="ts">
-import { Field } from '@ark-ui/vue'
-import { LucideIcon } from 'lucide-vue-next'
-
-interface Props {
+defineProps<{
   label?: string
-  error?: string
+  error?: any
   info?: string
-  placeholder?: string
-  type: string
-  icon?: LucideIcon
-  iconSize?: number
-}
-
-withDefaults(defineProps<Props>(), {
-  type: 'text',
-})
-
-const inputModel = defineModel<string>('input')
+}>()
 </script>
 
 <template>
-  <Field.Root :invalid="!!error">
-    <Field.Label v-if="label">{{ label }}</Field.Label>
-    <Field.Input asChild>
-      <slot />
-      <input v-model="inputModel" :type="type" :placeholder="placeholder" />
-    </Field.Input>
-    <Field.HelperText v-if="info">{{ info }}</Field.HelperText>
-    <Field.ErrorText v-if="error">{{ error }}</Field.ErrorText>
-  </Field.Root>
+  <div class="form_group">
+    <label v-if="label" class="form_label">{{ label }}</label>
+    <slot />
+    <span v-if="info" class="form_info">{{ info }}</span>
+    <span v-else-if="error" class="form_error">{{ error }}</span>
+  </div>
 </template>
 
 <style scoped>
-.input {
-  position: relative;
-
-  & > svg {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  & > input {
-    padding-inline-start: 2.5rem;
-  }
-}
-
-[data-scope='field'][data-part='root'] {
+.form_group {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  position: relative;
+  padding-bottom: 1.25rem;
 }
 
-[data-scope='field'][data-part='input'] {
-  height: 2.5rem;
-  padding-inline: 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  position: relative;
+.form_label {
+  color: var(--gray-800);
+}
 
-  & > svg {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
+.form_control {
+  border: 2px solid var(--gray-800);
+  border-radius: var(--rounded);
+  background: transparent;
+  padding: 0.5rem 1rem;
+
+  &[disabled] {
+    cursor: not-allowed;
   }
+
+  &::placeholder {
+    color: var(--gray-600);
+    font-weight: var(--text-bold);
+  }
+}
+
+.form_group .form_error {
+  color: var(--red-500);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 0;
+}
+
+.form_group .form_help {
+  color: var(--cyan-500);
+  font-size: var(--text-sm);
+  position: absolute;
+  bottom: 0;
 }
 </style>

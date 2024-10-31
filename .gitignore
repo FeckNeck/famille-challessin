@@ -6,11 +6,12 @@ tmp
 # Secrets
 .env
 .env.local
+.env.production
 .env.production.local
 .env.development.local
 
 # Frontend assets compiled code
-public/**/*
+#public/**/*
 
 # Build tools specific
 npm-debug.log
@@ -23,3 +24,6 @@ yarn-error.log
 
 # Platform specific
 .DS_Store
+
+# db user seed
+user_seeder.ts

@@ -16,6 +16,12 @@ export default class WishlistTheme extends BaseModel {
   @column()
   declare name: string
 
+  @column()
+  declare icon: string | null
+
+  @column()
+  declare color: string | null
+
   @hasMany(() => Wishlist, {
     foreignKey: 'themeId',
   })
