@@ -5,7 +5,12 @@ image goes here.
 famille challessin is the website reserved for my family, which mainly allows me to create wishlists. 
 Before that, my family used [mesenvies.fr](https://www.mesenvies.fr) and I wanted to create a platform to unify our lists and share them more easily.
 
-## Roadmap 
+## Roadmap
+### v1
+- [x] Add login, logout and password reset
+- [x] Home page with filters
+- [x] Wishlist creation
+
 ### v2
 Christmas being near, I rushed and there's a lot of stuff for v2 lol :
 - [ ] Improve code quality (mainly by creating services)
@@ -14,6 +19,7 @@ Christmas being near, I rushed and there's a lot of stuff for v2 lol :
 - [ ] Enable user registration
 - [ ] Make an account page
 - [ ] Make an admin zone
+- [ ] Add Toast for wishlist creation
 - [ ] Use Tuyau library for links
 - [ ] Use Textarea for description fields
 
