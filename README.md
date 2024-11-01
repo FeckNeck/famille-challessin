@@ -14,6 +14,7 @@ Christmas being near, I rushed and there's a lot of stuff for v2 lol :
 - [ ] Enable user registration
 - [ ] Make an account page
 - [ ] Make an admin zone
+- [ ] Add Toast for wishlist creation
 - [ ] Use Tuyau library for links
 - [ ] Use Textarea for description fields
 
