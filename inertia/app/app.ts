@@ -8,7 +8,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
-const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
+const appName = import.meta.env.VITE_APP_NAME || 'Famille Challessin' // import.meta.env.VITE_APP_NAME not working in GCP
 
 createInertiaApp({
   progress: { color: '#946fc8' },
