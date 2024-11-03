@@ -1,6 +1,6 @@
 FROM node:20 as base
 
-RUN apk --no-cache add curl
+#RUN apk --no-cache add curl
 RUN corepack enable
 
 # All deps stage
