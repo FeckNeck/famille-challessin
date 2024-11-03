@@ -1,4 +1,4 @@
-FROM node:20-alpine3.18 as base
+FROM node:20 as base
 
 RUN apk --no-cache add curl
 RUN corepack enable
