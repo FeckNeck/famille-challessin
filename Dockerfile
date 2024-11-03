@@ -14,6 +14,7 @@ FROM base as production-deps
 WORKDIR /app
 ADD package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
+RUN npx playwright install
 
 # Build stage
 FROM base as build
