@@ -52,7 +52,7 @@ export default class HomeController {
       .orderBy(orderBy || 'created_at', order || 'desc')
 
     if (title) {
-      query.where('title', 'LIKE', `%${title}%`)
+      query.whereILike('title', `%${title}%`)
     }
 
     if (theme) {
