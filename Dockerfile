@@ -1,7 +1,5 @@
 FROM node:20 as base
 
-RUN npx -y playwright install --with-deps chromium
-
 #RUN apk --no-cache add curl
 RUN corepack enable
 
@@ -16,6 +14,7 @@ FROM base as production-deps
 WORKDIR /app
 ADD package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
+RUN pnpm exec playwright install --with-deps
 #RUN npx playwright install
 #RUN npx playwright install-deps
 
