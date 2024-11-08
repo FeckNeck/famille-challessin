@@ -1,7 +1,6 @@
 import { cuid } from '@adonisjs/core/helpers'
 import { DateTime } from 'luxon'
 import { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
 import vine from '@vinejs/vine'
 import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
@@ -62,9 +61,10 @@ export default class EditWishlistsController {
 
       const fileName = `${cuid()}.${payload.image.extname}`
 
-      await payload.image.move(app.makePath('public/uploads'), {
-        name: fileName,
-      })
+      // await payload.image.move(app.makePath('public/uploads'), {
+      //   name: fileName,
+      // })
+      await payload.image.moveToDisk(fileName)
 
       wishlist?.merge({ image: fileName })
     }

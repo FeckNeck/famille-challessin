@@ -1,6 +1,5 @@
 import { cuid } from '@adonisjs/core/helpers'
 import { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
 import vine from '@vinejs/vine'
 
 export default class EditGiftsController {
@@ -55,9 +54,10 @@ export default class EditGiftsController {
 
       const fileName = `${cuid()}.${payload.image.extname}`
 
-      await payload.image.move(app.makePath('public/uploads'), {
-        name: fileName,
-      })
+      // await payload.image.move(app.makePath('public/uploads'), {
+      //   name: fileName,
+      // })
+      await payload.image.moveToDisk(fileName)
 
       gift?.merge({ image: fileName })
     }

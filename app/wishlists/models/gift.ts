@@ -1,7 +1,8 @@
+import { afterFetch, afterFind, BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import User from '#auth/models/user'
-import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
+import drive from '@adonisjs/drive/services/main'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from '#auth/models/user'
 import WishlistCategory from '#wishlists/models/wishlist_category'
 
 export default class Gift extends BaseModel {
@@ -42,12 +43,19 @@ export default class Gift extends BaseModel {
   declare giverEmail: string | null
 
   @computed()
-  get imageUrl() {
-    if (this.image?.startsWith('https://')) {
-      return this.image
-    }
+  declare imageUrl: string | null
 
-    return `/img/${this.image}`
+  @afterFetch()
+  static async fetchImageUrl(gifts: Gift[]) {
+    for (const gift of gifts) {
+      if (!gift.image) continue
+
+      if (gift.image.startsWith('https://')) {
+        gift.imageUrl = gift.image
+      } else {
+        gift.imageUrl = await drive.use('s3').getUrl(gift.image)
+      }
+    }
   }
 
   @belongsTo(() => WishlistCategory, {

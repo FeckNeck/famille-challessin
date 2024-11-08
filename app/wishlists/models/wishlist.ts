@@ -1,12 +1,21 @@
 import { DateTime } from 'luxon'
 import User from '#auth/models/user'
-import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import {
+  afterFetch,
+  afterFind,
+  BaseModel,
+  belongsTo,
+  column,
+  computed,
+  hasMany,
+} from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import WishlistCategory from '#wishlists/models/wishlist_category'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
 import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 import router from '@adonisjs/core/services/router'
 import env from '#start/env'
+import drive from '@adonisjs/drive/services/main'
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -40,19 +49,6 @@ export default class Wishlist extends BaseModel {
   declare image: string | null
 
   @computed()
-  get imageUrl() {
-    if (!this.image) {
-      return null
-    }
-
-    if (this.image?.startsWith('https://')) {
-      return this.image
-    }
-
-    return `/img/${this.image}`
-  }
-
-  @computed()
   get url() {
     if (!this.isPublic) return null
 
@@ -61,6 +57,33 @@ export default class Wishlist extends BaseModel {
       .prefixUrl(env.get('DOMAIN'))
       .params({ id: this.id })
       .makeSigned('wishlists.show')
+  }
+
+  @computed()
+  declare imageUrl: string | null
+
+  @afterFetch()
+  static async fetchUrlImages(wishlists: Wishlist[]) {
+    for (const wishlist of wishlists) {
+      if (!wishlist.image) continue
+
+      if (wishlist.image.startsWith('https://')) {
+        wishlist.imageUrl = wishlist.image
+      } else {
+        wishlist.imageUrl = await drive.use('s3').getUrl(wishlist.image)
+      }
+    }
+  }
+
+  @afterFind()
+  static async fetchUrlImage(wishlist: Wishlist) {
+    if (!wishlist.image) return
+
+    if (wishlist.image.startsWith('https://')) {
+      wishlist.imageUrl = wishlist.image
+    } else {
+      wishlist.imageUrl = await drive.use('s3').getUrl(wishlist.image)
+    }
   }
 
   @belongsTo(() => User)
