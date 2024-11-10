@@ -44,7 +44,7 @@ function submit() {
   <div class="gift">
     <img :src="gift.imageUrl" :alt="gift.title + 'image'" />
     <div class="gift__content" v-if="!isBooking">
-      <Button :href="gift.url" color="blank">{{ gift.title }}</Button>
+      <a :href="gift.url" class="gift__content-link" target="_blank">{{ gift.title }}</a>
       <p class="gift__content-description">{{ gift.description }}</p>
       <p>{{ gift.price }} €</p>
       <p v-if="gift.giverName">
@@ -101,6 +101,10 @@ function submit() {
     flex-direction: column;
     gap: 1rem;
     align-items: start;
+
+    &-link {
+      font-weight: bold;
+    }
 
     &-description {
       overflow: hidden;
