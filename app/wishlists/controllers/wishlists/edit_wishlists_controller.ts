@@ -28,16 +28,23 @@ export default class EditWishlistsController {
     })
   )
 
-  async render({ inertia, params }: HttpContext) {
+  async render({ inertia, params, auth, response }: HttpContext) {
     const themes = await WishlistTheme.all()
 
-    const wishlist = await Wishlist.query()
-      .where('id', params.id)
+    const wishlist = await auth.user
+      ?.related('wishlists')
+      .query()
       .preload('wishlistTheme')
       .preload('wishlistCategory', (query) => {
         query.preload('gifts')
       })
-      .firstOrFail()
+      .where('id', params.id)
+      .first()
+
+    // TODO: Session flash message
+    if (!wishlist) {
+      return response.redirect().back()
+    }
 
     return inertia.render('wishlist/edit/main', {
       wishlist,
