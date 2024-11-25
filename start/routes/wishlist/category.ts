@@ -2,11 +2,11 @@ import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
 const CreateWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/create_wishlist_categories')
+  import('#wishlists/controllers/categories/create_wishlist_categories_controller')
 const EditWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/edit_wishlist_categories')
+  import('#wishlists/controllers/categories/edit_wishlist_categories_controller')
 const RemoveWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/remove_wishlist_categories')
+  import('#wishlists/controllers/categories/remove_wishlist_categories_controller')
 
 router
   .delete('wishlists/:id/categories/:categoryId', [RemoveWishlistsCategoryController, 'handle'])

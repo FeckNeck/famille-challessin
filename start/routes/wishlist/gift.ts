@@ -3,7 +3,7 @@ import router from '@adonisjs/core/services/router'
 
 const BookGiftsController = () => import('#wishlists/controllers/gifts/book_gifts_controller')
 const EditGiftsController = () => import('#wishlists/controllers/gifts/edit_gifts_controller')
-const RemoveGiftsController = () => import('#wishlists/controllers/gifts/remove_gifts')
+const RemoveGiftsController = () => import('#wishlists/controllers/gifts/remove_gifts_controller')
 const ScrapGiftsController = () => import('#wishlists/controllers/gifts/scrap_gifts_controller')
 
 router
