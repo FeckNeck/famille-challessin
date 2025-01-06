@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Select, SelectRootProps, SelectRootEmits, useForwardPropsEmits } from '@ark-ui/vue'
+import { Select, useForwardPropsEmits } from '@ark-ui/vue'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import type { SelectRootProps, SelectRootEmits } from '@ark-ui/vue'
 
 interface SelectItem {
   label: string

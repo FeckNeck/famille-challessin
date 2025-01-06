@@ -25,7 +25,7 @@ function submit() {
 </script>
 
 <template>
-  <form @submit.prevent="submit()" class="d-flex items-center g-4 pt-4">
+  <form class="d-flex items-center g-4 pt-4" @submit.prevent="submit()">
     <Field label="Ajouter une catégorie" :error="form.errors.name" class="grow">
       <Input v-model:input="form.name" placeholder="Nom de la catégorie" />
     </Field>

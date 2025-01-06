@@ -1,7 +1,7 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
-import { UserFactory } from '#database/factories/user_factory'
-import { UserRole } from '#auth/enums/user_role'
 import db from '@adonisjs/lucid/services/db'
+import { UserRole } from '#auth/enums/user_role'
+import { UserFactory } from '#database/factories/user_factory'
 
 export default class extends BaseSeeder {
   static environment = ['development', 'testing']

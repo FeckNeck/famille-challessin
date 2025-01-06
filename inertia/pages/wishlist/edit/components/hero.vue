@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/image_upload'
 import Button from '~/components/ui/button.vue'
+import Clipboard from '~/components/ui/clipboard.vue'
 import DatePicker from '~/components/ui/date_picker.vue'
 import Field from '~/components/ui/field.vue'
 import FileUpload from '~/components/ui/file_upload.vue'
 import Input from '~/components/ui/input.vue'
 import Select from '~/components/ui/select.vue'
 import Switch from '~/components/ui/switch.vue'
+import { useImageUpload } from '~/composables/image_upload'
 import type { WishlistTheme, Wishlist } from '~/types'
-import Clipboard from '~/components/ui/clipboard.vue'
 
 const props = defineProps<{
   themes: WishlistTheme[]
@@ -52,7 +52,7 @@ function submit() {
 </script>
 
 <template>
-  <form @submit.prevent="submit()" class="hero">
+  <form class="hero" @submit.prevent="submit()">
     <Field label="Image de fond" for="bg-img" :error="form.errors.image" class="hero__img">
       <FileUpload
         v-model:file="uploadedFile"
@@ -62,15 +62,15 @@ function submit() {
     </Field>
     <div class="hero__form">
       <Field label="Titre" for="title" :error="form.errors.title">
-        <Input v-model:input="form.title" id="title" type="text" class="w-full" />
+        <Input id="title" v-model:input="form.title" type="text" class="w-full" />
       </Field>
       <Field label="Date de l'évènement" for="eventDate" :error="form.errors.eventDate">
-        <DatePicker label="Date de l'évènement" v-model:model-value="form.eventDate" />
+        <DatePicker v-model:model-value="form.eventDate" label="Date de l'évènement" />
       </Field>
       <Field label="Theme" for="theme" :error="form.errors.themeId">
         <Select
-          :items="themeOptions"
           v-model="form.themeId"
+          :items="themeOptions"
           class="whishlist__content__filters__users"
         />
       </Field>

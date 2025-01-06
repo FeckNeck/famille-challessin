@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Link, router, useForm, usePage, Head } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
@@ -44,7 +44,7 @@ function submit() {
       </div>
     </template>
     <template #description>
-      <form @submit.prevent="submit()" class="login">
+      <form class="login" @submit.prevent="submit()">
         <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
           Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
@@ -61,7 +61,7 @@ function submit() {
             />
           </Field>
           <div class="d-flex items-center justify-between">
-            <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
+            <Checkbox v-model:checked="form.remember_me" label="Se souvenir de moi">
               Remember me
             </Checkbox>
             <Link href="/auth/forgot-password" class="login-forgot">Mot de passe oublié ?</Link>

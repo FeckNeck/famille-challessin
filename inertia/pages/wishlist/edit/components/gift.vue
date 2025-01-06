@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Trash2 } from 'lucide-vue-next'
 import { useForm, router } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/image_upload'
+import { Trash2 } from 'lucide-vue-next'
+import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import FileUploadC from '~/components/ui/file_upload.vue'
 import Input from '~/components/ui/input.vue'
+import { useImageUpload } from '~/composables/image_upload'
 import type { Gift } from '~/types'
 
 const props = defineProps<{

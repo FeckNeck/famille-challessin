@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { Link, usePage, router } from '@inertiajs/vue3'
-import { SharedData } from '@adonisjs/inertia/types'
-import { User } from '~/types'
 import { UserRound } from 'lucide-vue-next'
+import { computed } from 'vue'
 import Button from '~/components/ui/button.vue'
+import type { SharedData } from '@adonisjs/inertia/types'
+import type { User } from '~/types'
 
 const page = usePage<SharedData>()
 const user = computed(() => page.props.user as User)

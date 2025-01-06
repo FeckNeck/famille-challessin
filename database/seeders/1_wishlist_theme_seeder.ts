@@ -1,6 +1,6 @@
+import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
-import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class extends BaseSeeder {
   async run() {

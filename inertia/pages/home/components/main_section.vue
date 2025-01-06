@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Gift } from 'lucide-vue-next'
 import Button from '~/components/ui/button.vue'
-import type { Wishlist } from '~/app/types'
 import WishListCard from './wishlist_card.vue'
+import type { Wishlist } from '~/app/types'
 
 defineProps<{ wishlists: Wishlist[] }>()
 </script>
 
 <template>
-  <section v-if="wishlists.length > 0" class="cards__list" v-auto-animate>
+  <section v-if="wishlists.length > 0" v-auto-animate class="cards__list">
     <WishListCard v-for="wishlist in wishlists" :key="wishlist.id" :wishlist="wishlist" />
   </section>
   <div v-else class="no-wishlists">

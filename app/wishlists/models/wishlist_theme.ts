@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import Wishlist from '#wishlists/models/wishlist'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
+import type { DateTime } from 'luxon'
 
 export default class WishlistTheme extends BaseModel {
   @column({ isPrimary: true })

@@ -1,5 +1,5 @@
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class extends BaseSchema {
   protected wishlistsTableName = 'wishlists'

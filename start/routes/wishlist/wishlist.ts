@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
-import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
+import { middleware } from '#start/kernel'
 
 const CreateWishlistsController = () =>
   import('#wishlists/controllers/wishlists/create_wishlists_controller')

@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
 import Wishlist from '#wishlists/models/wishlist'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class BookGiftsController {
   static bookGiftValidator = vine.compile(
@@ -9,6 +9,7 @@ export default class BookGiftsController {
       giverEmail: vine.string().trim().toLowerCase().email().optional(),
     })
   )
+
   async handle({ params, request, response, auth }: HttpContext) {
     const payload = await request.validateUsing(BookGiftsController.bookGiftValidator)
 

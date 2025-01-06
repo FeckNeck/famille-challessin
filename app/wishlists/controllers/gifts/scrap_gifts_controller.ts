@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
-import { HttpContext } from '@adonisjs/core/http'
 import { chromium } from 'playwright-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ScrapGiftsController {
   static scrapGiftsValidator = vine.compile(
@@ -133,7 +133,7 @@ export default class ScrapGiftsController {
         console.log('priceText:', priceText)
         if (priceText) {
           priceText = priceText
-            .replace(/[^0-9,]/g, '') // Remove all characters except numbers and commas
+            .replace(/[^\d,]/g, '') // Remove all characters except numbers and commas
             .replace(',', '.') // Replace commas with dots
             .trim()
           console.log('priceText:', priceText)
@@ -163,7 +163,7 @@ export default class ScrapGiftsController {
       title: title ?? null,
       image: imageUrl ?? null,
       price: priceText ?? null,
-      url: url,
+      url,
     })
 
     return response.redirect().back()

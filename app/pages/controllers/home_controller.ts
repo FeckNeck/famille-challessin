@@ -1,7 +1,7 @@
-import type { HttpContext } from '@adonisjs/core/http'
 import User from '#auth/models/user'
 import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class HomeController {
   async render({ request, inertia, auth }: HttpContext) {

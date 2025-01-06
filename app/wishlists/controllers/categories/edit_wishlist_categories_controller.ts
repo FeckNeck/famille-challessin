@@ -1,5 +1,5 @@
-import { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class EditWishlistsCategoryController {
   static updateWishlistCategoryValidator = vine.compile(

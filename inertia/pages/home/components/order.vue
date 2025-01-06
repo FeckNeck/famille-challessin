@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ArrowDownNarrowWide, ArrowDownWideNarrow } from 'lucide-vue-next'
+
 const orderModel = defineModel<'asc' | 'desc'>('order')
 </script>
 

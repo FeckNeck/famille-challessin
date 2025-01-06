@@ -1,6 +1,6 @@
-import { FileUpload } from '@ark-ui/vue'
 import { useObjectUrl } from '@vueuse/core'
 import { computed, shallowRef } from 'vue'
+import type { FileUpload } from '@ark-ui/vue'
 
 export const useImageUpload = (image: string | null) => {
   const uploadedFile = shallowRef()

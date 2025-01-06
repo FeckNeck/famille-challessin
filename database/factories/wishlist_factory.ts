@@ -1,8 +1,8 @@
 import factory from '@adonisjs/lucid/factories'
-import Wishlist from '#wishlists/models/wishlist'
 import { DateTime } from 'luxon'
 import { WishlistCategoryFactory } from '#database/factories/wishlist_category_factory'
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import Wishlist from '#wishlists/models/wishlist'
+import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export const WishlistFactory = factory
   .define(Wishlist, async ({ faker }) => {

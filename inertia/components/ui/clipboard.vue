@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import {
-  Clipboard,
-  ClipboardRootEmits,
-  ClipboardRootProps,
-  useForwardPropsEmits,
-} from '@ark-ui/vue'
+import { Clipboard, useForwardPropsEmits } from '@ark-ui/vue'
 import { CheckIcon, ClipboardCopyIcon } from 'lucide-vue-next'
 import Input from './input.vue'
+import type { ClipboardRootEmits, ClipboardRootProps } from '@ark-ui/vue'
 
 export interface ClipboardProps extends ClipboardRootProps {
   label: string

@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#auth/models/user'
 import vine from '@vinejs/vine'
+import User from '#auth/models/user'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class LoginController {
   static validator = vine.compile(

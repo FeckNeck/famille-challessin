@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
+import Layout from '~/layouts/default.vue'
 import Category from './components/category.vue'
 import CreateCategory from './components/create_category.vue'
 import Hero from './components/hero.vue'
-import Layout from '~/layouts/default.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
 
 const props = defineProps<{
@@ -20,11 +20,11 @@ const props = defineProps<{
         <!-- Edit wishlist -->
         <Hero :themes="props.themes" :wishlist="props.wishlist" />
 
-        <!-- Create category-->
-        <CreateCategory :wishlistId="props.wishlist.id" />
+        <!-- Create category -->
+        <CreateCategory :wishlist-id="props.wishlist.id" />
 
         <!-- Categories -->
-        <div class="d-flex column g-4" v-auto-animate>
+        <div v-auto-animate class="d-flex column g-4">
           <Category
             v-for="category in props.wishlist.categories"
             :key="category.id"

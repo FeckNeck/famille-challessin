@@ -26,7 +26,7 @@ function submit() {
 </script>
 
 <template>
-  <form @submit.prevent="submit()" class="d-flex items-center g-4 p-4">
+  <form class="d-flex items-center g-4 p-4" @submit.prevent="submit()">
     <Field label="Ajouter un cadeau" :error="form.errors.url" class="grow">
       <Input
         v-model:input="form.url"
