@@ -1,5 +1,5 @@
 import Wishlist from '#wishlists/models/wishlist'
-import { HttpContext } from '@adonisjs/core/http'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ShowWishlistsController {
   async render({ params, inertia }: HttpContext) {

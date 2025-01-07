@@ -1,6 +1,6 @@
 import factory from '@adonisjs/lucid/factories'
-import User from '#auth/models/user'
 import { UserRole } from '#auth/enums/user_role'
+import User from '#auth/models/user'
 import { WishlistFactory } from '#database/factories/wishlist_factory'
 
 export const UserFactory = factory

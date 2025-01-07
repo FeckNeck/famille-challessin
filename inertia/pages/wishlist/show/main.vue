@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import Collapsible from '~/components/ui/collapsible.vue'
+import Layout from '~/layouts/default.vue'
 import Gift from './components/gift.vue'
 import Hero from './components/hero.vue'
-import Layout from '~/layouts/default.vue'
 import type { Wishlist } from '~/app/types'
 
 const wishlist = defineProps<Wishlist>()
@@ -29,8 +29,8 @@ const wishlist = defineProps<Wishlist>()
                 v-for="gift in category.gifts"
                 :key="gift.id"
                 :gift="gift"
-                :wishlistId="wishlist.id"
-                :categoryId="category.id"
+                :wishlist-id="wishlist.id"
+                :category-id="category.id"
                 class="wishlist__category__gift"
               />
             </template>

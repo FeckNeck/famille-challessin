@@ -1,8 +1,9 @@
 {
   "name": "famille-challessin",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
   "license": "UNLICENSED",
   "scripts": {
     "start": "node bin/server.js",
@@ -10,6 +11,7 @@
     "dev": "node ace serve --hmr",
     "test": "node ace test",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit"
   },
@@ -21,27 +23,6 @@
     "#gifts/*": "./app/gifts/*.js",
     "#start/*": "./start/*.js",
     "#wishlists/*": "./app/wishlists/*.js"
-  },
-  "devDependencies": {
-    "@adonisjs/assembler": "^7.8.2",
-    "@adonisjs/eslint-config": "^1.3.0",
-    "@adonisjs/prettier-config": "^1.4.0",
-    "@adonisjs/tsconfig": "^1.4.0",
-    "@japa/assert": "^3.0.0",
-    "@japa/plugin-adonisjs": "^3.0.1",
-    "@japa/runner": "^3.1.4",
-    "@swc/core": "^1.7.26",
-    "@types/luxon": "^3.4.2",
-    "@types/node": "^20.16.10",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "eslint": "^9.12.0",
-    "hot-hook": "^0.2.6",
-    "pino-pretty": "^11.2.2",
-    "prettier": "^3.3.3",
-    "sass": "^1.79.4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.8"
   },
   "dependencies": {
     "@adonisjs/auth": "^9.2.3",
@@ -74,6 +55,28 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "reflect-metadata": "^0.2.2",
     "vue": "^3.5.11"
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^7.8.2",
+    "@adonisjs/eslint-config": "^1.3.0",
+    "@adonisjs/prettier-config": "^1.4.0",
+    "@adonisjs/tsconfig": "^1.4.0",
+    "@japa/assert": "^3.0.0",
+    "@japa/plugin-adonisjs": "^3.0.1",
+    "@japa/runner": "^3.1.4",
+    "@julr/tooling-configs": "^3.0.1",
+    "@swc/core": "^1.7.26",
+    "@types/luxon": "^3.4.2",
+    "@types/node": "^20.16.10",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "eslint": "^9.12.0",
+    "hot-hook": "^0.2.6",
+    "pino-pretty": "^11.2.2",
+    "prettier": "^3.3.3",
+    "sass": "^1.79.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
   },
   "hotHook": {
     "boundaries": [

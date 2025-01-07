@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useForm, usePage } from '@inertiajs/vue3'
 import { ArrowLeft } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
-import { useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
+import type { SharedProps } from '@adonisjs/inertia/types'
 import type { Gift, User } from '~/types'
-import { SharedProps } from '@adonisjs/inertia/types'
 
 const props = defineProps<{
   gift: Gift
@@ -42,8 +42,8 @@ function submit() {
 
 <template>
   <div class="gift">
-    <img :src="gift.imageUrl" :alt="gift.title + 'image'" />
-    <div class="gift__content" v-if="!isBooking">
+    <img :src="gift.imageUrl" :alt="`${gift.title}image`" />
+    <div v-if="!isBooking" class="gift__content">
       <a :href="gift.url" class="gift__content-link" target="_blank">{{ gift.title }}</a>
       <p class="gift__content-description">{{ gift.description }}</p>
       <p>{{ gift.price }} €</p>
@@ -51,16 +51,16 @@ function submit() {
         Réservé par
         <span class="gift__content-gifter">{{ gift.giverName }}</span>
       </p>
-      <Button v-else @click="isBooking = true" size="small" color="yellow">Reserver</Button>
+      <Button v-else size="small" color="yellow" @click="isBooking = true">Reserver</Button>
     </div>
     <div v-else class="gift__book">
-      <Button @click="isBooking = false" color="blank">
+      <Button color="blank" @click="isBooking = false">
         <div class="d-flex items-center g-2">
           <ArrowLeft :size="16" />
           <span>Annuler</span>
         </div>
       </Button>
-      <form @submit.prevent="submit()" class="d-flex column grow justify-between items-start">
+      <form class="d-flex column grow justify-between items-start" @submit.prevent="submit()">
         <div class="gift__book__form">
           <Field label="Nom" class="gift__book__form-field" :error="form.errors.giverName">
             <Input v-model:input="form.giverName" type="text" />

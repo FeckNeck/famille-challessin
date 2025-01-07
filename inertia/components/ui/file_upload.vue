@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import {
-  FileUpload,
-  FileUploadRootProps,
-  FileUploadRootEmits,
-  useForwardPropsEmits,
-} from '@ark-ui/vue'
-import Button from './button.vue'
+import { FileUpload, useForwardPropsEmits } from '@ark-ui/vue'
 import { Trash2 } from 'lucide-vue-next'
 import { computed } from 'vue'
+import Button from './button.vue'
+import type { FileUploadRootProps, FileUploadRootEmits } from '@ark-ui/vue'
 
 export interface FileUploadProps extends FileUploadRootProps {
   url?: string | null
@@ -32,16 +28,16 @@ const backgroundImg = computed(() => ({
     @file-accept="(details: FileUpload.FileAcceptDetails) => emits('fileAccept', details)"
   >
     <FileUpload.Dropzone :style="backgroundImg">
-      <FileUpload.Label asChild>
+      <FileUpload.Label as-child>
         <span>Déposez vos fichiers ici</span>
       </FileUpload.Label>
-      <FileUpload.Trigger asChild>
+      <FileUpload.Trigger as-child>
         <Button color="yellow" size="small">Choisir un fichier</Button>
       </FileUpload.Trigger>
     </FileUpload.Dropzone>
     <FileUpload.ItemGroup v-if="maxFiles > 1">
       <FileUpload.Context v-slot="{ acceptedFiles }">
-        <FileUpload.Item v-for="file in acceptedFiles" :file="file" :key="file.name">
+        <FileUpload.Item v-for="file in acceptedFiles" :key="file.name" :file="file">
           <FileUpload.ItemPreview type="image/*">
             <FileUpload.ItemPreviewImage />
           </FileUpload.ItemPreview>

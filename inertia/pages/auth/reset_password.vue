@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { router, useForm, usePage, Head } from '@inertiajs/vue3'
+import { useUrlSearchParams } from '@vueuse/core'
+import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import { useUrlSearchParams } from '@vueuse/core'
 
 const page = usePage()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=reset-password'))

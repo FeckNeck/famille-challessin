@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import {
-  DatePicker,
-  DatePickerRootProps,
-  DatePickerRootEmits,
-  useForwardPropsEmits,
-} from '@ark-ui/vue'
+import { DatePicker, useForwardPropsEmits } from '@ark-ui/vue'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import type { DatePickerRootProps, DatePickerRootEmits } from '@ark-ui/vue'
 
 const props = withDefaults(defineProps<DatePickerRootProps>(), {
   positioning: {
@@ -22,7 +18,7 @@ const forwarded = useForwardPropsEmits(props, emits)
 <template>
   <DatePicker.Root v-bind="forwarded" locale="fr-FR">
     <DatePicker.Control>
-      <DatePicker.Input asChild>
+      <DatePicker.Input as-child>
         <input />
       </DatePicker.Input>
       <DatePicker.Trigger>
@@ -54,7 +50,7 @@ const forwarded = useForwardPropsEmits(props, emits)
               </DatePicker.TableHead>
               <DatePicker.TableBody>
                 <DatePicker.TableRow v-for="(week, id) in api.weeks" :key="id">
-                  <DatePicker.TableCell v-for="(day, id) in week" :key="id" :value="day">
+                  <DatePicker.TableCell v-for="(day, d_id) in week" :key="d_id" :value="day">
                     <DatePicker.TableCellTrigger>{{ day.day }}</DatePicker.TableCellTrigger>
                   </DatePicker.TableCell>
                 </DatePicker.TableRow>
@@ -82,8 +78,8 @@ const forwarded = useForwardPropsEmits(props, emits)
                   :key="id"
                 >
                   <DatePicker.TableCell
-                    v-for="(month, id) in months"
-                    :key="id"
+                    v-for="(month, m_id) in months"
+                    :key="m_id"
                     :value="month.value"
                   >
                     <DatePicker.TableCellTrigger>{{ month.label }}</DatePicker.TableCellTrigger>
@@ -112,7 +108,11 @@ const forwarded = useForwardPropsEmits(props, emits)
                   v-for="(years, id) in api.getYearsGrid({ columns: 4 })"
                   :key="id"
                 >
-                  <DatePicker.TableCell v-for="(year, id) in years" :key="id" :value="year.value">
+                  <DatePicker.TableCell
+                    v-for="(year, y_id) in years"
+                    :key="y_id"
+                    :value="year.value"
+                  >
                     <DatePicker.TableCellTrigger>{{ year.label }}</DatePicker.TableCellTrigger>
                   </DatePicker.TableCell>
                 </DatePicker.TableRow>

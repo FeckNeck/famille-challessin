@@ -5,8 +5,8 @@ import {
   type DialogRootEmits,
   type DialogRootProps,
 } from '@ark-ui/vue'
-import Card from './card.vue'
 import { XIcon } from 'lucide-vue-next'
+import Card from './card.vue'
 
 export interface DialogProps extends DialogRootProps {
   position?: 'center' | 'top'
@@ -27,10 +27,10 @@ const forwarded = useForwardPropsEmits(props, emits)
       <Dialog.Positioner :class="position">
         <Dialog.Content>
           <Card class="p-8">
-            <Dialog.Title asChild>
+            <Dialog.Title as-child>
               <slot name="title" />
             </Dialog.Title>
-            <Dialog.Description asChild>
+            <Dialog.Description as-child>
               <slot name="description" />
             </Dialog.Description>
             <Dialog.CloseTrigger>
@@ -51,7 +51,7 @@ const forwarded = useForwardPropsEmits(props, emits)
   position: fixed;
   top: 0px;
   width: 100vw;
-  z-index: overlay;
+  z-index: 1300;
 }
 
 [data-scope='dialog'][data-part='backdrop'][data-state='open'] {

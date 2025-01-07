@@ -1,10 +1,9 @@
 import { cuid } from '@adonisjs/core/helpers'
-import { DateTime } from 'luxon'
-import { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
-import Wishlist from '#wishlists/models/wishlist'
+import { DateTime } from 'luxon'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import type { HttpContext } from '@adonisjs/core/http'
+import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class EditWishlistsController {
   static createWishlistValidator = vine.compile(

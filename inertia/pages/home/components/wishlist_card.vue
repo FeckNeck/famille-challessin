@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import Card from '~/components/ui/card.vue'
 import type { Wishlist, User } from '~/app/types'
 
+const props = defineProps<{ wishlist: Wishlist }>()
 const page = usePage()
 const user = computed(() => page.props.user as User | undefined)
-const props = defineProps<{ wishlist: Wishlist }>()
-
 const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/edit/' : ''))
 const backgroundColor = computed(() => {
   return {
@@ -22,7 +21,7 @@ const backgroundColor = computed(() => {
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
         <div class="card__header__image">
-          <img :src="wishlist.imageUrl" :alt="wishlist.title + 'image'" />
+          <img :src="wishlist.imageUrl" :alt="`${wishlist.title}image`" />
         </div>
       </div>
       <div class="card__content">

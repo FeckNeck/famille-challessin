@@ -1,8 +1,8 @@
+import vine from '@vinejs/vine'
+import { DateTime } from 'luxon'
 import ResetPasswordToken from '#auth/models/reset_password_tokens'
 import User from '#auth/models/user'
 import type { HttpContext } from '@adonisjs/core/http'
-import vine from '@vinejs/vine'
-import { DateTime } from 'luxon'
 
 export default class ResetPasswordController {
   static validator = vine.compile(
@@ -24,7 +24,7 @@ export default class ResetPasswordController {
       .where('token', token)
       .firstOrFail()
 
-    return response.redirect().withQs({ modal: 'reset-password', token: token }).back()
+    return response.redirect().withQs({ modal: 'reset-password', token }).back()
   }
 
   async handle({ request, response }: HttpContext) {

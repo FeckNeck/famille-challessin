@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3'
-import { ref, watch } from 'vue'
-import { Search } from 'lucide-vue-next'
 import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
+import { Search } from 'lucide-vue-next'
+import { ref, watch } from 'vue'
+import Input from '~/components/ui/input.vue'
+import Select from '~/components/ui/select.vue'
+import Layout from '~/layouts/default.vue'
 import Filters from './components/filters.vue'
 import Hero from './components/hero.vue'
-import Input from '~/components/ui/input.vue'
-import Layout from '~/layouts/default.vue'
 import MainSection from './components/main_section.vue'
 import Order from './components/order.vue'
 import Pagination from './components/pagination.vue'
 import type { WishlistTheme, HomeResponse, WishlistFilter, User, SortOrder } from '~/app/types'
-import Select from '~/components/ui/select.vue'
 
 const props = defineProps<HomeResponse>()
 const params = useUrlSearchParams<Partial<WishlistFilter>>('history')
@@ -86,14 +86,14 @@ function fetchNewPageData(page: number) {
   <Head title="Page d'accueil" />
   <Layout>
     <Hero />
-    <div class="relative" ref="scrollToTopRef">
+    <div ref="scrollToTopRef" class="relative">
       <div class="container">
         <div class="whishlist">
           <Filters
-            :themes="themes"
-            :users="users"
             v-model:username="username"
             v-model:theme="theme"
+            :themes="themes"
+            :users="users"
           />
           <div class="whishlist__content">
             <div class="whishlist__content__filters">
@@ -109,13 +109,13 @@ function fetchNewPageData(page: number) {
                 </template>
               </Input>
               <Select
-                :items="usersOptions"
                 v-model:model-value="username"
+                :items="usersOptions"
                 class="whishlist__content__filters__users"
               />
               <div class="whishlist__content__filters__order">
                 <Order v-model:order="order" />
-                <Select :items="orderByOptions" v-model:model-value="orderBy" />
+                <Select v-model:model-value="orderBy" :items="orderByOptions" />
               </div>
             </div>
             <MainSection :wishlists="props.wishlists" />

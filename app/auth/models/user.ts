@@ -1,13 +1,13 @@
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import { compose } from '@adonisjs/core/helpers'
-import { DateTime } from 'luxon'
-import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
+import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
-import type { IUserRole } from '#auth/enums/user_role'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import Wishlist from '#wishlists/models/wishlist'
 import ResetPasswordToken from './reset_password_tokens.js'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import type { IUserRole } from '#auth/enums/user_role'
+import type { DateTime } from 'luxon'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],

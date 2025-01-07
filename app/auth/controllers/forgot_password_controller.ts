@@ -1,10 +1,10 @@
 import { type HttpContext } from '@adonisjs/core/http'
-import vine from '@vinejs/vine'
-import string from '@poppinss/utils/string'
-import User from '#auth/models/user'
-import mail from '@adonisjs/mail/services/main'
-import env from '#start/env'
 import router from '@adonisjs/core/services/router'
+import mail from '@adonisjs/mail/services/main'
+import string from '@poppinss/utils/string'
+import vine from '@vinejs/vine'
+import User from '#auth/models/user'
+import env from '#start/env'
 
 export default class ForgotPasswordController {
   static validator = vine.compile(
@@ -33,7 +33,7 @@ export default class ForgotPasswordController {
     const resetLink = router
       .builder()
       .prefixUrl(env.get('DOMAIN'))
-      .params({ token: token })
+      .params({ token })
       .makeSigned('auth.reset_password.render', { expiresIn: '1h' })
 
     // send email

@@ -1,5 +1,5 @@
-import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
+import { middleware } from '#start/kernel'
 
 const BookGiftsController = () => import('#wishlists/controllers/gifts/book_gifts_controller')
 const EditGiftsController = () => import('#wishlists/controllers/gifts/edit_gifts_controller')

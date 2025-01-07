@@ -1,5 +1,5 @@
-import { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CreateWishlistsCategoryController {
   static createWishlistCategoryValidator = vine.compile(
@@ -20,7 +20,7 @@ export default class CreateWishlistsCategoryController {
       .firstOrFail()
 
     await wishlist?.related('wishlistCategory').create({
-      name: name,
+      name,
       wishlistId: wishlist!.id,
     })
     return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })

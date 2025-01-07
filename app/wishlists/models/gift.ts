@@ -1,9 +1,9 @@
-import { afterFetch, afterFind, BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
 import drive from '@adonisjs/drive/services/main'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { afterFetch, BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
 import User from '#auth/models/user'
 import WishlistCategory from '#wishlists/models/wishlist_category'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { DateTime } from 'luxon'
 
 export default class Gift extends BaseModel {
   @column({ isPrimary: true })
