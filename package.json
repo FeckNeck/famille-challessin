@@ -42,6 +42,7 @@
     "@formkit/auto-animate": "^0.8.2",
     "@iconify/vue": "^4.1.2",
     "@inertiajs/vue3": "^1.2.0",
+    "@mendable/firecrawl-js": "^1.11.0",
     "@poppinss/utils": "^6.8.3",
     "@vinejs/vine": "^2.1.0",
     "@vue/server-renderer": "^3.5.11",
@@ -54,7 +55,8 @@
     "playwright-extra": "^4.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "reflect-metadata": "^0.2.2",
-    "vue": "^3.5.11"
+    "vue": "^3.5.11",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
