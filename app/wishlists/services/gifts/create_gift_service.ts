@@ -1,10 +1,10 @@
 import FirecrawlApp from '@mendable/firecrawl-js'
-import User from '#auth/models/user'
-import env from '#start/env'
-import { GiftScrapingResult } from '#wishlists/types/gifts'
 import { z } from 'zod'
+import env from '#start/env'
+import type User from '#auth/models/user'
+import type { GiftScrapingResult } from '#wishlists/types/gifts'
 
-export class createGiftsService {
+export class CreateGiftsService {
   async scrap(url: string) {
     const app = new FirecrawlApp({
       apiKey: env.get('FC_API_KEY'),
@@ -20,7 +20,7 @@ export class createGiftsService {
 
     return await app.scrapeUrl(url, {
       formats: ['extract'],
-      extract: { schema: schema },
+      extract: { schema },
     })
   }
 

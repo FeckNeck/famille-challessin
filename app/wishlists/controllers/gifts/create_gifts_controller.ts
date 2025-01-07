@@ -1,7 +1,7 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import type { createGiftsService } from '#wishlists/services/gifts/create_gift_service'
-import vine from '@vinejs/vine'
 import { inject } from '@adonisjs/core'
+import vine from '@vinejs/vine'
+import { CreateGiftsService } from '#wishlists/services/gifts/create_gift_service'
+import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
 export default class CreateGiftsController {
@@ -17,7 +17,7 @@ export default class CreateGiftsController {
     })
   )
 
-  constructor(private createGiftsService: createGiftsService) {}
+  constructor(private createGiftsService: CreateGiftsService) {}
 
   async handle({ response, params, auth, request }: HttpContext) {
     const { url } = await request.validateUsing(CreateGiftsController.scrapGiftsValidator)
