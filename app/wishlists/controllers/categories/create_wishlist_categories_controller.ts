@@ -1,4 +1,6 @@
 import vine from '@vinejs/vine'
+import Wishlist from '#wishlists/models/wishlist'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CreateWishlistsCategoryController {
@@ -8,21 +10,16 @@ export default class CreateWishlistsCategoryController {
     })
   )
 
-  async handle({ response, auth, params, request }: HttpContext) {
+  async handle({ response, params, request, bouncer }: HttpContext) {
     const { name } = await request.validateUsing(
       CreateWishlistsCategoryController.createWishlistCategoryValidator
     )
 
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .where('id', params.id)
-      .firstOrFail()
+    const wishlist = await Wishlist.findByOrFail('id', params.id)
 
-    await wishlist?.related('wishlistCategory').create({
-      name,
-      wishlistId: wishlist!.id,
-    })
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })
+    await bouncer.with(WishlistPolicy).authorize('edit', wishlist)
+
+    await wishlist.related('wishlistCategory').create({ name })
+    return response.redirect().back()
   }
 }

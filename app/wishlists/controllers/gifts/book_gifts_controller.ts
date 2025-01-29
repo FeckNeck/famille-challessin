@@ -1,7 +1,10 @@
+import { inject } from '@adonisjs/core'
 import vine from '@vinejs/vine'
-import Wishlist from '#wishlists/models/wishlist'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
+import GiftRepository from '#wishlists/repositories/gift_repository'
 import type { HttpContext } from '@adonisjs/core/http'
 
+@inject()
 export default class BookGiftsController {
   static bookGiftValidator = vine.compile(
     vine.object({
@@ -10,32 +13,26 @@ export default class BookGiftsController {
     })
   )
 
-  async handle({ params, request, response, auth }: HttpContext) {
+  constructor(protected giftRepository: GiftRepository) {}
+
+  async handle({ request, response, auth, bouncer }: HttpContext) {
     const payload = await request.validateUsing(BookGiftsController.bookGiftValidator)
 
-    const wishlist = await Wishlist.query()
-      .preload('wishlistCategory')
-      .where('id', params.id)
-      .firstOrFail()
+    const { id: wishlistId, categoryId, giftId } = request.params()
 
-    const wishlistCategory = await wishlist
-      ?.related('wishlistCategory')
-      .query()
-      .where('id', params.categoryId)
-      .firstOrFail()
+    const gift = await this.giftRepository.findOneByCategoryIdAndWishlistId(
+      wishlistId,
+      categoryId,
+      giftId
+    )
 
-    const gift = await wishlistCategory
-      ?.related('gifts')
-      .query()
-      .where('id', params.giftId)
-      .firstOrFail()
+    await bouncer.with(WishlistPolicy).authorize('edit', gift.category.wishlist)
 
-    if (auth.user?.id) {
-      gift!.giverId = auth.user.id
+    if (auth.isAuthenticated && !gift.giverId) {
+      gift.giverId = auth.user!.id
     }
 
-    gift?.merge(payload)
-    await gift?.save()
-    return response.redirect().toPath(wishlist!.url!)
+    await gift.merge(payload).save()
+    return response.redirect().back()
   }
 }

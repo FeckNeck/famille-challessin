@@ -3,12 +3,11 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ShowWishlistsController {
   async render({ params, inertia }: HttpContext) {
-    const query = await Wishlist.query()
+    const wishlist = await Wishlist.query()
       .where('id', params.id)
       .preload('wishlistCategory', (builder) => builder.preload('gifts'))
       .preload('wishlistTheme')
       .firstOrFail()
-    const wishlist = query.toJSON()
-    return inertia.render('wishlist/show/main', wishlist)
+    return inertia.render('wishlist/show/main', wishlist.toJSON())
   }
 }

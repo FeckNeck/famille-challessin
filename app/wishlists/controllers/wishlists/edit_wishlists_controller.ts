@@ -1,7 +1,9 @@
 import { cuid } from '@adonisjs/core/helpers'
 import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
+import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
@@ -27,23 +29,15 @@ export default class EditWishlistsController {
     })
   )
 
-  async render({ inertia, params, auth, response }: HttpContext) {
+  async render({ inertia, params, bouncer }: HttpContext) {
     const themes = await WishlistTheme.all()
 
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .preload('wishlistTheme')
-      .preload('wishlistCategory', (query) => {
-        query.preload('gifts')
-      })
-      .where('id', params.id)
-      .first()
+    const wishlist = await Wishlist.findByOrFail('id', params.id)
+    await bouncer.with(WishlistPolicy).authorize('edit', wishlist)
 
-    // TODO: Session flash message
-    if (!wishlist) {
-      return response.redirect().back()
-    }
+    await wishlist.load((loader) => {
+      loader.load('wishlistTheme').load('wishlistCategory', (builder) => builder.preload('gifts'))
+    })
 
     return inertia.render('wishlist/edit/main', {
       wishlist,
@@ -51,14 +45,11 @@ export default class EditWishlistsController {
     })
   }
 
-  async handle({ request, response, params, auth }: HttpContext) {
+  async handle({ request, response, params, bouncer }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
 
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .where('id', params.id)
-      .firstOrFail()
+    const wishlist = await Wishlist.findByOrFail('id', params.id)
+    await bouncer.with(WishlistPolicy).authorize('edit', wishlist)
 
     if (payload.image) {
       if (!payload.image.isValid) {
@@ -72,10 +63,10 @@ export default class EditWishlistsController {
       // })
       await payload.image.moveToDisk(fileName)
 
-      wishlist?.merge({ image: fileName })
+      wishlist.merge({ image: fileName })
     }
 
-    wishlist?.merge({
+    wishlist.merge({
       title: payload.title,
       description: payload.description,
       isPublic: payload.isPublic,
@@ -83,7 +74,7 @@ export default class EditWishlistsController {
       eventDate: payload.eventDate,
     })
 
-    await wishlist?.save()
+    await wishlist.save()
     return response.redirect().back()
   }
 }

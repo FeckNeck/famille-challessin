@@ -40,6 +40,7 @@ router.use([
   () => import('@adonisjs/shield/shield_middleware'),
   () => import('@adonisjs/auth/initialize_auth_middleware'),
   () => import('#auth/middlewares/silent_auth_middleware'),
+  () => import('#core/middlewares/initialize_bouncer_middleware'),
 ])
 
 /**

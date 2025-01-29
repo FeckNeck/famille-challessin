@@ -1,6 +1,10 @@
 import { inject } from '@adonisjs/core'
+import FirecrawlApp from '@mendable/firecrawl-js'
 import vine from '@vinejs/vine'
-import { CreateGiftsService } from '#wishlists/services/gifts/create_gift_service'
+import { z } from 'zod'
+import env from '#start/env'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
+import WishlistCategoryRepository from '#wishlists/repositories/wishlist_category_repository'
 import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
@@ -17,18 +21,49 @@ export default class CreateGiftsController {
     })
   )
 
-  constructor(private createGiftsService: CreateGiftsService) {}
+  static schema = z.object({
+    title: z.string(),
+    description: z.string(),
+    imageUrl: z.string(),
+    price: z.string(),
+    url: z.string(),
+  })
 
-  async handle({ response, params, auth, request }: HttpContext) {
+  constructor(protected wishlistCategoryRepository: WishlistCategoryRepository) {}
+
+  async handle({ response, bouncer, request }: HttpContext) {
     const { url } = await request.validateUsing(CreateGiftsController.scrapGiftsValidator)
+    const { id: wishlistId, categoryId } = request.params()
 
-    const scrapeResult = await this.createGiftsService.scrap(url)
+    const wishlistCategory = await this.wishlistCategoryRepository.findOneByWishlistId(
+      wishlistId,
+      categoryId
+    )
+
+    await bouncer.with(WishlistPolicy).authorize('edit', wishlistCategory.wishlist)
+
+    const app = new FirecrawlApp({
+      apiKey: env.get('FC_API_KEY'),
+    })
+
+    const scrapeResult = await app.scrapeUrl(url, {
+      formats: ['extract'],
+      extract: { schema: CreateGiftsController.schema },
+    })
 
     if (!scrapeResult.success) {
       throw new Error(`Failed to scrape: ${scrapeResult.error}`)
     }
 
-    await this.createGiftsService.create(scrapeResult, auth.user, params.id, params.categoryId)
+    const { title, description, imageUrl, price } = scrapeResult.extract ?? {}
+
+    await wishlistCategory.related('gifts').create({
+      title: title ?? null,
+      description: description ?? null,
+      image: imageUrl ?? null,
+      price: price ?? null,
+      url,
+    })
 
     return response.redirect().back()
   }

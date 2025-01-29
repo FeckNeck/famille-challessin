@@ -1,21 +1,24 @@
+import { inject } from '@adonisjs/core'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
+import WishlistCategoryRepository from '#wishlists/repositories/wishlist_category_repository'
 import type { HttpContext } from '@adonisjs/core/http'
 
+@inject()
 export default class RemoveWishlistsCategoryController {
-  async handle({ response, auth, params }: HttpContext) {
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .where('id', params.id)
-      .firstOrFail()
+  constructor(protected wishlistCategoryRepository: WishlistCategoryRepository) {}
 
-    const wishlistCategory = await wishlist
-      ?.related('wishlistCategory')
-      .query()
-      .where('id', params.categoryId)
-      .firstOrFail()
+  async handle({ response, bouncer, params }: HttpContext) {
+    const { id: wishlistId, categoryId } = params
 
-    await wishlistCategory?.delete()
+    const category = await this.wishlistCategoryRepository.findOneByWishlistId(
+      wishlistId,
+      categoryId
+    )
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })
+    await bouncer.with(WishlistPolicy).authorize('edit', category.wishlist)
+
+    await category.delete()
+
+    return response.redirect().back()
   }
 }

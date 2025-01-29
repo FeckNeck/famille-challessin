@@ -1,27 +1,24 @@
+import { inject } from '@adonisjs/core'
+import WishlistPolicy from '#wishlists/policies/wishlist_policy'
+import GiftRepository from '#wishlists/repositories/gift_repository'
 import type { HttpContext } from '@adonisjs/core/http'
 
+@inject()
 export default class RemoveGiftsController {
-  async handle({ response, auth, params }: HttpContext) {
-    const wishlist = await auth.user
-      ?.related('wishlists')
-      .query()
-      .preload('wishlistCategory')
-      .where('id', params.id)
-      .firstOrFail()
+  constructor(protected giftRepository: GiftRepository) {}
 
-    const wishlistCategory = await wishlist
-      ?.related('wishlistCategory')
-      .query()
-      .where('id', params.categoryId)
-      .firstOrFail()
+  async handle({ response, params, bouncer }: HttpContext) {
+    const { id: wishlistId, categoryId, giftId } = params
 
-    const gift = await wishlistCategory
-      ?.related('gifts')
-      .query()
-      .where('id', params.giftId)
-      .firstOrFail()
+    const gift = await this.giftRepository.findOneByCategoryIdAndWishlistId(
+      wishlistId,
+      categoryId,
+      giftId
+    )
+    await bouncer.with(WishlistPolicy).authorize('edit', gift.category.wishlist)
 
-    await gift?.delete()
+    await gift.delete()
+
     return response.redirect().back()
   }
 }
