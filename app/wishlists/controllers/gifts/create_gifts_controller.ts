@@ -1,10 +1,9 @@
 import { inject } from '@adonisjs/core'
-import FirecrawlApp from '@mendable/firecrawl-js'
 import vine from '@vinejs/vine'
-import { z } from 'zod'
-import env from '#start/env'
 import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import WishlistCategoryRepository from '#wishlists/repositories/wishlist_category_repository'
+import { CreateGiftsService } from '#wishlists/services/gifts/create_gift_service'
+import { GiftScrapedInfo } from '#wishlists/types/gift_scraped_info'
 import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
@@ -21,15 +20,10 @@ export default class CreateGiftsController {
     })
   )
 
-  static schema = z.object({
-    title: z.string(),
-    description: z.string(),
-    imageUrl: z.string(),
-    price: z.string(),
-    url: z.string(),
-  })
-
-  constructor(protected wishlistCategoryRepository: WishlistCategoryRepository) {}
+  constructor(
+    private wishlistCategoryRepository: WishlistCategoryRepository,
+    private createGiftsService: CreateGiftsService
+  ) {}
 
   async handle({ response, bouncer, request }: HttpContext) {
     const { url } = await request.validateUsing(CreateGiftsController.scrapGiftsValidator)
@@ -42,28 +36,11 @@ export default class CreateGiftsController {
 
     await bouncer.with(WishlistPolicy).authorize('edit', wishlistCategory.wishlist)
 
-    const app = new FirecrawlApp({
-      apiKey: env.get('FC_API_KEY'),
-    })
+    const wishlistResult = await this.createGiftsService.scrap(url)
+    const wishlist = wishlistResult.json as GiftScrapedInfo
+    wishlist.url = url
 
-    const scrapeResult = await app.scrapeUrl(url, {
-      formats: ['extract'],
-      extract: { schema: CreateGiftsController.schema },
-    })
-
-    if (!scrapeResult.success) {
-      throw new Error(`Failed to scrape: ${scrapeResult.error}`)
-    }
-
-    const { title, description, imageUrl, price } = scrapeResult.extract ?? {}
-
-    await wishlistCategory.related('gifts').create({
-      title: title ?? null,
-      description: description ?? null,
-      image: imageUrl ?? null,
-      price: price ?? null,
-      url,
-    })
+    await this.createGiftsService.create(wishlistCategory, wishlist)
 
     return response.redirect().back()
   }

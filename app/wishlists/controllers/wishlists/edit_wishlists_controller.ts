@@ -8,7 +8,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class EditWishlistsController {
-  static createWishlistValidator = vine.compile(
+  static validator = vine.compile(
     vine.object({
       id: vine.string(),
       title: vine.string().optional().requiredWhen('isPublic', '=', true),
@@ -36,7 +36,11 @@ export default class EditWishlistsController {
     await bouncer.with(WishlistPolicy).authorize('edit', wishlist)
 
     await wishlist.load((loader) => {
-      loader.load('wishlistTheme').load('wishlistCategory', (builder) => builder.preload('gifts'))
+      loader
+        .load('wishlistTheme')
+        .load('wishlistCategory', (builder) =>
+          builder.preload('gifts', (giftBuilder) => giftBuilder.orderBy('created_at', 'desc'))
+        )
     })
 
     return inertia.render('wishlist/edit/main', {
@@ -46,7 +50,7 @@ export default class EditWishlistsController {
   }
 
   async handle({ request, response, params, bouncer }: HttpContext) {
-    const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator)
+    const payload = await request.validateUsing(EditWishlistsController.validator)
 
     const wishlist = await Wishlist.findByOrFail('id', params.id)
     await bouncer.with(WishlistPolicy).authorize('edit', wishlist)
@@ -58,9 +62,6 @@ export default class EditWishlistsController {
 
       const fileName = `${cuid()}.${payload.image.extname}`
 
-      // await payload.image.move(app.makePath('public/uploads'), {
-      //   name: fileName,
-      // })
       await payload.image.moveToDisk(fileName)
 
       wishlist.merge({ image: fileName })
