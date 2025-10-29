@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import drive from '@adonisjs/drive/services/main'
+import { slugify } from '@adonisjs/lucid-slugify'
 import {
   afterFetch,
   afterFind,
@@ -40,6 +41,14 @@ export default class Wishlist extends BaseModel {
   declare title: string | null
 
   @column()
+  @slugify({
+    strategy: 'shortId',
+    fields: ['title'],
+    allowUpdates: true,
+  })
+  declare slug: string
+
+  @column()
   declare description: string | null
 
   @column()
@@ -55,7 +64,7 @@ export default class Wishlist extends BaseModel {
     return router
       .builder()
       .prefixUrl(env.get('DOMAIN'))
-      .params({ id: this.id })
+      .params({ slug: this.slug })
       .makeSigned('wishlists.show')
   }
 

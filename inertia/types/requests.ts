@@ -31,6 +31,7 @@ export interface Wishlist {
   id: string
   userId: string
   title: string
+  slug: string
   description: string
   eventDate: Date
   isPublic: boolean

@@ -11,14 +11,17 @@ const ShowWishlistsController = () =>
   import('#wishlists/controllers/wishlists/show_wishlists_controller')
 
 router.get('wishlists', [IndexWishlistsController, 'render']).as('wishlists.index')
+
 router
   .get('wishlists/create', [CreateWishlistsController, 'handle'])
   .as('wishlists.create')
   .use(middleware.auth())
+
 router
-  .get('wishlists/:id', [ShowWishlistsController, 'render'])
+  .get('wishlists/:slug', [ShowWishlistsController, 'render'])
   .as('wishlists.show')
   .use(middleware.wishlist())
+
 router
   .get('wishlists/:id/edit', [EditWishlistsController, 'render'])
   .as('wishlists.edit')
