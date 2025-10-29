@@ -4,7 +4,7 @@ import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 
-const props = defineProps<{
+const { wishlistId } = defineProps<{
   wishlistId: string
 }>()
 
@@ -15,7 +15,7 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.post(`/wishlists/${props.wishlistId}/categories`, {
+  form.post(`/wishlists/${wishlistId}/categories`, {
     preserveScroll: true,
     onSuccess: () => {
       form.name = ''

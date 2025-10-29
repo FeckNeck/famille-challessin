@@ -2,11 +2,11 @@
 import { useDateFormat } from '@vueuse/core'
 import type { Wishlist } from '~/types'
 
-const props = defineProps<{
+const { wishlist } = defineProps<{
   wishlist: Wishlist
 }>()
 
-const eventDate = useDateFormat(props.wishlist.eventDate, 'D MMMM YYYY', {
+const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMMM YYYY', {
   locales: 'fr-FR',
 })
 </script>

@@ -9,12 +9,12 @@ import CreateGift from './create_gift.vue'
 import Gift from './gift.vue'
 import type { WishlistCategory } from '~/types'
 
-const props = defineProps<{
+const { category } = defineProps<{
   category: WishlistCategory
 }>()
 
 const form = useForm({
-  name: props.category.name,
+  name: category.name,
 })
 
 const isDeleting = ref<boolean>(false)
@@ -22,7 +22,7 @@ const isDeleting = ref<boolean>(false)
 function submit() {
   if (form.processing) return
 
-  form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+  form.put(`/wishlists/${category.wishlistId}/categories/${category.id}`, {
     preserveScroll: true,
   })
 }
@@ -32,7 +32,7 @@ function remove() {
 
   isDeleting.value = true
 
-  router.delete(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+  router.delete(`/wishlists/${category.wishlistId}/categories/${category.id}`, {
     preserveScroll: true,
     onFinish: () => {
       isDeleting.value = false
@@ -47,9 +47,14 @@ function remove() {
       <div class="d-flex items-center g-4">
         <form class="d-flex items-center g-4" @submit.prevent="submit()">
           <Input v-model:input="form.name" placeholder="Nom de la catégorie" />
-          <Button :disabled="form.processing" :loading="form.processing" color="violet" size="small"
-            >Modifier</Button
+          <Button
+            :disabled="form.processing"
+            :loading="form.processing"
+            color="violet"
+            size="small"
           >
+            Modifier
+          </Button>
         </form>
         <form class="d-flex items-center g-4" @submit.prevent="remove()">
           <Button :disabled="isDeleting" :loading="isDeleting" color="red" size="small">
@@ -60,7 +65,7 @@ function remove() {
     </template>
     <template #content>
       <div class="category__content">
-        <CreateGift :wishlist-id="props.category.wishlistId" :category-id="props.category.id" />
+        <CreateGift :wishlist-id="category.wishlistId" :category-id="category.id" />
         <div v-auto-animate>
           <Gift
             v-for="gift in category.gifts"

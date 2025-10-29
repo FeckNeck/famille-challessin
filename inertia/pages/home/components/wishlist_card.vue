@@ -1,22 +1,32 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
+import { useDateFormat } from '@vueuse/core'
 import { computed } from 'vue'
 import Card from '~/components/ui/card.vue'
-import type { Wishlist, User } from '~/app/types'
+import { useCurrentUser } from '~/composables/use_current_user'
+import type { Wishlist } from '~/app/types'
 
-const props = defineProps<{ wishlist: Wishlist }>()
-const page = usePage()
-const user = computed(() => page.props.user as User | undefined)
-const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/edit/' : ''))
+const { wishlist } = defineProps<{ wishlist: Wishlist }>()
+
+const user = useCurrentUser()
+
+const wishlistLink = computed(() =>
+  wishlist.user.id === user.value?.id ? `${wishlist.id}/edit` : wishlist.slug
+)
+
 const backgroundColor = computed(() => {
   return {
-    backgroundColor: props.wishlist.user.color,
+    backgroundColor: wishlist.user.color,
   }
+})
+
+const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMM YYYY', {
+  locales: 'fr-FR',
 })
 </script>
 
 <template>
-  <Link :href="`/wishlists/${wishlist.id}${editLink}`" class="card">
+  <Link :href="`/wishlists/${wishlistLink}`" class="card">
     <Card>
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
@@ -25,9 +35,9 @@ const backgroundColor = computed(() => {
         </div>
       </div>
       <div class="card__content">
-        <p>{{ wishlist.description }}</p>
+        <p class="card__content__description">{{ wishlist.description }}</p>
         <div class="d-flex items-center justify-between">
-          <p>{{ wishlist.eventDate }}</p>
+          <p class="card__content__event-date">{{ eventDate }}</p>
           <p>{{ wishlist.theme.name }}</p>
         </div>
       </div>
@@ -40,6 +50,11 @@ const backgroundColor = computed(() => {
   height: 16.5rem;
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    background-color: var(--yellow-100);
+    transition: background-color 200ms ease-in-out;
+  }
 
   h6 {
     padding: 1rem;
@@ -65,7 +80,7 @@ const backgroundColor = computed(() => {
     flex-grow: 1;
     gap: 1rem;
 
-    & > p:first-child {
+    &__description {
       font-size: var(--text-sm);
       overflow: hidden;
       display: -webkit-box;
@@ -75,6 +90,22 @@ const backgroundColor = computed(() => {
 
     & > div {
       font-size: var(--text-xs);
+      line-height: 1rem;
+    }
+
+    &__event-date {
+      position: relative;
+
+      &:before {
+        background-color: var(--yellow-500);
+        content: '';
+        height: 7px;
+        bottom: 0;
+        margin-left: -2.5%;
+        position: absolute;
+        width: 105%;
+        z-index: -1;
+      }
     }
   }
 }

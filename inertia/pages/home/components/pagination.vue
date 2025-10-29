@@ -1,32 +1,32 @@
 <script setup lang="ts">
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
-const props = defineProps<{ total: number; lastPage: number; currentPage: number }>()
+const { total, lastPage, currentPage } = defineProps<{
+  total: number
+  lastPage: number
+  currentPage: number
+}>()
 
 const emit = defineEmits<{
   (e: 'update', value: number): void
 }>()
 
 function handleNextClick() {
-  if (props.currentPage < props.lastPage) emit('update', props.currentPage + 1)
+  if (currentPage < lastPage) emit('update', currentPage + 1)
 }
 
 function handlePrevClick() {
-  if (props.currentPage > 1) emit('update', props.currentPage - 1)
+  if (currentPage > 1) emit('update', currentPage - 1)
 }
 </script>
 
 <template>
   <div v-if="total" class="pagination">
-    <button :disabled="props.currentPage === 1" title="Page précédente" @click="handlePrevClick">
+    <button :disabled="currentPage === 1" title="Page précédente" @click="handlePrevClick">
       <ChevronLeft />
     </button>
-    <span>{{ props.currentPage }} / {{ props.lastPage }}</span>
-    <button
-      :disabled="props.currentPage === props.lastPage"
-      title="Page suivante"
-      @click="handleNextClick"
-    >
+    <span>{{ currentPage }} / {{ lastPage }}</span>
+    <button :disabled="currentPage === lastPage" title="Page suivante" @click="handleNextClick">
       <ChevronRight />
     </button>
   </div>

@@ -115,7 +115,7 @@ function fetchNewPageData(page: number) {
               />
               <div class="whishlist__content__filters__order">
                 <Order v-model:order="order" />
-                <Select v-model:model-value="orderBy" :items="orderByOptions" />
+                <Select v-model="orderBy" :items="orderByOptions" />
               </div>
             </div>
             <MainSection :wishlists="props.wishlists" />

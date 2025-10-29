@@ -4,7 +4,7 @@ import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 
-const props = defineProps<{
+const { wishlistId, categoryId } = defineProps<{
   wishlistId: string
   categoryId: string
 }>()
@@ -16,7 +16,7 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.post(`/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/`, {
+  form.post(`/wishlists/${wishlistId}/categories/${categoryId}/gifts/`, {
     preserveScroll: true,
     onSuccess: () => {
       form.reset('url')
@@ -33,9 +33,9 @@ function submit() {
         placeholder="https://www.flashjouet.fr/accueil/3119-zuru-pets-alive-bonnie-le-lama-4894680009653.html"
       />
     </Field>
-    <Button :disabled="form.processing" :loading="form.processing" color="yellow" size="small"
-      >Ajouter</Button
-    >
+    <Button :disabled="form.processing" :loading="form.processing" color="yellow" size="small">
+      Ajouter
+    </Button>
   </form>
 </template>
 

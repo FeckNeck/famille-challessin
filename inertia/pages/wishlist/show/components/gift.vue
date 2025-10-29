@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import { ArrowLeft } from 'lucide-vue-next'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import type { SharedProps } from '@adonisjs/inertia/types'
-import type { Gift, User } from '~/types'
+import { useCurrentUser } from '~/composables/use_current_user'
+import type { Gift } from '~/types'
 
-const props = defineProps<{
+const { gift, wishlistId, categoryId } = defineProps<{
   gift: Gift
   wishlistId: string
   categoryId: string
 }>()
 
-const page = usePage<SharedProps>()
-const user = computed(() => page.props.user as User | undefined)
+const user = useCurrentUser()
 
 const isBooking = ref<boolean>(false)
 
@@ -27,26 +26,27 @@ const form = useForm({
 function submit() {
   if (form.processing) return
 
-  form.patch(
-    `/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/${props.gift.id}/book`,
-    {
-      preserveScroll: true,
-      onSuccess: () => {
-        isBooking.value = false
-        form.reset()
-      },
-    }
-  )
+  form.patch(`/wishlists/${wishlistId}/categories/${categoryId}/gifts/${gift.id}/book`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      isBooking.value = false
+      form.reset()
+    },
+  })
 }
 </script>
 
 <template>
   <div class="gift">
-    <img :src="gift.imageUrl" :alt="`${gift.title}image`" />
+    <a :href="gift.url" target="_blank">
+      <img :src="gift.imageUrl" :alt="`${gift.title} image`" class="gift-image" />
+    </a>
     <div v-if="!isBooking" class="gift__content">
-      <a :href="gift.url" class="gift__content-link" target="_blank">{{ gift.title }}</a>
-      <p class="gift__content-description">{{ gift.description }}</p>
-      <p>{{ gift.price }} €</p>
+      <a :href="gift.url" target="_blank" class="d-flex column g-4">
+        <h6 class="gift__content-title">{{ gift.title }}</h6>
+        <p class="gift__content-description">{{ gift.description }}</p>
+        <p>{{ gift.price }} €</p>
+      </a>
       <p v-if="gift.giverName">
         Réservé par
         <span class="gift__content-gifter">{{ gift.giverName }}</span>
@@ -90,10 +90,11 @@ function submit() {
   padding: 2rem 3rem;
   gap: 2rem;
 
-  & > img {
+  &-image {
     width: 12rem;
     height: 12rem;
     object-fit: cover;
+    max-width: none;
   }
 
   &__content {

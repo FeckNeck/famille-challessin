@@ -51,7 +51,7 @@ const forwarded = useForwardPropsEmits(props, emits)
   position: fixed;
   top: 0px;
   width: 100vw;
-  z-index: 1300;
+  z-index: 999;
 }
 
 [data-scope='dialog'][data-part='backdrop'][data-state='open'] {

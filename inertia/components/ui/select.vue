@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { Select, useForwardPropsEmits } from '@ark-ui/vue'
+import { Select, createListCollection } from '@ark-ui/vue/select'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
-import type { SelectRootProps, SelectRootEmits } from '@ark-ui/vue'
 
 interface SelectItem {
   label: string
   value: string
 }
 
-const props = withDefaults(defineProps<SelectRootProps<SelectItem>>(), {
-  positioning: { sameWidth: true },
+const { items, placeholder } = defineProps<{
+  items: SelectItem[]
+  placeholder?: string
+}>()
+
+const collection = createListCollection<SelectItem>({
+  items,
 })
 
-const emit = defineEmits<SelectRootEmits<string>>()
-
-const forwarded = useForwardPropsEmits(props, emit)
+const model = defineModel<string[]>()
 </script>
 
 <template>
-  <Select.Root v-bind="forwarded">
+  <Select.Root v-model="model" :collection="collection" :positioning="{ sameWidth: true }">
     <Select.Control>
       <Select.Trigger>
         <Select.ValueText :placeholder="placeholder" />

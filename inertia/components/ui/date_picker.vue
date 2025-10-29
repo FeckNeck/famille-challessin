@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import { DatePicker, useForwardPropsEmits } from '@ark-ui/vue'
+import { DatePicker, parseDate } from '@ark-ui/vue'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import type { DatePickerRootProps, DatePickerRootEmits } from '@ark-ui/vue'
+import { ref, watch, type Ref } from 'vue'
+import type { DateValue } from '@ark-ui/vue'
 
-const props = withDefaults(defineProps<DatePickerRootProps>(), {
-  positioning: {
-    sameWidth: true,
-  },
-  startOfWeek: 1,
+const { value } = defineProps<{
+  value: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:value', value: string): void
+}>()
+
+const modelValue = ref(parseDate([value])) as unknown as Ref<DateValue[]>
+
+watch(modelValue, (newValue) => {
+  emit('update:value', newValue.toString())
 })
-
-const emits = defineEmits<DatePickerRootEmits>()
-
-const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <DatePicker.Root v-bind="forwarded" locale="fr-FR">
+  <DatePicker.Root v-model="modelValue" :positioning="{ sameWidth: true }" locale="fr-FR">
     <DatePicker.Control>
       <DatePicker.Input as-child>
         <input />

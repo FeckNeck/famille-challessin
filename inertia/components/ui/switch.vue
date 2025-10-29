@@ -54,8 +54,8 @@ const forwarded = useForwardPropsEmits(props, emits)
   padding: 0.125rem;
   width: var(--switch-track-width);
   height: var(--switch-track-height);
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow,
-    transform;
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-duration: 150ms;
 
   --switch-bg: var(--gray-300);

@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import { Clipboard, useForwardPropsEmits } from '@ark-ui/vue'
+import { Clipboard } from '@ark-ui/vue/clipboard'
 import { CheckIcon, ClipboardCopyIcon } from 'lucide-vue-next'
 import Input from './input.vue'
-import type { ClipboardRootEmits, ClipboardRootProps } from '@ark-ui/vue'
 
-export interface ClipboardProps extends ClipboardRootProps {
+const { label } = defineProps<{
   label: string
-}
+}>()
 
-const props = defineProps<ClipboardProps>()
-
-const emits = defineEmits<ClipboardRootEmits>()
-const forwarded = useForwardPropsEmits(props, emits)
+const modelValue = defineModel<string>()
 </script>
 
 <template>
-  <Clipboard.Root v-bind="forwarded">
+  <Clipboard.Root v-model="modelValue">
     <Clipboard.Label>{{ label }}</Clipboard.Label>
     <Clipboard.Control>
       <Clipboard.Input as-child>
-        <Input />
+        <Input v-model:input="modelValue" />
       </Clipboard.Input>
       <Clipboard.Trigger type="button">
         <Clipboard.Indicator>

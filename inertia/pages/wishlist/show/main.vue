@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
+import { useDocumentVisibility } from '@vueuse/core'
+import { watch } from 'vue'
 import Collapsible from '~/components/ui/collapsible.vue'
 import Layout from '~/layouts/default.vue'
 import Gift from './components/gift.vue'
@@ -7,6 +9,14 @@ import Hero from './components/hero.vue'
 import type { Wishlist } from '~/app/types'
 
 const wishlist = defineProps<Wishlist>()
+
+const documentVisibility = useDocumentVisibility()
+
+watch(documentVisibility, (newVisibility) => {
+  if (newVisibility === 'visible') {
+    router.reload()
+  }
+})
 </script>
 
 <template>

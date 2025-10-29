@@ -6,7 +6,7 @@ import CreateCategory from './components/create_category.vue'
 import Hero from './components/hero.vue'
 import type { WishlistTheme, Wishlist } from '~/types'
 
-const props = defineProps<{
+const { themes, wishlist } = defineProps<{
   themes: WishlistTheme[]
   wishlist: Wishlist
 }>()
@@ -18,15 +18,15 @@ const props = defineProps<{
     <div class="container">
       <div class="wishlist">
         <!-- Edit wishlist -->
-        <Hero :themes="props.themes" :wishlist="props.wishlist" />
+        <Hero :themes="themes" :wishlist="wishlist" />
 
         <!-- Create category -->
-        <CreateCategory :wishlist-id="props.wishlist.id" />
+        <CreateCategory :wishlist-id="wishlist.id" />
 
-        <!-- Categories -->
+        <!-- Categories & gifts -->
         <div v-auto-animate class="d-flex column g-4">
           <Category
-            v-for="category in props.wishlist.categories"
+            v-for="category in wishlist.categories"
             :key="category.id"
             :category="category"
           />
