@@ -32,14 +32,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * TODO: BETTER WAY THAN THIS, error: unknown
    */
   async handle(error: any, ctx: HttpContext) {
-    if (error.code === 'E_INVALID_CREDENTIALS') {
-      ctx.session.flash({
-        errors: {
-          code: 'E_INVALID_CREDENTIALS',
-        },
-      })
-      return ctx.response.redirect().back()
-    }
     return super.handle(error, ctx)
   }
 
