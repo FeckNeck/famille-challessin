@@ -23,10 +23,15 @@ export default class ForgotPasswordController {
     // create a new token
     const token = string.random(64)
     const user = await User.findBy('email', email)
+
     if (!user) {
-      session.flash('errors', 'Utilisateur introuvable')
+      session.flashErrors({
+        E_INVALID_CREDENTIALS: "Aucun compte n'a été trouvé avec les identifiants fournis.",
+      })
+
       return response.redirect().back()
     }
+
     await user.related('resetPasswordTokens').create({ token })
 
     // generate the reset link
