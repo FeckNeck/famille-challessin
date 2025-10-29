@@ -8,9 +8,6 @@ export default julr(
     },
   },
   {
-    ignores: ['apps/romainlanz.com/.adonisjs/*', 'apps/romainlanz.comtypes/db.ts'],
-  },
-  {
     rules: {
       // Not recommended to be turned on
       '@typescript-eslint/no-redeclare': 'off',
