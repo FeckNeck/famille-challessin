@@ -38,7 +38,7 @@ const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMM YYYY', {
         <p class="card__content__description">{{ wishlist.description }}</p>
         <div class="d-flex items-center justify-between">
           <p class="card__content__event-date">{{ eventDate }}</p>
-          <p>{{ wishlist.theme.name }}</p>
+          <p>{{ wishlist.theme?.name }}</p>
         </div>
       </div>
     </Card>
