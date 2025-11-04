@@ -15,7 +15,7 @@ import env from '#start/env'
 import WishlistCategory from '#wishlists/models/wishlist_category'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes'
 import type { DateTime } from 'luxon'
 
 export default class Wishlist extends BaseModel {
@@ -35,7 +35,7 @@ export default class Wishlist extends BaseModel {
   declare userId: string
 
   @column()
-  declare themeId: WishlistThemes
+  declare themeId: IWishlistThemes
 
   @column()
   declare title: string | null
