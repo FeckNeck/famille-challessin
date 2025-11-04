@@ -108,7 +108,7 @@
             <div class="whishlist__content__filters">
               <Input
                 v-model:input="search"
-                placeholder="Search by title"
+                placeholder="Rechercher par titre"
                 type="search"
                 radius="rfull"
                 class="whishlist__content__filters__search">

@@ -9,7 +9,11 @@
   const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>();
 
   const user = useCurrentUser();
-  const editLink = computed(() => (props.wishlist.user?.id === user.value?.id ? '/edit/' : ''));
+
+  const wishlistLink = computed(() => {
+    const isOwner = props.wishlist.userId === user.value?.id;
+    return isOwner ? `${props.wishlist.slug}/edit` : props.wishlist.slug;
+  });
 
   const backgroundColor = computed(() => {
     return {
@@ -19,7 +23,7 @@
 </script>
 
 <template>
-  <Link :href="`/wishlists/${wishlist.slug}${editLink}`" class="card">
+  <Link :href="`/wishlists/${wishlistLink}`" class="card">
     <Card>
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
@@ -43,6 +47,7 @@
     height: 16.5rem;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     h6 {
       padding: 1rem;

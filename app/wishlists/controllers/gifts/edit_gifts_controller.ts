@@ -1,7 +1,7 @@
-import vine from '@vinejs/vine';
 import { randomUUID } from 'crypto';
 import { HttpContext } from '@adonisjs/core/http';
-
+import vine from '@vinejs/vine';
+import { ToastType } from '#core/enums/toast';
 export default class EditGiftsController {
   static editGiftValidator = vine.create({
     title: vine.string().trim(),
@@ -23,7 +23,7 @@ export default class EditGiftsController {
       .optional(),
   });
 
-  async handle({ params, request, response, auth }: HttpContext) {
+  async handle({ params, request, response, auth, session }: HttpContext) {
     const payload = await request.validateUsing(EditGiftsController.editGiftValidator);
 
     const wishlist = await auth.user
@@ -67,6 +67,12 @@ export default class EditGiftsController {
       price: payload.price,
     });
     await gift?.save();
+
+    session.flash('toasts', {
+      type: ToastType.SUCCESS,
+      message: 'Le cadeau a été mis à jour avec succès.',
+    });
+
     return response.redirect().back();
   }
 }

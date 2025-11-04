@@ -3,6 +3,7 @@ import type { NextFn } from '@adonisjs/core/types/http';
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
 
 import UserTransformer from '#auth/transformers/user_transformer';
+import type { IToastType } from '#core/enums/toast';
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
   share(ctx: HttpContext) {
@@ -42,6 +43,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
     return {
       error: session?.flashMessages.get('error') as string | undefined,
       success: session?.flashMessages.get('success') as string | undefined,
+      toast: session?.flashMessages.get('toasts') as IToastType,
     };
   }
 

@@ -4,6 +4,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import User from '#auth/models/user';
 import ResetPasswordToken from '#auth/models/reset_password_tokens';
+import { ToastType } from '#core/enums/toast';
 
 export default class ResetPasswordController {
   static validator = vine.create({
@@ -26,7 +27,7 @@ export default class ResetPasswordController {
     return response.redirect().withQs({ modal: 'reset-password', token: token }).back();
   }
 
-  async handle({ request, response }: HttpContext) {
+  async handle({ request, response, session }: HttpContext) {
     const { password, token } = await request.validateUsing(ResetPasswordController.validator);
 
     const user = await User.query()
@@ -37,6 +38,12 @@ export default class ResetPasswordController {
 
     user.merge({ password });
     await user.save();
+
+    session.flash('toasts', {
+      type: ToastType.SUCCESS,
+      message:
+        'Mot de passe réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.',
+    });
 
     return response.redirect().back();
   }

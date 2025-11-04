@@ -7,6 +7,7 @@ import WishlistTheme from '#wishlists/models/wishlist_theme';
 import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer';
 import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer';
+import { ToastType } from '#core/enums/toast';
 
 export default class EditWishlistsController {
   static createWishlistValidator = vine.create({
@@ -41,18 +42,13 @@ export default class EditWishlistsController {
       .where('slug', params.slug)
       .first();
 
-    // TODO: Session flash message
-    if (!wishlist) {
-      return response.redirect().back();
-    }
-
     return inertia.render('wishlist/edit/main', {
-      wishlist: WishlistTransformer.transform(wishlist),
+      wishlist: WishlistTransformer.transform(wishlist!),
       themes: WishlistThemeTransformer.transform(themes),
     });
   }
 
-  async handle({ request, response, params, auth }: HttpContext) {
+  async handle({ request, response, params, auth, session }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.createWishlistValidator);
 
     const wishlist = await auth.user
@@ -82,6 +78,12 @@ export default class EditWishlistsController {
     });
 
     await wishlist?.save();
+
+    session.flash('toasts', {
+      type: ToastType.SUCCESS,
+      message: 'La liste de souhaits a été mise à jour avec succès.',
+    });
+
     return response.redirect().back();
   }
 }
