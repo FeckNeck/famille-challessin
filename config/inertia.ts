@@ -12,6 +12,7 @@ const inertiaConfig = defineConfig({
    */
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
+    toasts: (ctx) => ctx.session?.flashMessages.get('toasts'),
     user: (ctx) => ctx.auth.user,
   },
 
@@ -20,8 +21,8 @@ const inertiaConfig = defineConfig({
    * TODO: Enable this when ark-ui works with server-side rendering
    */
   ssr: {
-    enabled: true,
-    entrypoint: 'inertia/app/ssr.ts',
+    enabled: false,
+    // entrypoint: 'inertia/app/ssr.ts',
   },
 })
 
