@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 import { HttpContext } from '@adonisjs/core/http';
 
 import WishlistTheme from '#wishlists/models/wishlist_theme';
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes';
+import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer';
 import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer';
 
@@ -14,7 +14,7 @@ export default class EditWishlistsController {
     title: vine.string().optional().requiredWhen('isPublic', '=', true),
     description: vine.string().optional().requiredWhen('isPublic', '=', true),
     isPublic: vine.boolean().optional(),
-    themeId: vine.string().transform((value) => +value as WishlistThemes),
+    themeId: vine.string().transform((value) => +value as IWishlistThemes),
     eventDate: vine
       .date()
       .transform((value) => DateTime.fromJSDate(value))

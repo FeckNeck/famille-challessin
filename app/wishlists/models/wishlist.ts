@@ -15,7 +15,7 @@ import {
 import env from '#start/env';
 import User from '#auth/models/user';
 import WishlistTheme from '#wishlists/models/wishlist_theme';
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes';
+import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistCategory from '#wishlists/models/wishlist_category';
 
 export default class Wishlist extends BaseModel {
@@ -35,7 +35,7 @@ export default class Wishlist extends BaseModel {
   declare userId: string;
 
   @column()
-  declare themeId: WishlistThemes;
+  declare themeId: IWishlistThemes;
 
   @column()
   declare title: string | null;

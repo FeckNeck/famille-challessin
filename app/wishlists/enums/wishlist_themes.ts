@@ -4,4 +4,4 @@ export const WishlistThemes = {
   Other: 3,
 } as const;
 
-export type WishlistThemes = (typeof WishlistThemes)[keyof typeof WishlistThemes];
+export type IWishlistThemes = (typeof WishlistThemes)[keyof typeof WishlistThemes];
