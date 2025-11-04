@@ -11,19 +11,20 @@
   background-color: var(--white);
   border: 2px solid var(--gray-800);
   border-radius: var(--rounded);
-  box-shadow: var(--shadow-medium);
+  box-shadow: var(--shadow-small);
   color: var(--gray-800);
   padding: spacePx(8) spacePx(9);
-  transition: background-color 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
   will-change: box-shadow;
   isolation: isolate;
 
   &.clickable {
     cursor: pointer;
+  }
 
-    &:hover {
-      background-color: var(--yellow-100);
-    }
+  &:hover {
+    transform: translateY(4px) translateX(4px);
+    box-shadow: none;
   }
 
   time {

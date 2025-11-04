@@ -1,2 +1,2 @@
-export type * from './requests.js'
-export type * from './responses.js'
+export * from './requests.js'
+export * from './responses.js'

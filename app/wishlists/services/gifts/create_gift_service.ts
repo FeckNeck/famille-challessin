@@ -20,7 +20,7 @@ export class CreateGiftsService {
     //   product_url: z.string(),
     // })
 
-    return await firecrawl.scrape(url, {
+    const wishlistResult = await firecrawl.scrape(url, {
       formats: [
         {
           type: 'json',
@@ -29,13 +29,13 @@ export class CreateGiftsService {
         },
       ],
     })
+
+    const wishlist = wishlistResult.json as GiftScrapedInfo
+    wishlist.url = url
+    return wishlist
   }
 
   async create(wishlistCategory: WishlistCategory, wishlist: GiftScrapedInfo) {
-    if (!wishlist.title) {
-      wishlist.title = 'Une erreur est survenue lors de la récupération du cadeau'
-    }
-
     await wishlistCategory.related('gifts').create({
       title: wishlist.title ?? null,
       description: wishlist.description ?? null,

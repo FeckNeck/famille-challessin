@@ -1,11 +1,12 @@
 import { cuid } from '@adonisjs/core/helpers'
 import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
+import { ToastType } from '#core/enums/toast'
 import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
 import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import type { HttpContext } from '@adonisjs/core/http'
-import type { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes'
 
 export default class EditWishlistsController {
   static validator = vine.compile(
@@ -14,7 +15,7 @@ export default class EditWishlistsController {
       title: vine.string().optional().requiredWhen('isPublic', '=', true),
       description: vine.string().optional().requiredWhen('isPublic', '=', true),
       isPublic: vine.boolean().optional(),
-      themeId: vine.string().transform((value) => +value as WishlistThemes),
+      themeId: vine.string().transform((value) => +value as IWishlistThemes),
       eventDate: vine
         .date()
         .transform((value) => DateTime.fromJSDate(value))
@@ -49,7 +50,7 @@ export default class EditWishlistsController {
     })
   }
 
-  async handle({ request, response, params, bouncer }: HttpContext) {
+  async handle({ request, response, params, bouncer, session }: HttpContext) {
     const payload = await request.validateUsing(EditWishlistsController.validator)
 
     const wishlist = await Wishlist.findByOrFail('id', params.id)
@@ -76,6 +77,12 @@ export default class EditWishlistsController {
     })
 
     await wishlist.save()
+
+    session.flash('toasts', {
+      type: ToastType.SUCCESS,
+      message: 'La liste de souhaits a été mise à jour avec succès.',
+    })
+
     return response.redirect().back()
   }
 }

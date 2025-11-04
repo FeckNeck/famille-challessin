@@ -26,8 +26,8 @@ const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMM YYYY', {
 </script>
 
 <template>
-  <Link :href="`/wishlists/${wishlistLink}`" class="card">
-    <Card>
+  <Card>
+    <Link :href="`/wishlists/${wishlistLink}`" class="card">
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
         <div class="card__header__image">
@@ -41,8 +41,8 @@ const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMM YYYY', {
           <p>{{ wishlist.theme?.name }}</p>
         </div>
       </div>
-    </Card>
-  </Link>
+    </Link>
+  </Card>
 </template>
 
 <style scoped lang="scss">
@@ -50,11 +50,7 @@ const eventDate = useDateFormat(() => wishlist.eventDate, 'D MMM YYYY', {
   height: 16.5rem;
   display: flex;
   flex-direction: column;
-
-  &:hover {
-    background-color: var(--yellow-100);
-    transition: background-color 200ms ease-in-out;
-  }
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   h6 {
     padding: 1rem;

@@ -28,7 +28,7 @@ const form = useForm({
   title: wishlist.title,
   description: wishlist.description,
   eventDate: wishlist.eventDate.toString(),
-  themeId: [wishlist.theme.id.toString()],
+  themeId: [wishlist.theme?.id.toString()],
   isPublic: wishlist.isPublic,
   categories: wishlist.categories,
   image: null,

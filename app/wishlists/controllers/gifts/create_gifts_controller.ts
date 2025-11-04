@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core'
 import vine from '@vinejs/vine'
+import { ToastType } from '#core/enums/toast'
 import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import WishlistCategoryRepository from '#wishlists/repositories/wishlist_category_repository'
 import { CreateGiftsService } from '#wishlists/services/gifts/create_gift_service'
-import { GiftScrapedInfo } from '#wishlists/types/gift_scraped_info'
 import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
@@ -25,7 +25,7 @@ export default class CreateGiftsController {
     private createGiftsService: CreateGiftsService
   ) {}
 
-  async handle({ response, bouncer, request }: HttpContext) {
+  async handle({ response, bouncer, request, session }: HttpContext) {
     const { url } = await request.validateUsing(CreateGiftsController.scrapGiftsValidator)
     const { id: wishlistId, categoryId } = request.params()
 
@@ -36,9 +36,15 @@ export default class CreateGiftsController {
 
     await bouncer.with(WishlistPolicy).authorize('edit', wishlistCategory.wishlist)
 
-    const wishlistResult = await this.createGiftsService.scrap(url)
-    const wishlist = wishlistResult.json as GiftScrapedInfo
-    wishlist.url = url
+    const wishlist = await this.createGiftsService.scrap(url)
+
+    if (!wishlist.title) {
+      wishlist.title = 'Une erreur est survenue lors de la récupération du cadeau'
+      session.flash('toast', {
+        type: ToastType.ERROR,
+        message: "Impossible de récupérer les informations du cadeau depuis l'URL fournie.",
+      })
+    }
 
     await this.createGiftsService.create(wishlistCategory, wishlist)
 

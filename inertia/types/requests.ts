@@ -65,3 +65,27 @@ export interface WishlistFilter {
   orderBy: 'name' | 'created' | 'updated' | 'event_date'
   page: number
 }
+
+/**
+ * Toast
+ */
+export const ToastType = {
+  SUCCESS: 'success',
+  INFO: 'info',
+  ERROR: 'error',
+  WARNING: 'warning',
+} as const
+
+export type IToastType = (typeof ToastType)[keyof typeof ToastType]
+
+export const ToastTypeText = {
+  [ToastType.SUCCESS]: 'Succès',
+  [ToastType.INFO]: 'Info',
+  [ToastType.ERROR]: 'Erreur',
+  [ToastType.WARNING]: 'Avertissement',
+} as const
+
+export interface Toasts {
+  type: IToastType
+  message: string
+}

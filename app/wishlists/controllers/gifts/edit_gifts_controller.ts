@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core'
 import { cuid } from '@adonisjs/core/helpers'
 import vine from '@vinejs/vine'
+import { ToastType } from '#core/enums/toast'
 import WishlistPolicy from '#wishlists/policies/wishlist_policy'
 import GiftRepository from '#wishlists/repositories/gift_repository'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -31,7 +32,7 @@ export default class EditGiftsController {
 
   constructor(protected giftRepository: GiftRepository) {}
 
-  async handle({ request, response, bouncer }: HttpContext) {
+  async handle({ request, response, bouncer, session }: HttpContext) {
     const payload = await request.validateUsing(EditGiftsController.editGiftValidator)
 
     const { id: wishlistId, categoryId, giftId } = request.params()
@@ -51,9 +52,6 @@ export default class EditGiftsController {
 
       const fileName = `${cuid()}.${payload.image.extname}`
 
-      // await payload.image.move(app.makePath('public/uploads'), {
-      //   name: fileName,
-      // })
       await payload.image.moveToDisk(fileName)
 
       gift?.merge({ image: fileName })
@@ -65,7 +63,14 @@ export default class EditGiftsController {
       url: payload.url,
       price: payload.price,
     })
-    await gift?.save()
+
+    await gift.save()
+
+    session.flash('toasts', {
+      type: ToastType.SUCCESS,
+      message: 'Le cadeau a été mis à jour avec succès.',
+    })
+
     return response.redirect().back()
   }
 }
