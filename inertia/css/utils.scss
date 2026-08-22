@@ -1,4 +1,4 @@
-@import './functions';
+@use './functions' as *;
 
 .container {
   margin-inline: auto;
@@ -97,7 +97,7 @@
 .stack {
   display: flex;
   flex-direction: column;
-  gap: var(--gap, spacePx(1));
+  gap: var(--gap, calc(1 * var(--space)));
 }
 
 .centered {

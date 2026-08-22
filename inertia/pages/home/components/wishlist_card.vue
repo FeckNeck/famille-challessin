@@ -2,16 +2,16 @@
 import { computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import Card from '~/components/ui/card.vue'
-import type { Wishlist, User } from '~/app/types'
+import type { Data } from '@generated/data'
 
 const page = usePage()
-const user = computed(() => page.props.user as User | undefined)
-const props = defineProps<{ wishlist: Wishlist }>()
+const user = computed(() => page.props.user as Data.Auth.User | undefined)
+const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>()
 
-const editLink = computed(() => (props.wishlist.user.id === user.value?.id ? '/edit/' : ''))
+const editLink = computed(() => (props.wishlist.user?.id === user.value?.id ? '/edit/' : ''))
 const backgroundColor = computed(() => {
   return {
-    backgroundColor: props.wishlist.user.color,
+    backgroundColor: props.wishlist.user?.color ?? '',
   }
 })
 </script>
@@ -22,14 +22,14 @@ const backgroundColor = computed(() => {
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>
         <div class="card__header__image">
-          <img :src="wishlist.imageUrl" :alt="wishlist.title + 'image'" />
+          <img :src="wishlist.imageUrl ?? ''" :alt="wishlist.title + 'image'" />
         </div>
       </div>
       <div class="card__content">
         <p>{{ wishlist.description }}</p>
         <div class="d-flex items-center justify-between">
           <p>{{ wishlist.eventDate }}</p>
-          <p>{{ wishlist.theme.name }}</p>
+          <p>{{ wishlist.theme?.name }}</p>
         </div>
       </div>
     </Card>

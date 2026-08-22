@@ -4,11 +4,11 @@ import Category from './components/category.vue'
 import CreateCategory from './components/create_category.vue'
 import Hero from './components/hero.vue'
 import Layout from '~/layouts/default.vue'
-import type { WishlistTheme, Wishlist } from '~/types'
+import type { Data } from '@generated/data'
 
 const props = defineProps<{
-  themes: WishlistTheme[]
-  wishlist: Wishlist
+  themes: Data.Wishlists.WishlistTheme[]
+  wishlist: Data.Wishlists.Wishlist
 }>()
 </script>
 

@@ -33,7 +33,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
   async handle(error: any, ctx: HttpContext) {
     if (error.code === 'E_INVALID_CREDENTIALS') {
       ctx.session.flash({
-        errors: {
+        inputErrorsBag: {
           code: 'E_INVALID_CREDENTIALS',
         },
       })

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Wishlist } from '~/types'
+import { Data } from '@generated/data'
 import { useDateFormat } from '@vueuse/core'
 const props = defineProps<{
-  wishlist: Wishlist
+  wishlist: Data.Wishlists.Wishlist
 }>()
 
-const eventDate = useDateFormat(props.wishlist.eventDate, 'D MMMM YYYY', {
+const eventDate = useDateFormat(props.wishlist.eventDate ?? '', 'D MMMM YYYY', {
   locales: 'fr-FR',
 })
 </script>
@@ -13,7 +13,7 @@ const eventDate = useDateFormat(props.wishlist.eventDate, 'D MMMM YYYY', {
 <template>
   <div class="hero">
     <div>
-      <img :src="wishlist.imageUrl" :alt="wishlist.title + ' image'" />
+      <img v-if="wishlist.imageUrl" :src="wishlist.imageUrl" :alt="wishlist.title + ' image'" />
     </div>
     <div class="p-6 d-flex column g-2">
       <p>{{ wishlist.title }}</p>

@@ -1,0 +1,40 @@
+import { createApp, h, ref } from "vue";
+import { createInertiaApp } from "@inertiajs/vue3";
+import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
+import { resolvePageComponent } from "@adonisjs/inertia/helpers";
+//#region inertia/app.ts
+var appName = "Famille Challessin";
+createInertiaApp({
+	progress: { color: "#946fc8" },
+	title: (title) => `${appName} - ${title}`,
+	resolve: (name) => {
+		return resolvePageComponent(`../pages/${name}.vue`, /* #__PURE__ */ Object.assign({}));
+	},
+	setup({ el, App, props, plugin }) {
+		const app = createApp({ render: () => h(App, props) }).use(autoAnimatePlugin).use(plugin);
+		const modelViewerScriptLoaded = ref(false);
+		app.config.globalProperties.modelViewerScriptLoaded = modelViewerScriptLoaded;
+		function loadModelViewerScript() {
+			if (modelViewerScriptLoaded.value || !window.matchMedia("(min-width: 768px)").matches) return;
+			const scriptEl = document.createElement("script");
+			scriptEl.src = "https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js";
+			scriptEl.async = true;
+			scriptEl.type = "module";
+			scriptEl.onload = () => {
+				modelViewerScriptLoaded.value = true;
+			};
+			document.body.appendChild(scriptEl);
+		}
+		setTimeout(() => {
+			window.requestIdleCallback(() => {
+				loadModelViewerScript();
+			});
+			window.addEventListener("resize", () => {
+				loadModelViewerScript();
+			});
+		}, 100);
+		app.mount(el);
+	}
+});
+//#endregion
+export {};

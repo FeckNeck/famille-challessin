@@ -2,6 +2,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#auth/models/user'
 import Wishlist from '#wishlists/models/wishlist'
 import WishlistTheme from '#wishlists/models/wishlist_theme'
+import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer'
+import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer'
+import UserListTransformer from '#auth/transformers/user_list_transformer'
 
 export default class HomeController {
   async render({ request, inertia, auth }: HttpContext) {
@@ -68,12 +71,11 @@ export default class HomeController {
     }
 
     const wishlists = await query.paginate(page, limit)
-    const { data, meta } = wishlists.toJSON()
+
     return inertia.render('home/main', {
-      meta,
-      users,
-      wishlists: data,
-      themes,
+      users: UserListTransformer.transform(users),
+      wishlists: WishlistTransformer.paginate(wishlists.all(), wishlists.getMeta()),
+      themes: WishlistThemeTransformer.transform(themes),
     })
   }
 }

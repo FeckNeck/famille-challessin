@@ -1,36 +1,27 @@
 /* eslint-disable prettier/prettier */
+import { controllers } from '#generated/controllers'
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
-const CreateWishlistsController = () =>
-  import('#wishlists/controllers/wishlists/create_wishlists_controller')
-const EditWishlistsController = () =>
-  import('#wishlists/controllers/wishlists/edit_wishlists_controller')
-const IndexWishlistsController = () =>
-  import('#wishlists/controllers/wishlists/index_wishlists_controller')
-const ShowWishlistsController = () =>
-  import('#wishlists/controllers/wishlists/show_wishlists_controller')
-
-router.get('wishlists', [IndexWishlistsController, 'render']).as('wishlists.index')
 router
-  .get('wishlists/create', [CreateWishlistsController, 'handle'])
+  .get('wishlists/create', [controllers.wishlists.wishlists.CreateWishlists, 'handle'])
   .as('wishlists.create')
   .use(middleware.auth())
 router
-  .get('wishlists/:id', [ShowWishlistsController, 'render'])
+  .get('wishlists/:id', [controllers.wishlists.wishlists.ShowWishlists, 'render'])
   .as('wishlists.show')
   .use(middleware.wishlist())
 router
-  .get('wishlists/:id/edit', [EditWishlistsController, 'render'])
+  .get('wishlists/:id/edit', [controllers.wishlists.wishlists.EditWishlists, 'render'])
   .as('wishlists.edit')
   .use(middleware.auth())
 
 router
-  .post('wishlists', [CreateWishlistsController, 'handle'])
+  .post('wishlists', [controllers.wishlists.wishlists.CreateWishlists, 'handle'])
   .as('wishlists.store')
   .use(middleware.auth())
 
 router
-  .put('wishlists/:id', [EditWishlistsController, 'handle'])
+  .put('wishlists/:id', [controllers.wishlists.wishlists.EditWishlists, 'handle'])
   .as('wishlists.update')
   .use(middleware.auth())

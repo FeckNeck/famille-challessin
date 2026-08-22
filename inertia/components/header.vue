@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { Link, usePage, router } from '@inertiajs/vue3'
-import { SharedData } from '@adonisjs/inertia/types'
-import { User } from '~/types'
+import { PageProps } from '@adonisjs/inertia/types'
 import { UserRound } from 'lucide-vue-next'
 import Button from '~/components/ui/button.vue'
+import { Data } from '@generated/data'
 
-const page = usePage<SharedData>()
-const user = computed(() => page.props.user as User)
+const page = usePage<PageProps>()
+const user = computed(() => page.props.user as Data.Auth.User)
 
 function logout() {
   router.delete('/logout', {

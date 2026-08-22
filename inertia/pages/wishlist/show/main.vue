@@ -4,9 +4,11 @@ import Collapsible from '~/components/ui/collapsible.vue'
 import Gift from './components/gift.vue'
 import Hero from './components/hero.vue'
 import Layout from '~/layouts/default.vue'
-import type { Wishlist } from '~/app/types'
+import type { Data } from '@generated/data'
 
-const wishlist = defineProps<Wishlist>()
+const props = defineProps<{
+  wishlist: Data.Wishlists.Wishlist
+}>()
 </script>
 
 <template>

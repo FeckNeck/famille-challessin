@@ -3,13 +3,11 @@ import User from '#auth/models/user'
 import vine from '@vinejs/vine'
 
 export default class LoginController {
-  static validator = vine.compile(
-    vine.object({
-      email: vine.string().email(),
-      password: vine.string(),
-      remember_me: vine.boolean(),
-    })
-  )
+  static validator = vine.create({
+    email: vine.string().email(),
+    password: vine.string(),
+    remember_me: vine.boolean(),
+  })
 
   async render({ response }: HttpContext) {
     return response.redirect().withQs({ modal: 'login' }).back()

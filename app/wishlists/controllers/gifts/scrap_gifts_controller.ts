@@ -4,17 +4,15 @@ import { chromium } from 'playwright-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
 export default class ScrapGiftsController {
-  static scrapGiftsValidator = vine.compile(
-    vine.object({
-      url: vine
-        .string()
-        .trim()
-        .url({
-          require_protocol: true,
-          protocols: ['http', 'https'],
-        }),
-    })
-  )
+  static scrapGiftsValidator = vine.create({
+    url: vine
+      .string()
+      .trim()
+      .url({
+        require_protocol: true,
+        protocols: ['http', 'https'],
+      }),
+  })
 
   async handle({ response, params, auth, request }: HttpContext) {
     const { url } = await request.validateUsing(ScrapGiftsController.scrapGiftsValidator)

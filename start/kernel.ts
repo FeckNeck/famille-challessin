@@ -23,11 +23,11 @@ server.errorHandler(() => import('#core/exceptions/handler'))
  * the request URL.
  */
 server.use([
-  () => import('#core/middlewares/container_bindings_middleware'),
-  () => import('@adonisjs/static/static_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
+  () => import('@adonisjs/static/static_middleware'),
   () => import('@adonisjs/vite/vite_middleware'),
-  () => import('@adonisjs/inertia/inertia_middleware'),
+  () => import('#core/middlewares/container_bindings_middleware'),
+  () => import('#core/middlewares/inertia_middleware'),
 ])
 
 /**
@@ -40,6 +40,7 @@ router.use([
   () => import('@adonisjs/shield/shield_middleware'),
   () => import('@adonisjs/auth/initialize_auth_middleware'),
   () => import('#auth/middlewares/silent_auth_middleware'),
+  () => import('#core/middlewares/inertia_middleware'),
 ])
 
 /**
@@ -49,5 +50,6 @@ router.use([
 export const middleware = router.named({
   auth: () => import('#auth/middlewares/auth_middleware'),
   guest: () => import('#auth/middlewares/guest_middleware'),
+  inertia: () => import('#core/middlewares/inertia_middleware'),
   wishlist: () => import('#wishlists/middlewares/wishlist_middleware'),
 })

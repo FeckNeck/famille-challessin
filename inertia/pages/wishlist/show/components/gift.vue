@@ -5,17 +5,17 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import type { Gift, User } from '~/types'
-import { SharedProps } from '@adonisjs/inertia/types'
+import { PageProps } from '@adonisjs/inertia/types'
+import { Data } from '@generated/data'
 
 const props = defineProps<{
-  gift: Gift
+  gift: Data.Wishlists.Gift
   wishlistId: string
   categoryId: string
 }>()
 
-const page = usePage<SharedProps>()
-const user = computed(() => page.props.user as User | undefined)
+const page = usePage<PageProps>()
+const user = computed(() => page.props.user as Data.Auth.User)
 
 const isBooking = ref<boolean>(false)
 
@@ -42,9 +42,9 @@ function submit() {
 
 <template>
   <div class="gift">
-    <img :src="gift.imageUrl" :alt="gift.title + 'image'" />
+    <img :src="gift.imageUrl ?? ''" :alt="gift.title + 'image'" />
     <div class="gift__content" v-if="!isBooking">
-      <a :href="gift.url" class="gift__content-link" target="_blank">{{ gift.title }}</a>
+      <a :href="gift.url ?? ''" class="gift__content-link" target="_blank">{{ gift.title }}</a>
       <p class="gift__content-description">{{ gift.description }}</p>
       <p>{{ gift.price }} €</p>
       <p v-if="gift.giverName">

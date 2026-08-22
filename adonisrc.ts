@@ -1,4 +1,7 @@
 import { defineConfig } from '@adonisjs/core/app'
+import { indexEntities } from '@adonisjs/core'
+import { indexPages } from '@adonisjs/inertia'
+import { generateRegistry } from '@tuyau/core/hooks'
 
 export default defineConfig({
   /*
@@ -10,7 +13,12 @@ export default defineConfig({
   | will be scanned automatically from the "./commands" directory.
   |
   */
-  commands: [() => import('@adonisjs/core/commands'), () => import('@adonisjs/lucid/commands'), () => import('@adonisjs/mail/commands')],
+  commands: [
+    () => import('@adonisjs/core/commands'),
+    () => import('@adonisjs/lucid/commands'),
+    () => import('@adonisjs/mail/commands'),
+    () => import('@adonisjs/inertia/commands'),
+  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -28,18 +36,19 @@ export default defineConfig({
       file: () => import('@adonisjs/core/providers/repl_provider'),
       environment: ['repl', 'test'],
     },
-    () => import('@adonisjs/core/providers/vinejs_provider'),
+    () => import('@adonisjs/auth/auth_provider'),
     () => import('@adonisjs/core/providers/edge_provider'),
+    () => import('@adonisjs/core/providers/vinejs_provider'),
+    () => import('@adonisjs/cors/cors_provider'),
+    () => import('@adonisjs/drive/drive_provider'),
+    () => import('@adonisjs/inertia/inertia_provider'),
+    () => import('@adonisjs/lucid/database_provider'),
+    () => import('@adonisjs/mail/mail_provider'),
     () => import('@adonisjs/session/session_provider'),
-    () => import('@adonisjs/vite/vite_provider'),
     () => import('@adonisjs/shield/shield_provider'),
     () => import('@adonisjs/static/static_provider'),
-    () => import('@adonisjs/cors/cors_provider'),
-    () => import('@adonisjs/lucid/database_provider'),
-    () => import('@adonisjs/auth/auth_provider'),
-    () => import('@adonisjs/inertia/inertia_provider'),
-    () => import('@adonisjs/mail/mail_provider'),
-    () => import('@adonisjs/drive/drive_provider')
+    () => import('@adonisjs/vite/vite_provider'),
+    () => import('#core/providers/api_provider'),
   ],
 
   /*
@@ -64,12 +73,12 @@ export default defineConfig({
   tests: {
     suites: [
       {
-        files: ['tests/unit/**/*.spec(.ts|.js)'],
+        files: ['tests/unit/**/*.spec.{ts,js}'],
         name: 'unit',
         timeout: 2000,
       },
       {
-        files: ['tests/functional/**/*.spec(.ts|.js)'],
+        files: ['tests/functional/**/*.spec.{ts,js}'],
         name: 'functional',
         timeout: 30000,
       },
@@ -97,8 +106,32 @@ export default defineConfig({
     },
   ],
 
-  assetsBundler: false,
   hooks: {
-    onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
+    init: [
+      // Always needed
+      indexEntities({
+        transformers: {
+          enabled: true,
+          withSharedProps: true,
+          importAlias: '#modules',
+          source: 'app',
+          glob: ['**/*_transformer.ts'],
+        },
+        controllers: {
+          enabled: true,
+          importAlias: '#modules',
+          source: 'app',
+          glob: ['**/*_controller.ts'],
+        },
+      }),
+
+      // If using Inertia (adjust framework to match yours)
+      indexPages({ framework: 'vue3' }),
+      generateRegistry(),
+    ],
+    buildStarting: [
+      // If using Vite
+      () => import('@adonisjs/vite/build_hook'),
+    ],
   },
 })

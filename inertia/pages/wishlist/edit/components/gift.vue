@@ -7,20 +7,20 @@ import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import FileUploadC from '~/components/ui/file_upload.vue'
 import Input from '~/components/ui/input.vue'
-import type { Gift } from '~/types'
+import { Data } from '@generated/data'
 
 const props = defineProps<{
-  gift: Gift
+  gift: Data.Wishlists.Gift
   wishlistId: string
 }>()
 
 const form = useForm({
   id: props.gift.id,
-  title: props.gift.title,
-  description: props.gift.description,
+  title: props.gift.title ?? '',
+  description: props.gift.description ?? '',
   categoryId: props.gift.categoryId,
-  price: props.gift.price,
-  url: props.gift.url,
+  price: props.gift.price ?? '',
+  url: props.gift.url ?? '',
   image: null,
 })
 

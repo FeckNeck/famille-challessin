@@ -9,7 +9,7 @@ export const GiftFactory = factory
       price: faker.finance.amount(),
       url: faker.internet.url(),
       image: faker.image.url(),
-      giverName: faker.internet.userName(),
+      giverName: faker.internet.username(),
       giverEmail: faker.internet.email(),
     }
   })

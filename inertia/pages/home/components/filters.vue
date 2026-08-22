@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { ref } from 'vue'
-import type { User, WishlistTheme } from '~/app/types'
+import type { Data } from '@generated/data'
 
-defineProps<{ themes: WishlistTheme[]; users: User[] }>()
+defineProps<{ themes: Data.Wishlists.WishlistTheme[]; users: Data.Auth.UserList[] }>()
 
 /**
  * Workaround to works with the Select component
  */
-const usernameModel = defineModel<string[] | string>('username', {
-  get: (value) => value[0],
-  set: (value) => [value],
-})
+const usernameModel = defineModel<string>('username')
 const themeModel = defineModel<string | null>('theme')
 
 const hoveredTheme = ref<number | null>(null)
@@ -41,10 +38,10 @@ const handleUserClick = (username: string) => {
           <div
             :style="{
               backgroundColor:
-                theme.name === themeModel || hoveredTheme === index ? theme.color : '',
+                theme.name === themeModel || hoveredTheme === index ? (theme.color ?? '') : '',
             }"
           >
-            <Icon :icon="theme.icon" :ssr="true" />
+            <Icon :icon="theme.icon!" :ssr="true" />
           </div>
           <div>
             <p>{{ theme.name }}</p>
@@ -66,10 +63,10 @@ const handleUserClick = (username: string) => {
           <div
             :style="{
               backgroundColor:
-                user.username === usernameModel || hoveredUser === index ? user.color : '',
+                user.username === usernameModel || hoveredUser === index ? (user.color ?? '') : '',
             }"
           >
-            <Icon :icon="user.icon" :ssr="true" />
+            <Icon :icon="user.icon!" :ssr="true" />
           </div>
           <div>
             <p>{{ user.username }}</p>

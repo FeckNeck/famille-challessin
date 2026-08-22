@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
 import Filters from './components/filters.vue'
@@ -10,10 +10,19 @@ import Layout from '~/layouts/default.vue'
 import MainSection from './components/main_section.vue'
 import Order from './components/order.vue'
 import Pagination from './components/pagination.vue'
-import type { WishlistTheme, HomeResponse, WishlistFilter, User, SortOrder } from '~/app/types'
+import type { WishlistFilter, SortOrder, InertiaPaginationMeta } from '~/types'
+import type { Data } from '@generated/data'
 import Select from '~/components/ui/select.vue'
 
-const props = defineProps<HomeResponse>()
+const props = defineProps<{
+  users: Data.Auth.UserList[]
+  wishlists: {
+    data: Data.Wishlists.Wishlist[]
+    metadata: InertiaPaginationMeta
+  }
+  themes: Data.Wishlists.WishlistTheme[]
+}>()
+
 const params = useUrlSearchParams<Partial<WishlistFilter>>('history')
 
 const scrollToTopRef = ref<HTMLElement | null>(null)
@@ -46,18 +55,18 @@ const orderByOptions = [
   },
 ]
 const order = ref<SortOrder>(params.order || 'desc')
-const orderBy = ref<string[]>([params.orderBy || orderByOptions[1].value])
+const orderBy = ref<string>(params.orderBy || orderByOptions[1].value)
 
 /**
  * Filters
  */
-const users = ref<User[]>(props.users)
+const users = computed(() => props.users)
 const usersOptions = [
   { label: 'All', value: '' },
   ...props.users.map((user) => ({ label: user.username, value: user.username })),
 ]
-const username = ref<string[]>([params.username || ''])
-const themes = ref<WishlistTheme[]>(props.themes)
+const username = ref<string>(params.username || '')
+const themes = computed(() => props.themes)
 const theme = ref<string>(params.theme || '')
 
 /**
@@ -71,8 +80,8 @@ function fetchNewPageData(page: number) {
   const props = {
     page,
     order: order.value,
-    orderBy: orderBy.value[0],
-    username: username.value[0],
+    orderBy: orderBy.value,
+    username: username.value,
     theme: theme.value,
     title: search.value,
   }
@@ -118,11 +127,11 @@ function fetchNewPageData(page: number) {
                 <Select :items="orderByOptions" v-model:model-value="orderBy" />
               </div>
             </div>
-            <MainSection :wishlists="props.wishlists" />
+            <MainSection :wishlists="props.wishlists.data" />
             <Pagination
-              :total="meta.total"
-              :last-page="meta.lastPage"
-              :current-page="meta.currentPage"
+              :total="props.wishlists.metadata.total"
+              :last-page="props.wishlists.metadata.lastPage"
+              :current-page="props.wishlists.metadata.currentPage"
               @update="fetchNewPageData"
             />
           </div>

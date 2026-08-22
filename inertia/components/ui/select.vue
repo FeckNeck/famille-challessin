@@ -1,23 +1,44 @@
 <script setup lang="ts">
-import { Select, SelectRootProps, SelectRootEmits, useForwardPropsEmits } from '@ark-ui/vue'
+import {
+  Select,
+  SelectRootProps,
+  SelectRootEmits,
+  createListCollection,
+  useForwardPropsEmits,
+} from '@ark-ui/vue'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import { computed } from 'vue'
 
 interface SelectItem {
   label: string
   value: string
 }
 
-const props = withDefaults(defineProps<SelectRootProps<SelectItem>>(), {
-  positioning: { sameWidth: true },
+type SelectProps = Omit<SelectRootProps<SelectItem>, 'collection' | 'modelValue'> & {
+  items: SelectItem[]
+  placeholder?: string
+  modelValue?: string
+}
+
+const props = withDefaults(defineProps<SelectProps>(), {
+  positioning: () => ({ sameWidth: true }),
 })
 
+const modelValue = defineModel<string>({ default: '' })
 const emit = defineEmits<SelectRootEmits<string>>()
 
 const forwarded = useForwardPropsEmits(props, emit)
+const collection = createListCollection({ items: props.items })
+const selectedValues = computed({
+  get: () => (modelValue.value ? [modelValue.value] : []),
+  set: (value) => {
+    modelValue.value = value[0] ?? ''
+  },
+})
 </script>
 
 <template>
-  <Select.Root v-bind="forwarded">
+  <Select.Root v-bind="forwarded" v-model:model-value="selectedValues" :collection="collection">
     <Select.Control>
       <Select.Trigger>
         <Select.ValueText :placeholder="placeholder" />
@@ -30,7 +51,7 @@ const forwarded = useForwardPropsEmits(props, emit)
       <Select.Positioner>
         <Select.Content>
           <Select.ItemGroup>
-            <Select.Item v-for="item in items" :key="item.value" :item="item.value">
+            <Select.Item v-for="item in collection.items" :key="item.value" :item="item">
               <Select.ItemText>{{ item.label }}</Select.ItemText>
               <Select.ItemIndicator>
                 <Check :size="16" />

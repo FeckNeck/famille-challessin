@@ -3,12 +3,10 @@ import vine from '@vinejs/vine'
 import Wishlist from '#wishlists/models/wishlist'
 
 export default class BookGiftsController {
-  static bookGiftValidator = vine.compile(
-    vine.object({
-      giverName: vine.string().trim().toLowerCase(),
-      giverEmail: vine.string().trim().toLowerCase().email().optional(),
-    })
-  )
+  static bookGiftValidator = vine.create({
+    giverName: vine.string().trim().toLowerCase(),
+    giverEmail: vine.string().trim().toLowerCase().email().optional(),
+  })
   async handle({ params, request, response, auth }: HttpContext) {
     const payload = await request.validateUsing(BookGiftsController.bookGiftValidator)
 

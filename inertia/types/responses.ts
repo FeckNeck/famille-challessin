@@ -1,4 +1,4 @@
-import type { User, Wishlist, WishlistTheme } from './index.js'
+import type { User, Wishlist, WishlistTheme } from './requests'
 
 export interface Meta {
   total: number

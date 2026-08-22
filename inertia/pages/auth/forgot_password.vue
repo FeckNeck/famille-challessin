@@ -38,7 +38,7 @@ function submit() {
       </div>
     </template>
     <template #description>
-      <p v-if="errors" class="pb-4">{{ errors }}</p>
+      <p v-if="form.errors.email" class="pb-4">{{ form.errors.email }}</p>
       <div v-if="isEmailSent">
         <p>Un email de réinitialisation de mot de passe a été envoyé à l'adresse email fournie.</p>
         <Button @click="isDialogOpen = false" color="yellow" size="small" class="w-full mt-4">

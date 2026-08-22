@@ -1,24 +1,27 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
-
-const CreateWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/create_wishlist_categories')
-const EditWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/edit_wishlist_categories')
-const RemoveWishlistsCategoryController = () =>
-  import('#wishlists/controllers/categories/remove_wishlist_categories')
+import { controllers } from '#generated/controllers'
 
 router
-  .delete('wishlists/:id/categories/:categoryId', [RemoveWishlistsCategoryController, 'handle'])
+  .delete('wishlists/:id/categories/:categoryId', [
+    controllers.wishlists.categories.RemoveWishlistCategories,
+    'handle',
+  ])
   .as('wishlists.categories.delete')
   .use(middleware.auth())
 
 router
-  .post('wishlists/:id/categories', [CreateWishlistsCategoryController, 'handle'])
+  .post('wishlists/:id/categories', [
+    controllers.wishlists.categories.CreateWishlistCategories,
+    'handle',
+  ])
   .as('wishlists.categories.store')
   .use(middleware.auth())
 
 router
-  .put('wishlists/:id/categories/:categoryId', [EditWishlistsCategoryController, 'handle'])
+  .put('wishlists/:id/categories/:categoryId', [
+    controllers.wishlists.categories.EditWishlistCategories,
+    'handle',
+  ])
   .as('wishlists.categories.update')
   .use(middleware.auth())

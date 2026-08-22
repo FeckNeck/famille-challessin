@@ -2,11 +2,9 @@ import { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
 
 export default class CreateWishlistsCategoryController {
-  static createWishlistCategoryValidator = vine.compile(
-    vine.object({
-      name: vine.string(),
-    })
-  )
+  static createWishlistCategoryValidator = vine.create({
+    name: vine.string(),
+  })
 
   async handle({ response, auth, params, request }: HttpContext) {
     const { name } = await request.validateUsing(

@@ -1,32 +1,20 @@
 import { defineConfig } from '@adonisjs/inertia'
-import type { InferSharedProps } from '@adonisjs/inertia/types'
 
 const inertiaConfig = defineConfig({
   /**
-   * Path to the Edge view that will be used as the root view for Inertia responses
-   */
-  rootView: 'inertia_layout',
-
-  /**
-   * Data that should be shared with all rendered pages
-   */
-  sharedData: {
-    errors: (ctx) => ctx.session?.flashMessages.get('errors'),
-    user: (ctx) => ctx.auth.user,
-  },
-
-  /**
-   * Options for the server-side rendering
-   * TODO: Enable this when ark-ui works with server-side rendering
+   * Server-side rendering options.
    */
   ssr: {
+    /**
+     * Toggle SSR mode for Inertia pages.
+     */
     enabled: false,
-    // entrypoint: 'inertia/app/ssr.ts',
+
+    /**
+     * Entry file used by the SSR server build.
+     */
+    entrypoint: 'inertia/ssr.ts',
   },
 })
 
 export default inertiaConfig
-
-declare module '@adonisjs/inertia/types' {
-  export interface SharedProps extends InferSharedProps<typeof inertiaConfig> {}
-}

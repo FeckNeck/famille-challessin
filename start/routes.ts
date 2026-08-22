@@ -1,9 +1,7 @@
 import './routes/auth.js'
 import './routes/wishlist/index.js'
+import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 
-const HomeController = () => import('../app/pages/controllers/home_controller.js')
-const ShowMediaController = () => import('#core/controllers/show_media_controller')
-
-router.get('/', [HomeController, 'render']).as('home')
-router.get('/img/*', [ShowMediaController, 'render']).as('media.show')
+router.get('/', [controllers.core.Home, 'render']).as('home')
+router.get('/img/*', [controllers.core.ShowMedia, 'render']).as('media.show')

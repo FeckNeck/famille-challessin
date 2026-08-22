@@ -5,12 +5,10 @@ import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
 
 export default class ResetPasswordController {
-  static validator = vine.compile(
-    vine.object({
-      password: vine.string().minLength(8).maxLength(32).confirmed(),
-      token: vine.string().trim(),
-    })
-  )
+  static validator = vine.create({
+    password: vine.string().minLength(8).maxLength(32).confirmed(),
+    token: vine.string().trim(),
+  })
 
   async render({ response, request }: HttpContext) {
     if (!request.hasValidSignature()) {

@@ -7,14 +7,14 @@ import Collapsible from '~/components/ui/collapsible.vue'
 import CreateGift from './create_gift.vue'
 import Gift from './gift.vue'
 import Input from '~/components/ui/input.vue'
-import type { WishlistCategory } from '~/types'
+import { Data } from '@generated/data'
 
 const props = defineProps<{
-  category: WishlistCategory
+  category: Data.Wishlists.WishlistCategory
 }>()
 
 const form = useForm({
-  name: props.category.name,
+  name: props.category.name ?? '',
 })
 
 const isDeleting = ref<boolean>(false)

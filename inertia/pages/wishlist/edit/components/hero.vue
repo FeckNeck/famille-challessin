@@ -8,12 +8,12 @@ import FileUpload from '~/components/ui/file_upload.vue'
 import Input from '~/components/ui/input.vue'
 import Select from '~/components/ui/select.vue'
 import Switch from '~/components/ui/switch.vue'
-import type { WishlistTheme, Wishlist } from '~/types'
 import Clipboard from '~/components/ui/clipboard.vue'
+import { Data } from '@generated/data'
 
 const props = defineProps<{
-  themes: WishlistTheme[]
-  wishlist: Wishlist
+  themes: Data.Wishlists.WishlistTheme[]
+  wishlist: Data.Wishlists.Wishlist
 }>()
 
 const themeOptions = props.themes.map((theme) => ({
@@ -23,10 +23,10 @@ const themeOptions = props.themes.map((theme) => ({
 
 const form = useForm({
   id: props.wishlist.id,
-  title: props.wishlist.title,
-  description: props.wishlist.description,
-  eventDate: [props.wishlist.eventDate.toString()],
-  themeId: [props.wishlist.theme.id.toString()],
+  title: props.wishlist.title ?? '',
+  description: props.wishlist.description ?? '',
+  eventDate: props.wishlist.eventDate ?? '',
+  themeId: props.wishlist.theme?.id.toString() ?? '',
   isPublic: props.wishlist.isPublic,
   categories: props.wishlist.categories,
   image: null,
@@ -39,15 +39,9 @@ function submit() {
 
   if (uploadedFile.value) form.image = uploadedFile.value
 
-  form
-    .transform((data) => ({
-      ...data,
-      themeId: data.themeId[0],
-      eventDate: data.eventDate[0],
-    }))
-    .put(`/wishlists/${props.wishlist.id}`, {
-      preserveScroll: true,
-    })
+  form.put(`/wishlists/${props.wishlist.id}`, {
+    preserveScroll: true,
+  })
 }
 </script>
 

@@ -1,0 +1,20 @@
+{
+  "inertia/app.ts": {
+    "file": "app.js",
+    "name": "app",
+    "src": "inertia/app.ts",
+    "isEntry": true,
+    "css": [
+      "app-Dlm-e2lS.css"
+    ],
+    "assets": [
+      "AtkinsonHyperlegible-Regular-Cph6KPzN.woff2",
+      "AtkinsonHyperlegible-Italic-CJ83iDlJ.woff2",
+      "AtkinsonHyperlegible-Bold-XPUesXqu.woff2",
+      "AtkinsonHyperlegible-BoldItalic-BSXFAOYw.woff2",
+      "FiraMono-Regular-ck-o9v3J.woff2",
+      "FiraMono-Bold-Be1C8WkK.woff2",
+      "FiraMono-Medium-DklgoIzw.woff2"
+    ]
+  }
+}

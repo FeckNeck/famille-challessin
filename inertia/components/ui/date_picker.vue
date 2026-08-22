@@ -3,24 +3,36 @@ import {
   DatePicker,
   DatePickerRootProps,
   DatePickerRootEmits,
+  parseDate,
   useForwardPropsEmits,
 } from '@ark-ui/vue'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { computed } from 'vue'
 
-const props = withDefaults(defineProps<DatePickerRootProps>(), {
-  positioning: {
+type DatePickerProps = Omit<DatePickerRootProps, 'modelValue'>
+
+const props = withDefaults(defineProps<DatePickerProps>(), {
+  positioning: () => ({
     sameWidth: true,
-  },
+  }),
   startOfWeek: 1,
 })
 
 const emits = defineEmits<DatePickerRootEmits>()
-
 const forwarded = useForwardPropsEmits(props, emits)
+
+const modelValue = defineModel<string>({ default: '' })
+
+const dateValue = computed({
+  get: () => (modelValue.value ? [parseDate(modelValue.value.slice(0, 10))] : []),
+  set: (value) => {
+    modelValue.value = value[0]?.toString() ?? ''
+  },
+})
 </script>
 
 <template>
-  <DatePicker.Root v-bind="forwarded" locale="fr-FR">
+  <DatePicker.Root v-bind="forwarded" v-model:model-value="dateValue" locale="fr-FR">
     <DatePicker.Control>
       <DatePicker.Input asChild>
         <input />

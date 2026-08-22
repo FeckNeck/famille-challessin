@@ -1,57 +1,3 @@
-export interface Gift {
-  id: string
-  title: string
-  description: string
-  categoryId: string
-  price: string
-  url: string
-  image: string
-  imageUrl: string
-  giverId: string
-  giverName: string
-  giverEmail: string
-}
-
-export interface WishlistTheme {
-  id: number
-  name: string
-  icon: string
-  count: string
-  color: string
-}
-
-export interface WishlistCategory {
-  id: string
-  name: string
-  wishlistId: string
-  gifts: Gift[]
-}
-
-export interface Wishlist {
-  id: string
-  userId: string
-  title: string
-  description: string
-  eventDate: Date
-  isPublic: boolean
-  imageUrl: string
-  url: string
-  categories: WishlistCategory[]
-  theme: WishlistTheme
-  user: User
-}
-
-export interface User {
-  id: string
-  username: string
-  email: string
-  roleId: number
-  wishlists: Wishlist[]
-  count: string
-  icon: string
-  color: string
-}
-
 /**
  * Sort order. -1 is descending, 1 is ascending
  */
@@ -63,4 +9,20 @@ export interface WishlistFilter {
   order: SortOrder
   orderBy: 'name' | 'created' | 'updated' | 'event_date'
   page: number
+}
+
+/**
+ * Generic metadata field for paginated responses
+ * The documentation for this is a bit lacking, but it seems to be the same as the SimplePaginatorMetaKeys interface except the types are all numbers instead of strings. This is likely because the SimplePaginatorMetaKeys interface is used for query builders, while this interface is used for responses.
+ */
+export type InertiaPaginationMeta = {
+  total: number
+  perPage: number
+  currentPage: number
+  lastPage: number
+  firstPage: number
+  firstPageUrl: string
+  lastPageUrl: string
+  nextPageUrl: string | null
+  previousPageUrl: string | null
 }

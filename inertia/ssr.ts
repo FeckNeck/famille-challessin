@@ -9,8 +9,8 @@ export default function render(page: any) {
     render: renderToString,
     resolve: (name) => {
       return resolvePageComponent(
-        `../pages/${name}.vue`,
-        import.meta.glob<DefineComponent>('../pages/**/*.vue')
+        `./pages/${name}.vue`,
+        import.meta.glob<DefineComponent>('./pages/**/*.vue')
       )
     },
 

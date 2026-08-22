@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Gift } from 'lucide-vue-next'
 import Button from '~/components/ui/button.vue'
-import type { Wishlist } from '~/app/types'
 import WishListCard from './wishlist_card.vue'
+import type { Data } from '@generated/data'
 
-defineProps<{ wishlists: Wishlist[] }>()
+defineProps<{ wishlists: Data.Wishlists.Wishlist[] }>()
 </script>
 
 <template>
