@@ -5,7 +5,7 @@ import {
   ClipboardRootProps,
   useForwardPropsEmits,
 } from '@ark-ui/vue'
-import { CheckIcon, ClipboardCopyIcon } from 'lucide-vue-next'
+import { CheckIcon, ClipboardCopyIcon } from '@lucide/vue'
 import Input from './input.vue'
 
 export interface ClipboardProps extends ClipboardRootProps {

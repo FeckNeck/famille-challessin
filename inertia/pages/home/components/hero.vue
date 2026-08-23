@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Gift } from 'lucide-vue-next'
+import { Gift } from '@lucide/vue'
 import Button from '~/components/ui/button.vue'
 </script>
 

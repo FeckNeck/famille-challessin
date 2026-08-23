@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Trash2 } from 'lucide-vue-next'
+import { Trash2 } from '@lucide/vue'
 import { useForm, router } from '@inertiajs/vue3'
 import { useImageUpload } from '~/composables/image_upload'
 import Button from '~/components/ui/button.vue'

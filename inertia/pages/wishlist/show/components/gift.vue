@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowLeft } from 'lucide-vue-next'
+import { ArrowLeft } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { useForm, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'

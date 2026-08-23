@@ -6,7 +6,7 @@ import {
   useForwardPropsEmits,
 } from '@ark-ui/vue'
 import Button from './button.vue'
-import { Trash2 } from 'lucide-vue-next'
+import { Trash2 } from '@lucide/vue'
 import { computed } from 'vue'
 
 export interface FileUploadProps extends FileUploadRootProps {

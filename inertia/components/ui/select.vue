@@ -6,7 +6,7 @@ import {
   createListCollection,
   useForwardPropsEmits,
 } from '@ark-ui/vue'
-import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import { Check, ChevronsUpDown } from '@lucide/vue'
 import { computed } from 'vue'
 
 interface SelectItem {

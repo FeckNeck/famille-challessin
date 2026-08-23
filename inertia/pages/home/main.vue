@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
-import { Search } from 'lucide-vue-next'
+import { Search } from '@lucide/vue'
 import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
 import Filters from './components/filters.vue'
 import Hero from './components/hero.vue'

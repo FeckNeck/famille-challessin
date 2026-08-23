@@ -6,7 +6,7 @@ import {
   type DialogRootProps,
 } from '@ark-ui/vue'
 import Card from './card.vue'
-import { XIcon } from 'lucide-vue-next'
+import { XIcon } from '@lucide/vue'
 
 export interface DialogProps extends DialogRootProps {
   position?: 'center' | 'top'

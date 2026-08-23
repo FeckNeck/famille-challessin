@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue'
 import { Link } from '@inertiajs/vue3'
-import { LoaderCircle } from 'lucide-vue-next'
+import { LoaderCircle } from '@lucide/vue'
 
 defineProps<{
   color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime' | 'blank'

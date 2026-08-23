@@ -6,7 +6,7 @@ import {
   parseDate,
   useForwardPropsEmits,
 } from '@ark-ui/vue'
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { Calendar, ChevronLeft, ChevronRight } from '@lucide/vue'
 import { computed } from 'vue'
 
 type DatePickerProps = Omit<DatePickerRootProps, 'modelValue'>

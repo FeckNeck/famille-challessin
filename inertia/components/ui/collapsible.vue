@@ -5,7 +5,7 @@ import {
   type CollapsibleRootProps,
   type CollapsibleRootEmits,
 } from '@ark-ui/vue'
-import { ChevronDownIcon } from 'lucide-vue-next'
+import { ChevronDownIcon } from '@lucide/vue'
 
 const props = defineProps<CollapsibleRootProps>()
 const emits = defineEmits<CollapsibleRootEmits>()

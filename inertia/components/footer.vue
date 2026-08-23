@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Github, Linkedin } from 'lucide-vue-next'
-
 const currentYear = new Date().getFullYear()
 </script>
 
@@ -10,22 +8,7 @@ const currentYear = new Date().getFullYear()
       <div class="d-flex items-center justify-between py-6">
         <p>&copy; {{ currentYear }} FeckNeck</p>
         <div class="d-flex items-center g-4">
-          <a
-            href="https://www.linkedin.com/in/mathis-dousse/"
-            target="_blank"
-            title="LinkedIn"
-            rel="noopener noreferrer"
-          >
-            <Linkedin :size="20" />
-          </a>
-          <a
-            href="https://github.com/FeckNeck"
-            target="_blank"
-            title="GitHub"
-            rel="noopener noreferrer"
-          >
-            <Github :size="20" />
-          </a>
+          <!-- TODO: find something to put here, maybe a gif or something -->
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Link, usePage, router } from '@inertiajs/vue3'
 import { PageProps } from '@adonisjs/inertia/types'
-import { UserRound } from 'lucide-vue-next'
+import { UserRound } from '@lucide/vue'
 import Button from '~/components/ui/button.vue'
 import { Data } from '@generated/data'
 

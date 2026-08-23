@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router, useForm } from '@inertiajs/vue3'
-import { Trash2 } from 'lucide-vue-next'
+import { Trash2 } from '@lucide/vue'
 import Button from '~/components/ui/button.vue'
 import Collapsible from '~/components/ui/collapsible.vue'
 import CreateGift from './create_gift.vue'

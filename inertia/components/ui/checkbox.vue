@@ -5,7 +5,7 @@ import {
   type CheckboxRootProps,
   type CheckboxRootEmits,
 } from '@ark-ui/vue'
-import { CheckIcon } from 'lucide-vue-next'
+import { CheckIcon } from '@lucide/vue'
 
 export interface CheckboxProps extends CheckboxRootProps {
   color?: 'cyan' | 'violet' | 'red' | 'yellow' | 'lime'
