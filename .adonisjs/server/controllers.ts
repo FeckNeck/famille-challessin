@@ -23,9 +23,9 @@ export const controllers = {
     },
     gifts: {
       BookGifts: () => import('#modules/wishlists/controllers/gifts/book_gifts_controller'),
+      CreateGifts: () => import('#modules/wishlists/controllers/gifts/create_gifts_controller'),
       EditGifts: () => import('#modules/wishlists/controllers/gifts/edit_gifts_controller'),
       RemoveGifts: () => import('#modules/wishlists/controllers/gifts/remove_gifts_controller'),
-      ScrapGifts: () => import('#modules/wishlists/controllers/gifts/scrap_gifts_controller'),
     },
     wishlists: {
       CreateWishlists: () => import('#modules/wishlists/controllers/wishlists/create_wishlists_controller'),

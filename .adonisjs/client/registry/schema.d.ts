@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 /// <reference path="../manifest.d.ts" />
 
-import type { InferInput, SimpleError } from '@vinejs/vine/types'
 import type { ExtractBody, ExtractErrorResponse, ExtractQuery, ExtractQueryForGet, ExtractResponse } from '@tuyau/core/types'
+import type { InferInput, SimpleError } from '@vinejs/vine/types'
 
 export type ParamValue = string | number | bigint | boolean
 
@@ -191,12 +191,12 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/wishlists/:id/categories/:categoryId/gifts'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#modules/wishlists/controllers/gifts/scrap_gifts_controller').default)['scrapGiftsValidator']>>
+      body: ExtractBody<InferInput<(typeof import('#modules/wishlists/controllers/gifts/create_gifts_controller').default)['scrapGiftsValidator']>>
       paramsTuple: [ParamValue, ParamValue]
       params: { id: ParamValue; categoryId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#modules/wishlists/controllers/gifts/scrap_gifts_controller').default)['scrapGiftsValidator']>>
-      response: ExtractResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/gifts/scrap_gifts_controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/gifts/scrap_gifts_controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#modules/wishlists/controllers/gifts/create_gifts_controller').default)['scrapGiftsValidator']>>
+      response: ExtractResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/gifts/create_gifts_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/gifts/create_gifts_controller').default['handle']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'gifts.edit': {

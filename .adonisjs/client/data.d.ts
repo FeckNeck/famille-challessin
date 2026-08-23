@@ -3,17 +3,16 @@
  * DO NOT EDIT manually
  */
 
-import type { InferSharedProps, InferFlashData } from '@adonisjs/inertia/types'
 /// <reference path="./manifest.d.ts" />
 import type { InferData, InferVariants } from '@adonisjs/core/types/transformers'
-
-import type InertiaMiddleware from '#middleware/inertia_middleware'
-import type AuthUserTransformer from '#modules/auth/transformers/user_transformer'
+import type { InferSharedProps, InferFlashData } from '@adonisjs/inertia/types'
 import type AuthUserListTransformer from '#modules/auth/transformers/user_list_transformer'
-import type WishlistsWishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer'
+import type AuthUserTransformer from '#modules/auth/transformers/user_transformer'
+import type WishlistsWishlistCategoryTransformer from '#modules/wishlists/transformers/wishlist_category_transformer'
 import type WishlistsWishlistGiftTransformer from '#modules/wishlists/transformers/wishlist_gift_transformer'
 import type WishlistsWishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer'
-import type WishlistsWishlistCategoryTransformer from '#modules/wishlists/transformers/wishlist_category_transformer'
+import type WishlistsWishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer'
+import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
   export namespace Auth {

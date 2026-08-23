@@ -46,10 +46,6 @@ export default class EditWishlistsController {
       return response.redirect().back();
     }
 
-    wishlist.wishlistCategory.forEach((c) => {
-      console.log('category', c.gifts);
-    });
-
     return inertia.render('wishlist/edit/main', {
       wishlist: WishlistTransformer.transform(wishlist),
       themes: WishlistThemeTransformer.transform(themes),

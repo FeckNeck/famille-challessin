@@ -5,7 +5,7 @@ import { controllers } from '#generated/controllers';
 
 router
   .post('wishlists/:id/categories/:categoryId/gifts', [
-    controllers.wishlists.gifts.ScrapGifts,
+    controllers.wishlists.gifts.CreateGifts,
     'handle',
   ])
   .as('gifts.scrap')
