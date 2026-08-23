@@ -1,94 +1,95 @@
 <script setup lang="ts">
-import { Head, router } from '@inertiajs/vue3'
-import { computed, ref, watch } from 'vue'
-import { Search } from '@lucide/vue'
-import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
-import Filters from './components/filters.vue'
-import Hero from './components/hero.vue'
-import Input from '~/components/ui/input.vue'
-import Layout from '~/layouts/default.vue'
-import MainSection from './components/main_section.vue'
-import Order from './components/order.vue'
-import Pagination from './components/pagination.vue'
-import type { WishlistFilter, SortOrder, InertiaPaginationMeta } from '~/types'
-import type { Data } from '@generated/data'
-import Select from '~/components/ui/select.vue'
+  import { Search } from '@lucide/vue';
+  import { computed, ref, watch } from 'vue';
+  import type { Data } from '@generated/data';
+  import { Head, router } from '@inertiajs/vue3';
+  import { useUrlSearchParams, watchDebounced } from '@vueuse/core';
 
-const props = defineProps<{
-  users: Data.Auth.UserList[]
-  wishlists: {
-    data: Data.Wishlists.Wishlist[]
-    metadata: InertiaPaginationMeta
-  }
-  themes: Data.Wishlists.WishlistTheme[]
-}>()
+  import Hero from './components/hero.vue';
+  import Layout from '~/layouts/default.vue';
+  import Order from './components/order.vue';
+  import Input from '~/components/ui/input.vue';
+  import Filters from './components/filters.vue';
+  import Select from '~/components/ui/select.vue';
+  import Pagination from './components/pagination.vue';
+  import MainSection from './components/main_section.vue';
+  import type { WishlistFilter, SortOrder, InertiaPaginationMeta } from '~/types';
 
-const params = useUrlSearchParams<Partial<WishlistFilter>>('history')
+  const props = defineProps<{
+    users: Data.Auth.UserList[];
+    wishlists: {
+      data: Data.Wishlists.Wishlist[];
+      metadata: InertiaPaginationMeta;
+    };
+    themes: Data.Wishlists.WishlistTheme[];
+  }>();
 
-const scrollToTopRef = ref<HTMLElement | null>(null)
+  const params = useUrlSearchParams<Partial<WishlistFilter>>('history');
 
-function scrollToTop() {
-  if (!scrollToTopRef.value) return
-  scrollToTopRef.value.scrollIntoView({ behavior: 'smooth' })
-}
+  const scrollToTopRef = ref<HTMLElement | null>(null);
 
-/**
- * Search
- */
-const search = ref<string>((params.title as string) || '')
-watchDebounced(search, () => fetchNewPageData(1), { debounce: 400 })
-
-/**
- * Order by
- */
-const orderByOptions = [
-  { label: 'Titre', value: 'title', description: 'Trier les listes par leur nom' },
-  {
-    label: 'Date de création',
-    value: 'created_at',
-    description: 'Trier les listes par leur date de création',
-  },
-  {
-    label: "Date d'évènement",
-    value: 'event_date',
-    description: "Trier les listes par leur date d'évènement",
-  },
-]
-const order = ref<SortOrder>(params.order || 'desc')
-const orderBy = ref<string>(params.orderBy || orderByOptions[1].value)
-
-/**
- * Filters
- */
-const users = computed(() => props.users)
-const usersOptions = [
-  { label: 'All', value: '' },
-  ...props.users.map((user) => ({ label: user.username, value: user.username })),
-]
-const username = ref<string>(params.username || '')
-const themes = computed(() => props.themes)
-const theme = ref<string>(params.theme || '')
-
-/**
- * Refetch when any of the filters change
- */
-watch([username, theme, order, orderBy], () => {
-  fetchNewPageData(1)
-})
-
-function fetchNewPageData(page: number) {
-  const props = {
-    page,
-    order: order.value,
-    orderBy: orderBy.value,
-    username: username.value,
-    theme: theme.value,
-    title: search.value,
+  function scrollToTop() {
+    if (!scrollToTopRef.value) return;
+    scrollToTopRef.value.scrollIntoView({ behavior: 'smooth' });
   }
 
-  router.get('/', props, { preserveState: true, preserveScroll: true })
-  scrollToTop()
-}
+  /**
+   * Search
+   */
+  const search = ref<string>((params.title as string) || '');
+  watchDebounced(search, () => fetchNewPageData(1), { debounce: 400 });
+
+  /**
+   * Order by
+   */
+  const orderByOptions = [
+    { label: 'Titre', value: 'title', description: 'Trier les listes par leur nom' },
+    {
+      label: 'Date de création',
+      value: 'created_at',
+      description: 'Trier les listes par leur date de création',
+    },
+    {
+      label: "Date d'évènement",
+      value: 'event_date',
+      description: "Trier les listes par leur date d'évènement",
+    },
+  ];
+  const order = ref<SortOrder>(params.order || 'desc');
+  const orderBy = ref<string>(params.orderBy || orderByOptions[1].value);
+
+  /**
+   * Filters
+   */
+  const users = computed(() => props.users);
+  const usersOptions = [
+    { label: 'All', value: '' },
+    ...props.users.map((user) => ({ label: user.username, value: user.username })),
+  ];
+  const username = ref<string>(params.username || '');
+  const themes = computed(() => props.themes);
+  const theme = ref<string>(params.theme || '');
+
+  /**
+   * Refetch when any of the filters change
+   */
+  watch([username, theme, order, orderBy], () => {
+    fetchNewPageData(1);
+  });
+
+  function fetchNewPageData(page: number) {
+    const props = {
+      page,
+      order: order.value,
+      orderBy: orderBy.value,
+      username: username.value,
+      theme: theme.value,
+      title: search.value,
+    };
+
+    router.get('/', props, { preserveState: true, preserveScroll: true });
+    scrollToTop();
+  }
 </script>
 
 <template>
@@ -102,8 +103,7 @@ function fetchNewPageData(page: number) {
             :themes="themes"
             :users="users"
             v-model:username="username"
-            v-model:theme="theme"
-          />
+            v-model:theme="theme" />
           <div class="whishlist__content">
             <div class="whishlist__content__filters">
               <Input
@@ -111,8 +111,7 @@ function fetchNewPageData(page: number) {
                 placeholder="Search by title"
                 type="search"
                 radius="rfull"
-                class="whishlist__content__filters__search"
-              >
+                class="whishlist__content__filters__search">
                 <template #left-icon>
                   <Search />
                 </template>
@@ -120,8 +119,7 @@ function fetchNewPageData(page: number) {
               <Select
                 :items="usersOptions"
                 v-model:model-value="username"
-                class="whishlist__content__filters__users"
-              />
+                class="whishlist__content__filters__users" />
               <div class="whishlist__content__filters__order">
                 <Order v-model:order="order" />
                 <Select :items="orderByOptions" v-model:model-value="orderBy" />
@@ -132,8 +130,7 @@ function fetchNewPageData(page: number) {
               :total="props.wishlists.metadata.total"
               :last-page="props.wishlists.metadata.lastPage"
               :current-page="props.wishlists.metadata.currentPage"
-              @update="fetchNewPageData"
-            />
+              @update="fetchNewPageData" />
           </div>
         </div>
       </div>
@@ -142,56 +139,56 @@ function fetchNewPageData(page: number) {
 </template>
 
 <style scoped lang="scss">
-.whishlist {
-  @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: 18rem 1fr;
-    gap: 3rem;
-    align-items: flex-start;
-  }
+  .whishlist {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 18rem 1fr;
+      gap: 3rem;
+      align-items: flex-start;
+    }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2rem;
-
-    &__filters {
+    &__content {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 0.5rem;
-      width: 100%;
+      align-items: flex-start;
+      gap: 2rem;
 
-      &__search {
-        width: 100%;
-      }
-
-      &__users {
-        display: block;
-      }
-
-      &__order {
+      &__filters {
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.5rem;
         width: 100%;
-      }
-
-      @media (min-width: 768px) {
-        flex-direction: row;
 
         &__search {
-          width: 250px;
+          width: 100%;
         }
 
         &__users {
-          display: none;
+          display: block;
         }
 
         &__order {
-          width: 275px;
+          display: flex;
+          width: 100%;
+        }
+
+        @media (min-width: 768px) {
+          flex-direction: row;
+
+          &__search {
+            width: 250px;
+          }
+
+          &__users {
+            display: none;
+          }
+
+          &__order {
+            width: 275px;
+          }
         }
       }
     }
   }
-}
 </style>

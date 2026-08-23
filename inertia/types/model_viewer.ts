@@ -1,7 +1,7 @@
-import { Ref } from 'vue'
+import { Ref } from 'vue';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    modelViewerScriptLoaded: Ref<boolean>
+    modelViewerScriptLoaded: Ref<boolean>;
   }
 }

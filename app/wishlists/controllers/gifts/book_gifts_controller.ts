@@ -1,38 +1,39 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import vine from '@vinejs/vine'
-import Wishlist from '#wishlists/models/wishlist'
+import vine from '@vinejs/vine';
+import type { HttpContext } from '@adonisjs/core/http';
+
+import Wishlist from '#wishlists/models/wishlist';
 
 export default class BookGiftsController {
   static bookGiftValidator = vine.create({
     giverName: vine.string().trim().toLowerCase(),
     giverEmail: vine.string().trim().toLowerCase().email().optional(),
-  })
+  });
   async handle({ params, request, response, auth }: HttpContext) {
-    const payload = await request.validateUsing(BookGiftsController.bookGiftValidator)
+    const payload = await request.validateUsing(BookGiftsController.bookGiftValidator);
 
     const wishlist = await Wishlist.query()
       .preload('wishlistCategory')
       .where('id', params.id)
-      .firstOrFail()
+      .firstOrFail();
 
     const wishlistCategory = await wishlist
       ?.related('wishlistCategory')
       .query()
       .where('id', params.categoryId)
-      .firstOrFail()
+      .firstOrFail();
 
     const gift = await wishlistCategory
       ?.related('gifts')
       .query()
       .where('id', params.giftId)
-      .firstOrFail()
+      .firstOrFail();
 
     if (auth.user?.id) {
-      gift!.giverId = auth.user.id
+      gift!.giverId = auth.user.id;
     }
 
-    gift?.merge(payload)
-    await gift?.save()
-    return response.redirect().toPath(wishlist!.url!)
+    gift?.merge(payload);
+    await gift?.save();
+    return response.redirect().toPath(wishlist!.url!);
   }
 }

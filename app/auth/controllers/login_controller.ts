@@ -1,23 +1,24 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#auth/models/user'
-import vine from '@vinejs/vine'
+import vine from '@vinejs/vine';
+import type { HttpContext } from '@adonisjs/core/http';
+
+import User from '#auth/models/user';
 
 export default class LoginController {
   static validator = vine.create({
     email: vine.string().email(),
     password: vine.string(),
     remember_me: vine.boolean(),
-  })
+  });
 
   async render({ response }: HttpContext) {
-    return response.redirect().withQs({ modal: 'login' }).back()
+    return response.redirect().withQs({ modal: 'login' }).back();
   }
 
   async handle({ request, auth, response }: HttpContext) {
-    const { email, password } = await request.validateUsing(LoginController.validator)
+    const { email, password } = await request.validateUsing(LoginController.validator);
 
-    const user = await User.verifyCredentials(email, password)
-    await auth.use('web').login(user, !!request.input('remember_me'))
-    return response.redirect().toPath('/')
+    const user = await User.verifyCredentials(email, password);
+    await auth.use('web').login(user, !!request.input('remember_me'));
+    return response.redirect().toPath('/');
   }
 }

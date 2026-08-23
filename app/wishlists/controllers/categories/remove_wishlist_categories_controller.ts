@@ -1,4 +1,4 @@
-import { HttpContext } from '@adonisjs/core/http'
+import { HttpContext } from '@adonisjs/core/http';
 
 export default class RemoveWishlistsCategoryController {
   async handle({ response, auth, params }: HttpContext) {
@@ -6,16 +6,16 @@ export default class RemoveWishlistsCategoryController {
       ?.related('wishlists')
       .query()
       .where('id', params.id)
-      .firstOrFail()
+      .firstOrFail();
 
     const wishlistCategory = await wishlist
       ?.related('wishlistCategory')
       .query()
       .where('id', params.categoryId)
-      .firstOrFail()
+      .firstOrFail();
 
-    await wishlistCategory?.delete()
+    await wishlistCategory?.delete();
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })
+    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id });
   }
 }

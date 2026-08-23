@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Gift } from '@lucide/vue'
-import Button from '~/components/ui/button.vue'
-import WishListCard from './wishlist_card.vue'
-import type { Data } from '@generated/data'
+  import { Gift } from '@lucide/vue';
+  import type { Data } from '@generated/data';
 
-defineProps<{ wishlists: Data.Wishlists.Wishlist[] }>()
+  import WishListCard from './wishlist_card.vue';
+  import Button from '~/components/ui/button.vue';
+
+  defineProps<{ wishlists: Data.Wishlists.Wishlist[] }>();
 </script>
 
 <template>
@@ -24,31 +25,31 @@ defineProps<{ wishlists: Data.Wishlists.Wishlist[] }>()
 </template>
 
 <style scoped lang="scss">
-.cards__list {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
-  width: 100%;
-
-  @media (min-width: 768px) {
+  .cards__list {
+    display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  @media (min-width: 1280px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
+    gap: 1rem;
+    width: 100%;
 
-.no-wishlists {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  text-align: center;
-  height: 24rem;
-  width: 100%;
-}
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .no-wishlists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    height: 24rem;
+    width: 100%;
+  }
 </style>

@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Link } from '@inertiajs/vue3'
-import Card from '~/components/ui/card.vue'
-import type { Data } from '@generated/data'
-import { useCurrentUser } from '~/composables/use_current_user'
+  import { computed } from 'vue';
+  import { Link } from '@inertiajs/vue3';
+  import type { Data } from '@generated/data';
 
-const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>()
+  import Card from '~/components/ui/card.vue';
+  import { useCurrentUser } from '~/composables/use_current_user';
 
-const user = useCurrentUser()
-const editLink = computed(() => (props.wishlist.user?.id === user.value?.id ? '/edit/' : ''))
+  const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>();
 
-const backgroundColor = computed(() => {
-  return {
-    backgroundColor: props.wishlist.user?.color ?? '',
-  }
-})
+  const user = useCurrentUser();
+  const editLink = computed(() => (props.wishlist.user?.id === user.value?.id ? '/edit/' : ''));
+
+  const backgroundColor = computed(() => {
+    return {
+      backgroundColor: props.wishlist.user?.color ?? '',
+    };
+  });
 </script>
 
 <template>
@@ -38,46 +39,46 @@ const backgroundColor = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.card {
-  height: 16.5rem;
-  display: flex;
-  flex-direction: column;
-
-  h6 {
-    padding: 1rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    border-bottom: 2px solid var(--gray-800);
-    border-top-left-radius: var(--rounded);
-    border-top-right-radius: var(--rounded);
-  }
-
-  img {
-    width: 100%;
-    height: 5rem;
-    object-fit: cover;
-  }
-
-  .card__content {
-    padding: 0.5rem 1rem;
+  .card {
+    height: 16.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    gap: 1rem;
 
-    & > p:first-child {
-      font-size: var(--text-sm);
+    h6 {
+      padding: 1rem;
+      text-overflow: ellipsis;
       overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      white-space: nowrap;
+      border-bottom: 2px solid var(--gray-800);
+      border-top-left-radius: var(--rounded);
+      border-top-right-radius: var(--rounded);
     }
 
-    & > div {
-      font-size: var(--text-xs);
+    img {
+      width: 100%;
+      height: 5rem;
+      object-fit: cover;
+    }
+
+    .card__content {
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+      gap: 1rem;
+
+      & > p:first-child {
+        font-size: var(--text-sm);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+
+      & > div {
+        font-size: var(--text-xs);
+      }
     }
   }
-}
 </style>

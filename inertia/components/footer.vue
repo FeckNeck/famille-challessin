@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -16,10 +16,10 @@ const currentYear = new Date().getFullYear()
 </template>
 
 <style scoped lang="scss">
-footer {
-  background-color: var(--yellow-200);
-  border-top: 2px solid var(--gray-800);
-  margin-top: calc(38 * var(--space));
-  padding-block: 1rem;
-}
+  footer {
+    background-color: var(--yellow-200);
+    border-top: 2px solid var(--gray-800);
+    margin-top: calc(38 * var(--space));
+    padding-block: 1rem;
+  }
 </style>

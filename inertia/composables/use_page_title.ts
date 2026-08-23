@@ -1,11 +1,11 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const pageTitle = ref<string | null>()
+const pageTitle = ref<string | null>();
 
 export function usePageTitle(title?: string) {
   if (title) {
-    pageTitle.value = title
+    pageTitle.value = title;
   }
 
-  return pageTitle
+  return pageTitle;
 }

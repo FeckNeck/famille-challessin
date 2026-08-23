@@ -1,5 +1,6 @@
-import env from '#start/env'
-import { defineConfig, transports } from '@adonisjs/mail'
+import { defineConfig, transports } from '@adonisjs/mail';
+
+import env from '#start/env';
 
 const mailConfig = defineConfig({
   default: 'smtp',
@@ -28,9 +29,9 @@ const mailConfig = defineConfig({
       },
     }),
   },
-})
+});
 
-export default mailConfig
+export default mailConfig;
 
 declare module '@adonisjs/mail/types' {
   export interface MailersList extends InferMailers<typeof mailConfig> {}

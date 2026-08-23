@@ -1,6 +1,7 @@
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
-import WishlistTheme from '#wishlists/models/wishlist_theme'
-import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import { BaseSeeder } from '@adonisjs/lucid/seeders';
+
+import WishlistTheme from '#wishlists/models/wishlist_theme';
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes';
 
 export default class extends BaseSeeder {
   async run() {
@@ -18,6 +19,6 @@ export default class extends BaseSeeder {
         color: '#93d2f6',
       },
       { id: WishlistThemes.Other, name: 'Autre', icon: 'lucide:tree-palm', color: '#f7a9a9' },
-    ])
+    ]);
   }
 }

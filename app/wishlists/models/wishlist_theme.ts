@@ -1,35 +1,36 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import Wishlist from '#wishlists/models/wishlist'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { DateTime } from 'luxon';
+import type { HasMany } from '@adonisjs/lucid/types/relations';
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm';
+
+import Wishlist from '#wishlists/models/wishlist';
 
 export default class WishlistTheme extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: number;
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
 
   @column()
-  declare name: string
+  declare name: string;
 
   @column()
-  declare icon: string | null
+  declare icon: string | null;
 
   @column()
-  declare color: string | null
+  declare color: string | null;
 
   @hasMany(() => Wishlist, {
     foreignKey: 'themeId',
   })
-  declare wishlists: HasMany<typeof Wishlist>
+  declare wishlists: HasMany<typeof Wishlist>;
 
   serializeExtras() {
     return {
       count: this.$extras.count,
-    }
+    };
   }
 }

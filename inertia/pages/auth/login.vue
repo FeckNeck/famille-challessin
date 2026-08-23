@@ -1,37 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Link, router, useForm, usePage, Head } from '@inertiajs/vue3'
-import Button from '~/components/ui/button.vue'
-import Checkbox from '~/components/ui/checkbox.vue'
-import Dialog from '~/components/ui/dialog.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
-import { PageProps } from '@adonisjs/inertia/types'
+  import { ref } from 'vue';
+  import { PageProps } from '@adonisjs/inertia/types';
+  import { Link, router, useForm, usePage, Head } from '@inertiajs/vue3';
 
-const page = usePage<PageProps>()
-const isDialogOpen = ref<boolean>(page.url.includes('modal=login'))
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Dialog from '~/components/ui/dialog.vue';
+  import Checkbox from '~/components/ui/checkbox.vue';
 
-const form = useForm({
-  email: '',
-  password: '',
-  remember_me: false,
-})
+  const page = usePage<PageProps>();
+  const isDialogOpen = ref<boolean>(page.url.includes('modal=login'));
 
-function submit() {
-  if (form.processing) return
+  const form = useForm({
+    email: '',
+    password: '',
+    remember_me: false,
+  });
 
-  form.post('/auth/login', {
-    preserveScroll: true,
-    onError: () => {
-      form.reset('password')
-    },
-    onSuccess: () => {
-      isDialogOpen.value = false
-      // reload the page to get the authenticated user
-      setTimeout(() => router.visit('/', { preserveScroll: true }), 200)
-    },
-  })
-}
+  function submit() {
+    if (form.processing) return;
+
+    form.post('/auth/login', {
+      preserveScroll: true,
+      onError: () => {
+        form.reset('password');
+      },
+      onSuccess: () => {
+        isDialogOpen.value = false;
+        // reload the page to get the authenticated user
+        setTimeout(() => router.visit('/', { preserveScroll: true }), 200);
+      },
+    });
+  }
 </script>
 
 <template>
@@ -58,8 +59,7 @@ function submit() {
               v-model:input="form.password"
               type="password"
               autocomplete="current-password"
-              class="w-full"
-            />
+              class="w-full" />
           </Field>
           <div class="d-flex items-center justify-between">
             <Checkbox label="Se souvenir de moi" v-model:checked="form.remember_me">
@@ -74,8 +74,7 @@ function submit() {
           color="yellow"
           size="small"
           class="w-full"
-          type="submit"
-        >
+          type="submit">
           Se connecter
         </Button>
       </form>
@@ -84,15 +83,15 @@ function submit() {
 </template>
 
 <style scoped lang="scss">
-.login {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  .login {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-  &-forgot {
-    font-size: var(--text-sm);
-    text-decoration: underline;
-    color: var(--gray-600);
+    &-forgot {
+      font-size: var(--text-sm);
+      text-decoration: underline;
+      color: var(--gray-600);
+    }
   }
-}
 </style>

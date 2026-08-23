@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
-import Button from '~/components/ui/button.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
+  import { useForm } from '@inertiajs/vue3';
 
-const props = defineProps<{
-  wishlistId: string
-}>()
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
 
-const form = useForm({
-  name: '',
-})
+  const props = defineProps<{
+    wishlistId: string;
+  }>();
 
-function submit() {
-  if (form.processing) return
+  const form = useForm({
+    name: '',
+  });
 
-  form.post(`/wishlists/${props.wishlistId}/categories`, {
-    preserveScroll: true,
-    onSuccess: () => {
-      form.name = ''
-    },
-  })
-}
+  function submit() {
+    if (form.processing) return;
+
+    form.post(`/wishlists/${props.wishlistId}/categories`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        form.name = '';
+      },
+    });
+  }
 </script>
 
 <template>

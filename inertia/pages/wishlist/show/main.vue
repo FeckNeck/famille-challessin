@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
-import Collapsible from '~/components/ui/collapsible.vue'
-import Gift from './components/gift.vue'
-import Hero from './components/hero.vue'
-import Layout from '~/layouts/default.vue'
-import type { Data } from '@generated/data'
+  import { Head } from '@inertiajs/vue3';
+  import type { Data } from '@generated/data';
 
-const props = defineProps<{
-  wishlist: Data.Wishlists.Wishlist
-}>()
+  import Gift from './components/gift.vue';
+  import Hero from './components/hero.vue';
+  import Layout from '~/layouts/default.vue';
+  import Collapsible from '~/components/ui/collapsible.vue';
+
+  const props = defineProps<{
+    wishlist: Data.Wishlists.Wishlist;
+  }>();
 </script>
 
 <template>
@@ -21,8 +22,7 @@ const props = defineProps<{
           <Collapsible
             v-for="category in wishlist.categories"
             :key="category.id"
-            class="wishlist__category"
-          >
+            class="wishlist__category">
             <template #title>
               <h5>{{ category.name }}</h5>
             </template>
@@ -33,8 +33,7 @@ const props = defineProps<{
                 :gift="gift"
                 :wishlistId="wishlist.id"
                 :categoryId="category.id"
-                class="wishlist__category__gift"
-              />
+                class="wishlist__category__gift" />
             </template>
           </Collapsible>
         </div>
@@ -44,21 +43,21 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-.wishlist {
-  &__category {
-    border: 2px solid var(--gray-800);
-    box-shadow: var(--shadow-tiny);
-    background-color: var(--white);
-    display: flex;
-    flex-direction: column;
+  .wishlist {
+    &__category {
+      border: 2px solid var(--gray-800);
+      box-shadow: var(--shadow-tiny);
+      background-color: var(--white);
+      display: flex;
+      flex-direction: column;
 
-    &__gift {
-      border-bottom: 2px solid var(--gray-800);
+      &__gift {
+        border-bottom: 2px solid var(--gray-800);
 
-      &:last-child {
-        border-bottom: none;
+        &:last-child {
+          border-bottom: none;
+        }
       }
     }
   }
-}
 </style>

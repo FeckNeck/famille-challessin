@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-import { Link, router } from '@inertiajs/vue3'
-import { UserRound } from '@lucide/vue'
-import Button from '~/components/ui/button.vue'
-import { useCurrentUser } from '~/composables/use_current_user'
+  import { UserRound } from '@lucide/vue';
+  import { Link, router } from '@inertiajs/vue3';
 
-const user = useCurrentUser()
+  import Button from '~/components/ui/button.vue';
+  import { useCurrentUser } from '~/composables/use_current_user';
 
-function logout() {
-  router.delete('/logout', {
-    preserveScroll: true,
-    onSuccess: () => {
-      router.visit('/', { preserveScroll: true })
-    },
-  })
-}
+  const user = useCurrentUser();
+
+  function logout() {
+    router.delete('/logout', {
+      preserveScroll: true,
+      onSuccess: () => {
+        router.visit('/', { preserveScroll: true });
+      },
+    });
+  }
 </script>
 
 <template>
@@ -26,7 +27,7 @@ function logout() {
       <div class="d-flex items-center g-2">
         <template v-if="user">
           <Link href="/account">{{ user.username }}</Link>
-          <span> | </span>
+          <span>|</span>
           <form @submit.prevent="logout()">
             <Button type="submit" color="yellow" size="small">Se déconnecter</Button>
           </form>
@@ -45,9 +46,9 @@ function logout() {
 </template>
 
 <style scoped lang="scss">
-header {
-  & img {
-    width: 4rem;
+  header {
+    & img {
+      width: 4rem;
+    }
   }
-}
 </style>

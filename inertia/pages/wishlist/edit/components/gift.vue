@@ -1,60 +1,61 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Trash2 } from '@lucide/vue'
-import { useForm, router } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/use_image_upload'
-import Button from '~/components/ui/button.vue'
-import Field from '~/components/ui/field.vue'
-import FileUploadC from '~/components/ui/file_upload.vue'
-import Input from '~/components/ui/input.vue'
-import { Data } from '@generated/data'
+  import { ref } from 'vue';
+  import { Trash2 } from '@lucide/vue';
+  import { Data } from '@generated/data';
+  import { useForm, router } from '@inertiajs/vue3';
 
-const props = defineProps<{
-  gift: Data.Wishlists.WishlistGift
-  wishlistId: string
-}>()
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import FileUploadC from '~/components/ui/file_upload.vue';
+  import { useImageUpload } from '~/composables/use_image_upload';
 
-const form = useForm({
-  id: props.gift.id,
-  title: props.gift.title ?? '',
-  description: props.gift.description ?? '',
-  categoryId: props.gift.categoryId,
-  price: props.gift.price ?? '',
-  url: props.gift.url ?? '',
-  image: null,
-})
+  const props = defineProps<{
+    gift: Data.Wishlists.WishlistGift;
+    wishlistId: string;
+  }>();
 
-const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.gift.imageUrl)
-const isDeleting = ref<boolean>(false)
+  const form = useForm({
+    id: props.gift.id,
+    title: props.gift.title ?? '',
+    description: props.gift.description ?? '',
+    categoryId: props.gift.categoryId,
+    price: props.gift.price ?? '',
+    url: props.gift.url ?? '',
+    image: null,
+  });
 
-function submit() {
-  if (form.processing) return
+  const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.gift.imageUrl);
+  const isDeleting = ref<boolean>(false);
 
-  if (uploadedFile.value) form.image = uploadedFile.value
+  function submit() {
+    if (form.processing) return;
 
-  form.patch(
-    `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
-    {
-      preserveScroll: true,
-    }
-  )
-}
+    if (uploadedFile.value) form.image = uploadedFile.value;
 
-function remove() {
-  if (isDeleting.value) return
-
-  isDeleting.value = true
-
-  router.delete(
-    `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
-    {
-      preserveScroll: true,
-      onFinish: () => {
-        isDeleting.value = false
+    form.patch(
+      `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
+      {
+        preserveScroll: true,
       },
-    }
-  )
-}
+    );
+  }
+
+  function remove() {
+    if (isDeleting.value) return;
+
+    isDeleting.value = true;
+
+    router.delete(
+      `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
+      {
+        preserveScroll: true,
+        onFinish: () => {
+          isDeleting.value = false;
+        },
+      },
+    );
+  }
 </script>
 
 <template>
@@ -64,8 +65,7 @@ function remove() {
         <FileUploadC
           v-model:file="uploadedFile"
           :url="uploadedFilePreview"
-          @file-accept="onfileChange"
-        />
+          @file-accept="onfileChange" />
       </div>
       <div class="gift__form__content">
         <Field label="Titre" :error="form.errors.title">
@@ -91,9 +91,9 @@ function remove() {
         :loading="form.processing"
         color="yellow"
         type="submit"
-        size="small"
-        >Enregistrer</Button
-      >
+        size="small">
+        Enregistrer
+      </Button>
       <form @submit.prevent="remove()">
         <Button :disabled="isDeleting" :loading="isDeleting" color="red" size="small" type="submit">
           <Trash2 />
@@ -104,60 +104,60 @@ function remove() {
 </template>
 
 <style scoped lang="scss">
-.gift {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-
-  &__form {
+  .gift {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
-    flex-grow: 1;
+    padding: 1rem;
 
-    &-img {
-      width: 13rem;
-      height: 13rem;
-    }
-
-    &__content {
+    &__form {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
       flex-grow: 1;
 
-      & > div:last-child {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+      &-img {
+        width: 13rem;
+        height: 13rem;
+      }
+
+      &__content {
+        flex-grow: 1;
+
+        & > div:last-child {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          & > div:last-child {
+            display: block;
+          }
+        }
       }
 
       @media (max-width: 768px) {
-        & > div:last-child {
-          display: block;
+        &-img {
+          width: 100%;
         }
       }
     }
 
-    @media (max-width: 768px) {
-      &-img {
+    &-btns {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
         width: 100%;
+
+        & > button {
+          flex-grow: 1;
+        }
       }
     }
   }
-
-  &-btns {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    @media (max-width: 768px) {
-      width: 100%;
-
-      & > button {
-        flex-grow: 1;
-      }
-    }
-  }
-}
 </style>

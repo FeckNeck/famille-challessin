@@ -1,40 +1,39 @@
 <script setup lang="ts">
-import {
-  Select,
-  SelectRootProps,
-  SelectRootEmits,
-  createListCollection,
-  useForwardPropsEmits,
-} from '@ark-ui/vue'
-import { Check, ChevronsUpDown } from '@lucide/vue'
-import { computed } from 'vue'
+  import { computed } from 'vue';
+  import { Check, ChevronsUpDown } from '@lucide/vue';
+  import {
+    Select,
+    SelectRootProps,
+    SelectRootEmits,
+    createListCollection,
+    useForwardPropsEmits,
+  } from '@ark-ui/vue';
 
-interface SelectItem {
-  label: string
-  value: string
-}
+  interface SelectItem {
+    label: string;
+    value: string;
+  }
 
-type SelectProps = Omit<SelectRootProps<SelectItem>, 'collection' | 'modelValue'> & {
-  items: SelectItem[]
-  placeholder?: string
-  modelValue?: string
-}
+  type SelectProps = Omit<SelectRootProps<SelectItem>, 'collection' | 'modelValue'> & {
+    items: SelectItem[];
+    placeholder?: string;
+  };
 
-const props = withDefaults(defineProps<SelectProps>(), {
-  positioning: () => ({ sameWidth: true }),
-})
+  const props = withDefaults(defineProps<SelectProps>(), {
+    positioning: () => ({ sameWidth: true }),
+  });
 
-const modelValue = defineModel<string>({ default: '' })
-const emit = defineEmits<SelectRootEmits<string>>()
+  const modelValue = defineModel<string>({ default: '' });
+  const emit = defineEmits<SelectRootEmits<string>>();
 
-const forwarded = useForwardPropsEmits(props, emit)
-const collection = createListCollection({ items: props.items })
-const selectedValues = computed({
-  get: () => (modelValue.value ? [modelValue.value] : []),
-  set: (value) => {
-    modelValue.value = value[0] ?? ''
-  },
-})
+  const forwarded = useForwardPropsEmits(props, emit);
+  const collection = createListCollection({ items: props.items });
+  const selectedValues = computed({
+    get: () => (modelValue.value ? [modelValue.value] : []),
+    set: (value) => {
+      modelValue.value = value[0] ?? '';
+    },
+  });
 </script>
 
 <template>
@@ -66,68 +65,68 @@ const selectedValues = computed({
 </template>
 
 <style scoped>
-[data-scope='select'][data-part='root'] {
-  width: 100%;
-}
-
-[data-scope='select'][data-part='trigger'] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  width: 100%;
-  background-color: var(--white);
-  border: 2px solid var(--gray-800);
-}
-
-[data-scope='select'][data-part='content'] {
-  background-color: var(--white);
-  border: 2px solid var(--gray-800);
-  box-shadow: var(--shadow-tiny);
-  width: 100%;
-  z-index: 1000;
-}
-
-[data-scope='select'][data-part='content'][data-state='open'] {
-  animation: fadeIn 0.25s ease-out;
-}
-
-[data-scope='select'][data-part='content'][data-state='closed'] {
-  animation: fadeOut 0.2s ease-in;
-}
-
-[data-scope='select'][data-part='item'] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: 0.5rem;
-  height: 2.5rem;
-  transition: background-color 200ms ease-in-out;
-}
-
-[data-scope='select'][data-part='item'][data-highlighted] {
-  background-color: var(--cyan-200);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+  [data-scope='select'][data-part='root'] {
+    width: 100%;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
+  [data-scope='select'][data-part='trigger'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background-color: var(--white);
+    border: 2px solid var(--gray-800);
   }
-  to {
-    opacity: 0;
-    transform: translateY(-10px);
+
+  [data-scope='select'][data-part='content'] {
+    background-color: var(--white);
+    border: 2px solid var(--gray-800);
+    box-shadow: var(--shadow-tiny);
+    width: 100%;
+    z-index: 1000;
   }
-}
+
+  [data-scope='select'][data-part='content'][data-state='open'] {
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  [data-scope='select'][data-part='content'][data-state='closed'] {
+    animation: fadeOut 0.2s ease-in;
+  }
+
+  [data-scope='select'][data-part='item'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 0.5rem;
+    height: 2.5rem;
+    transition: background-color 200ms ease-in-out;
+  }
+
+  [data-scope='select'][data-part='item'][data-highlighted] {
+    background-color: var(--cyan-200);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
 </style>

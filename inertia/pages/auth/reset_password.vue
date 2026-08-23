@@ -1,34 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { router, useForm, usePage, Head } from '@inertiajs/vue3'
-import Button from '~/components/ui/button.vue'
-import Dialog from '~/components/ui/dialog.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
-import { useUrlSearchParams } from '@vueuse/core'
-import { PageProps } from '@adonisjs/inertia/types'
+  import { ref } from 'vue';
+  import { useUrlSearchParams } from '@vueuse/core';
+  import { PageProps } from '@adonisjs/inertia/types';
+  import { router, useForm, usePage, Head } from '@inertiajs/vue3';
 
-const page = usePage<PageProps>()
-const isDialogOpen = ref<boolean>(page.url.includes('modal=reset-password'))
-const params = useUrlSearchParams('history')
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Dialog from '~/components/ui/dialog.vue';
 
-const form = useForm({
-  password: '',
-  password_confirmation: '',
-  token: params.token as string,
-})
+  const page = usePage<PageProps>();
+  const isDialogOpen = ref<boolean>(page.url.includes('modal=reset-password'));
+  const params = useUrlSearchParams('history');
 
-function submit() {
-  if (form.processing) return
+  const form = useForm({
+    password: '',
+    password_confirmation: '',
+    token: params.token as string,
+  });
 
-  form.post('/auth/reset-password', {
-    preserveScroll: true,
-    onSuccess: () => {
-      isDialogOpen.value = false
-      router.visit('/auth/login', { preserveScroll: true })
-    },
-  })
-}
+  function submit() {
+    if (form.processing) return;
+
+    form.post('/auth/reset-password', {
+      preserveScroll: true,
+      onSuccess: () => {
+        isDialogOpen.value = false;
+        router.visit('/auth/login', { preserveScroll: true });
+      },
+    });
+  }
 </script>
 
 <template>
@@ -45,16 +46,14 @@ function submit() {
             v-model:input="form.password"
             type="password"
             autocomplete="current-password"
-            class="w-full"
-          />
+            class="w-full" />
         </Field>
         <Field label="Confirmer le mot de passe" :error="form.errors.password_confirmation">
           <Input
             v-model:input="form.password_confirmation"
             type="password"
             autocomplete="current-password"
-            class="w-full"
-          />
+            class="w-full" />
         </Field>
         <Button
           :disabled="form.processing"
@@ -62,8 +61,7 @@ function submit() {
           color="yellow"
           size="small"
           class="w-full"
-          type="submit"
-        >
+          type="submit">
           Réinitialiser le mot de passe
         </Button>
       </form>

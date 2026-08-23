@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import adonisjs from '@adonisjs/vite/client'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import adonisjs from '@adonisjs/vite/client';
 
 export default defineConfig({
   plugins: [
@@ -24,4 +24,4 @@ export default defineConfig({
       ignored: ['**/storage/**', '**/tmp/**'],
     },
   },
-})
+});

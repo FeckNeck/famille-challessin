@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Data } from '@generated/data'
-import { useDateFormat } from '@vueuse/core'
-const props = defineProps<{
-  wishlist: Data.Wishlists.Wishlist
-}>()
+  import { Data } from '@generated/data';
+  import { useDateFormat } from '@vueuse/core';
+  const props = defineProps<{
+    wishlist: Data.Wishlists.Wishlist;
+  }>();
 
-const eventDate = useDateFormat(props.wishlist.eventDate ?? '', 'D MMMM YYYY', {
-  locales: 'fr-FR',
-})
+  const eventDate = useDateFormat(props.wishlist.eventDate ?? '', 'D MMMM YYYY', {
+    locales: 'fr-FR',
+  });
 </script>
 
 <template>
@@ -28,60 +28,60 @@ const eventDate = useDateFormat(props.wishlist.eventDate ?? '', 'D MMMM YYYY', {
 </template>
 
 <style scoped>
-.hero {
-  background-color: var(--white);
-  border-radius: var(--rounded-lg);
-  border: 2px solid black;
-  box-shadow: var(--shadow-medium);
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 5rem);
-  margin-bottom: 2rem;
-  padding: 1rem 1rem 0 1rem;
-
-  & > div:first-child {
-    border: 2px solid var(--gray-800);
-    overflow: hidden;
-    border-radius: var(--rounded);
-
-    & > img {
-      height: 100%;
-      object-fit: cover;
-      width: 100%;
-      border-radius: var(--rounded);
-    }
-  }
-
-  & p {
+  .hero {
     background-color: var(--white);
-    text-align: center;
-    font-style: italic;
+    border-radius: var(--rounded-lg);
+    border: 2px solid black;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 5rem);
+    margin-bottom: 2rem;
+    padding: 1rem 1rem 0 1rem;
 
-    &:first-child {
+    & > div:first-child {
+      border: 2px solid var(--gray-800);
+      overflow: hidden;
+      border-radius: var(--rounded);
+
+      & > img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+        border-radius: var(--rounded);
+      }
+    }
+
+    & p {
+      background-color: var(--white);
+      text-align: center;
       font-style: italic;
-      font-size: var(--text-xl);
-      font-weight: bold;
+
+      &:first-child {
+        font-style: italic;
+        font-size: var(--text-xl);
+        font-weight: bold;
+      }
+
+      &:nth-child(2) {
+        padding-inline: 1rem;
+        font-size: var(--text-base);
+      }
+
+      &:last-child {
+        font-size: var(--text-lg);
+      }
     }
 
-    &:nth-child(2) {
-      padding-inline: 1rem;
-      font-size: var(--text-base);
+    & hr {
+      flex: 1;
+      height: 1px;
+      border: 0;
+      background-color: var(--gray-800);
     }
 
-    &:last-child {
-      font-size: var(--text-lg);
+    @media (max-width: 768px) {
+      height: 100%;
     }
   }
-
-  & hr {
-    flex: 1;
-    height: 1px;
-    border: 0;
-    background-color: var(--gray-800);
-  }
-
-  @media (max-width: 768px) {
-    height: 100%;
-  }
-}
 </style>

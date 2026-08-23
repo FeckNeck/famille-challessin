@@ -1,8 +1,9 @@
-import factory from '@adonisjs/lucid/factories'
-import Wishlist from '#wishlists/models/wishlist'
-import { DateTime } from 'luxon'
-import { WishlistCategoryFactory } from '#database/factories/wishlist_category_factory'
-import { WishlistThemes } from '#wishlists/enums/wishlist_themes'
+import { DateTime } from 'luxon';
+import factory from '@adonisjs/lucid/factories';
+
+import Wishlist from '#wishlists/models/wishlist';
+import { WishlistThemes } from '#wishlists/enums/wishlist_themes';
+import { WishlistCategoryFactory } from '#database/factories/wishlist_category_factory';
 
 export const WishlistFactory = factory
   .define(Wishlist, async ({ faker }) => {
@@ -13,7 +14,7 @@ export const WishlistFactory = factory
       eventDate: DateTime.now().plus({ days: 30 }),
       isPublic: faker.datatype.boolean(),
       image: faker.image.url(),
-    }
+    };
   })
   .relation('wishlistCategory', () => WishlistCategoryFactory)
-  .build()
+  .build();

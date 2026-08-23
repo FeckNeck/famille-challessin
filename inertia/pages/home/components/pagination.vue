@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ChevronLeft, ChevronRight } from '@lucide/vue'
+  import { ChevronLeft, ChevronRight } from '@lucide/vue';
 
-const props = defineProps<{ total: number; lastPage: number; currentPage: number }>()
+  const props = defineProps<{ total: number; lastPage: number; currentPage: number }>();
 
-const emit = defineEmits<{
-  (e: 'update', value: number): void
-}>()
+  const emit = defineEmits<{
+    (e: 'update', value: number): void;
+  }>();
 
-function handleNextClick() {
-  if (props.currentPage < props.lastPage) emit('update', props.currentPage + 1)
-}
+  function handleNextClick() {
+    if (props.currentPage < props.lastPage) emit('update', props.currentPage + 1);
+  }
 
-function handlePrevClick() {
-  if (props.currentPage > 1) emit('update', props.currentPage - 1)
-}
+  function handlePrevClick() {
+    if (props.currentPage > 1) emit('update', props.currentPage - 1);
+  }
 </script>
 
 <template>
@@ -25,31 +25,30 @@ function handlePrevClick() {
     <button
       @click="handleNextClick"
       :disabled="props.currentPage === props.lastPage"
-      title="Page suivante"
-    >
+      title="Page suivante">
       <ChevronRight />
     </button>
   </div>
 </template>
 
 <style scoped lang="scss">
-.pagination {
-  margin-inline: auto;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+  .pagination {
+    margin-inline: auto;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 
-  button {
-    cursor: pointer;
-    padding: 0.25rem;
-    border: 2px solid var(--gray-800);
-    border-radius: 0.25rem;
-    background-color: var(--white);
-  }
+    button {
+      cursor: pointer;
+      padding: 0.25rem;
+      border: 2px solid var(--gray-800);
+      border-radius: 0.25rem;
+      background-color: var(--white);
+    }
 
-  button:disabled {
-    cursor: not-allowed;
-    color: var(--gray-300);
+    button:disabled {
+      cursor: not-allowed;
+      color: var(--gray-300);
+    }
   }
-}
 </style>

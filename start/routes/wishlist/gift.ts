@@ -1,6 +1,7 @@
-import { controllers } from '#generated/controllers'
-import { middleware } from '#start/kernel'
-import router from '@adonisjs/core/services/router'
+import router from '@adonisjs/core/services/router';
+
+import { middleware } from '#start/kernel';
+import { controllers } from '#generated/controllers';
 
 router
   .post('wishlists/:id/categories/:categoryId/gifts', [
@@ -8,7 +9,7 @@ router
     'handle',
   ])
   .as('gifts.scrap')
-  .use(middleware.auth())
+  .use(middleware.auth());
 
 router
   .patch('wishlists/:id/categories/:categoryId/gifts/:giftId', [
@@ -16,14 +17,14 @@ router
     'handle',
   ])
   .as('gifts.edit')
-  .use(middleware.auth())
+  .use(middleware.auth());
 
 router
   .patch('wishlists/:id/categories/:categoryId/gifts/:giftId/book', [
     controllers.wishlists.gifts.BookGifts,
     'handle',
   ])
-  .as('gifts.book')
+  .as('gifts.book');
 
 router
   .delete('wishlists/:id/categories/:categoryId/gifts/:giftId', [
@@ -31,4 +32,4 @@ router
     'handle',
   ])
   .as('gifts.delete')
-  .use(middleware.auth())
+  .use(middleware.auth());

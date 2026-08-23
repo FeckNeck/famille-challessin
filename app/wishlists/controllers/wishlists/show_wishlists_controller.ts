@@ -1,6 +1,7 @@
-import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer'
-import Wishlist from '#wishlists/models/wishlist'
-import { HttpContext } from '@adonisjs/core/http'
+import { HttpContext } from '@adonisjs/core/http';
+
+import Wishlist from '#wishlists/models/wishlist';
+import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer';
 
 export default class ShowWishlistsController {
   async render({ params, inertia }: HttpContext) {
@@ -8,10 +9,10 @@ export default class ShowWishlistsController {
       .where('id', params.id)
       .preload('wishlistCategory', (builder) => builder.preload('gifts'))
       .preload('wishlistTheme')
-      .firstOrFail()
+      .firstOrFail();
 
     return inertia.render('wishlist/show/main', {
       wishlist: WishlistTransformer.transform(wishlist),
-    })
+    });
   }
 }

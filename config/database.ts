@@ -1,5 +1,6 @@
-import env from '#start/env'
-import { defineConfig } from '@adonisjs/lucid'
+import { defineConfig } from '@adonisjs/lucid';
+
+import env from '#start/env';
 
 const dbConfig = defineConfig({
   connection: 'postgres',
@@ -20,6 +21,6 @@ const dbConfig = defineConfig({
       },
     },
   },
-})
+});
 
-export default dbConfig
+export default dbConfig;

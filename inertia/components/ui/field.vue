@@ -1,9 +1,9 @@
 <script setup lang="ts">
-defineProps<{
-  label?: string
-  error?: any
-  info?: string
-}>()
+  defineProps<{
+    label?: string;
+    error?: any;
+    info?: string;
+  }>();
 </script>
 
 <template>
@@ -16,46 +16,46 @@ defineProps<{
 </template>
 
 <style scoped>
-.form_group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  position: relative;
-  padding-bottom: 1.25rem;
-}
-
-.form_label {
-  color: var(--gray-800);
-}
-
-.form_control {
-  border: 2px solid var(--gray-800);
-  border-radius: var(--rounded);
-  background: transparent;
-  padding: 0.5rem 1rem;
-
-  &[disabled] {
-    cursor: not-allowed;
+  .form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    padding-bottom: 1.25rem;
   }
 
-  &::placeholder {
-    color: var(--gray-600);
-    font-weight: var(--text-bold);
+  .form_label {
+    color: var(--gray-800);
   }
-}
 
-.form_group .form_error {
-  color: var(--red-500);
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  position: absolute;
-  bottom: 0;
-}
+  .form_control {
+    border: 2px solid var(--gray-800);
+    border-radius: var(--rounded);
+    background: transparent;
+    padding: 0.5rem 1rem;
 
-.form_group .form_help {
-  color: var(--cyan-500);
-  font-size: var(--text-sm);
-  position: absolute;
-  bottom: 0;
-}
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      color: var(--gray-600);
+      font-weight: var(--text-bold);
+    }
+  }
+
+  .form_group .form_error {
+    color: var(--red-500);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .form_group .form_help {
+    color: var(--cyan-500);
+    font-size: var(--text-sm);
+    position: absolute;
+    bottom: 0;
+  }
 </style>

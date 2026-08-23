@@ -9,7 +9,7 @@
 |
 */
 
-import { Env } from '@adonisjs/core/env'
+import { Env } from '@adonisjs/core/env';
 
 export default await Env.create(new URL('../', import.meta.url), {
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
@@ -54,5 +54,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   AWS_ACCESS_KEY_ID: Env.schema.string(),
   AWS_SECRET_ACCESS_KEY: Env.schema.string(),
   AWS_REGION: Env.schema.string(),
-  S3_BUCKET: Env.schema.string()
-})
+  S3_BUCKET: Env.schema.string(),
+});

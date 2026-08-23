@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useForm, Head, usePage } from '@inertiajs/vue3'
-import Button from '~/components/ui/button.vue'
-import Dialog from '~/components/ui/dialog.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
-import { PageProps } from '@adonisjs/inertia/types'
+  import { ref } from 'vue';
+  import { PageProps } from '@adonisjs/inertia/types';
+  import { useForm, Head, usePage } from '@inertiajs/vue3';
 
-const page = usePage<PageProps>()
-const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'))
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Dialog from '~/components/ui/dialog.vue';
 
-const form = useForm({
-  email: '',
-})
+  const page = usePage<PageProps>();
+  const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'));
 
-const isEmailSent = ref<boolean>(false)
+  const form = useForm({
+    email: '',
+  });
 
-function submit() {
-  if (form.processing) return
+  const isEmailSent = ref<boolean>(false);
 
-  form.post('/auth/forgot-password', {
-    preserveScroll: true,
-    onSuccess: () => {
-      isEmailSent.value = true
-    },
-  })
-}
+  function submit() {
+    if (form.processing) return;
+
+    form.post('/auth/forgot-password', {
+      preserveScroll: true,
+      onSuccess: () => {
+        isEmailSent.value = true;
+      },
+    });
+  }
 </script>
 
 <template>
@@ -59,8 +60,7 @@ function submit() {
           color="yellow"
           size="small"
           class="w-full"
-          type="submit"
-        >
+          type="submit">
           Réinitialiser le mot de passe
         </Button>
       </form>

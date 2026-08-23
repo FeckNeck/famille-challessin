@@ -8,6 +8,6 @@
 |
 */
 
-import '@poppinss/ts-exec'
+import '@poppinss/ts-exec';
 
-await import('./bin/console.js')
+await import('./bin/console.js');

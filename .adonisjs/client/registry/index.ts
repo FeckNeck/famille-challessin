@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import type { AdonisEndpoint } from '@tuyau/core/types'
+
 import type { Registry } from './schema.d.ts'
 import type { ApiDefinition } from './tree.d.ts'
 

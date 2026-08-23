@@ -1,6 +1,7 @@
-import { BaseTransformer } from '@adonisjs/core/transformers'
-import Gift from '#wishlists/models/gift'
-import UserTransformer from '#auth/transformers/user_transformer'
+import { BaseTransformer } from '@adonisjs/core/transformers';
+
+import Gift from '#wishlists/models/gift';
+import UserTransformer from '#auth/transformers/user_transformer';
 
 export default class WishlistGiftTransformer extends BaseTransformer<Gift> {
   toObject() {
@@ -19,6 +20,6 @@ export default class WishlistGiftTransformer extends BaseTransformer<Gift> {
         'categoryId',
       ]),
       giver: this.resource.giver ? UserTransformer.transform(this.resource.giver) : undefined,
-    }
+    };
   }
 }

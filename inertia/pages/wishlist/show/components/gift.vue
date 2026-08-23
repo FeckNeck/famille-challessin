@@ -1,42 +1,43 @@
 <script setup lang="ts">
-import { ArrowLeft } from '@lucide/vue'
-import { ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
-import Button from '~/components/ui/button.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
-import { Data } from '@generated/data'
-import { useCurrentUser } from '~/composables/use_current_user'
+  import { ref } from 'vue';
+  import { Data } from '@generated/data';
+  import { ArrowLeft } from '@lucide/vue';
+  import { useForm } from '@inertiajs/vue3';
 
-const props = defineProps<{
-  gift: Data.Wishlists.WishlistGift
-  wishlistId: string
-  categoryId: string
-}>()
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import { useCurrentUser } from '~/composables/use_current_user';
 
-const user = useCurrentUser()
+  const props = defineProps<{
+    gift: Data.Wishlists.WishlistGift;
+    wishlistId: string;
+    categoryId: string;
+  }>();
 
-const isBooking = ref<boolean>(false)
+  const user = useCurrentUser();
 
-const form = useForm({
-  giverName: user.value?.username ?? '',
-  giverEmail: user.value?.email ?? '',
-})
+  const isBooking = ref<boolean>(false);
 
-function submit() {
-  if (form.processing) return
+  const form = useForm({
+    giverName: user.value?.username ?? '',
+    giverEmail: user.value?.email ?? '',
+  });
 
-  form.patch(
-    `/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/${props.gift.id}/book`,
-    {
-      preserveScroll: true,
-      onSuccess: () => {
-        isBooking.value = false
-        form.reset()
+  function submit() {
+    if (form.processing) return;
+
+    form.patch(
+      `/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/${props.gift.id}/book`,
+      {
+        preserveScroll: true,
+        onSuccess: () => {
+          isBooking.value = false;
+          form.reset();
+        },
       },
-    }
-  )
-}
+    );
+  }
 </script>
 
 <template>
@@ -73,8 +74,7 @@ function submit() {
           :loading="form.processing"
           type="submit"
           size="small"
-          color="yellow"
-        >
+          color="yellow">
           Envoyer
         </Button>
       </form>
@@ -83,92 +83,92 @@ function submit() {
 </template>
 
 <style scoped lang="scss">
-.gift {
-  display: flex;
-  flex-direction: row;
-  padding: 2rem 3rem;
-  gap: 2rem;
-
-  & > img {
-    width: 12rem;
-    height: 12rem;
-    object-fit: cover;
-  }
-
-  &__content {
+  .gift {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: start;
+    flex-direction: row;
+    padding: 2rem 3rem;
+    gap: 2rem;
 
-    &-link {
-      font-weight: bold;
+    & > img {
+      width: 12rem;
+      height: 12rem;
+      object-fit: cover;
     }
-
-    &-description {
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-
-    &-gifter {
-      font-weight: bold;
-    }
-  }
-
-  &__book {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
-    gap: 1rem;
-
-    &__form {
-      display: flex;
-      gap: 1rem;
-
-      &-field {
-        width: 20rem;
-      }
-    }
-  }
-
-  @media (max-width: 1024px) {
-    &__book__form-field {
-      width: 15rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2rem 1rem;
 
     &__content {
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: start;
+
+      &-link {
+        font-weight: bold;
+      }
+
+      &-description {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      &-gifter {
+        font-weight: bold;
+      }
     }
 
     &__book {
-      width: 100%;
-      align-items: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      gap: 1rem;
 
       &__form {
-        text-align: start;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
+        display: flex;
+        gap: 1rem;
 
         &-field {
+          width: 20rem;
+        }
+      }
+    }
+
+    @media (max-width: 1024px) {
+      &__book__form-field {
+        width: 15rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+
+      &__content {
+        align-items: center;
+      }
+
+      &__book {
+        width: 100%;
+        align-items: stretch;
+
+        &__form {
+          text-align: start;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 100%;
+
+          &-field {
+            width: 100%;
+          }
+        }
+
+        button:last-child {
           width: 100%;
         }
       }
-
-      button:last-child {
-        width: 100%;
-      }
     }
   }
-}
 </style>

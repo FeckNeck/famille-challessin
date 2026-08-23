@@ -1,17 +1,18 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#auth/models/user'
-import Wishlist from '#wishlists/models/wishlist'
-import WishlistTheme from '#wishlists/models/wishlist_theme'
-import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer'
-import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer'
-import UserListTransformer from '#auth/transformers/user_list_transformer'
+import type { HttpContext } from '@adonisjs/core/http';
+
+import User from '#auth/models/user';
+import Wishlist from '#wishlists/models/wishlist';
+import WishlistTheme from '#wishlists/models/wishlist_theme';
+import UserListTransformer from '#auth/transformers/user_list_transformer';
+import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer';
+import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer';
 
 export default class HomeController {
   async render({ request, inertia, auth }: HttpContext) {
-    const page = request.input('page', 1)
-    const limit = 9
+    const page = request.input('page', 1);
+    const limit = 9;
 
-    const { username, title, theme, order, orderBy } = request.qs()
+    const { username, title, theme, order, orderBy } = request.qs();
 
     /**
      * Fetch users and their public wishlists count
@@ -21,21 +22,21 @@ export default class HomeController {
       .withCount('wishlists', (wishlists) =>
         wishlists
           .where((builder) => {
-            builder.where('is_public', true)
+            builder.where('is_public', true);
 
             if (auth.user) {
-              builder.orWhere('user_id', auth.user.id)
+              builder.orWhere('user_id', auth.user.id);
             }
           })
-          .as('count')
-      )
+          .as('count'),
+      );
 
     /**
      * Fetch themes and their public wishlists count
      */
     const themes = await WishlistTheme.query().withCount('wishlists', (builder) =>
-      builder.where('is_public', true).as('count')
-    )
+      builder.where('is_public', true).as('count'),
+    );
 
     /**
      * Fetch wishlists
@@ -46,36 +47,36 @@ export default class HomeController {
       .preload('wishlistTheme')
       .preload('user')
       .where((builder) => {
-        builder.where('is_public', true)
+        builder.where('is_public', true);
 
         if (auth.user) {
-          builder.orWhere('user_id', auth.user.id)
+          builder.orWhere('user_id', auth.user.id);
         }
       })
-      .orderBy(orderBy || 'created_at', order || 'desc')
+      .orderBy(orderBy || 'created_at', order || 'desc');
 
     if (title) {
-      query.whereILike('title', `%${title}%`)
+      query.whereILike('title', `%${title}%`);
     }
 
     if (theme) {
       await query.whereHas('wishlistTheme', (builder) => {
-        builder.where('name', theme)
-      })
+        builder.where('name', theme);
+      });
     }
 
     if (username) {
       await query.whereHas('user', (builder) => {
-        builder.where('username', username)
-      })
+        builder.where('username', username);
+      });
     }
 
-    const wishlists = await query.paginate(page, limit)
+    const wishlists = await query.paginate(page, limit);
 
     return inertia.render('home/main', {
       users: UserListTransformer.transform(users),
       wishlists: WishlistTransformer.paginate(wishlists.all(), wishlists.getMeta()),
       themes: WishlistThemeTransformer.transform(themes),
-    })
+    });
   }
 }

@@ -1,32 +1,33 @@
 <script setup lang="ts">
-import { PageProps } from '@adonisjs/inertia/types'
-import { useForm, usePage, Head } from '@inertiajs/vue3'
-import { ref } from 'vue'
-import Button from '~/components/ui/button.vue'
-import Dialog from '~/components/ui/dialog.vue'
-import Field from '~/components/ui/field.vue'
-import Input from '~/components/ui/input.vue'
+  import { ref } from 'vue';
+  import { PageProps } from '@adonisjs/inertia/types';
+  import { useForm, usePage, Head } from '@inertiajs/vue3';
 
-const page = usePage<PageProps>()
-const isDialogOpen = ref<boolean>(page.url.includes('modal=register'))
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Dialog from '~/components/ui/dialog.vue';
 
-const form = useForm({
-  email: '',
-  username: '',
-  password: '',
-  password_confirmation: '',
-})
+  const page = usePage<PageProps>();
+  const isDialogOpen = ref<boolean>(page.url.includes('modal=register'));
 
-function submit() {
-  if (form.processing) return
+  const form = useForm({
+    email: '',
+    username: '',
+    password: '',
+    password_confirmation: '',
+  });
 
-  form.post('auth/register', {
-    preserveScroll: true,
-    onSuccess: () => {
-      isDialogOpen.value = false
-    },
-  })
-}
+  function submit() {
+    if (form.processing) return;
+
+    form.post('auth/register', {
+      preserveScroll: true,
+      onSuccess: () => {
+        isDialogOpen.value = false;
+      },
+    });
+  }
 </script>
 
 <template>
@@ -58,16 +59,14 @@ function submit() {
               v-model:input="form.password"
               type="password"
               autocomplete="current-password"
-              class="w-full"
-            />
+              class="w-full" />
           </Field>
           <Field label="Confirmer le mot de passe" :error="form.errors.password_confirmation">
             <Input
               v-model:input="form.password_confirmation"
               type="password"
               autocomplete="current-password"
-              class="w-full"
-            />
+              class="w-full" />
           </Field>
         </div>
         <Button
@@ -76,8 +75,7 @@ function submit() {
           color="yellow"
           size="small"
           class="w-full"
-          type="submit"
-        >
+          type="submit">
           Créer le compte
         </Button>
       </form>

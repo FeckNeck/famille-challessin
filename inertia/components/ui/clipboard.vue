@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import {
-  Clipboard,
-  ClipboardRootEmits,
-  ClipboardRootProps,
-  useForwardPropsEmits,
-} from '@ark-ui/vue'
-import { CheckIcon, ClipboardCopyIcon } from '@lucide/vue'
-import Input from './input.vue'
+  import { CheckIcon, ClipboardCopyIcon } from '@lucide/vue';
+  import {
+    Clipboard,
+    ClipboardRootEmits,
+    ClipboardRootProps,
+    useForwardPropsEmits,
+  } from '@ark-ui/vue';
 
-export interface ClipboardProps extends ClipboardRootProps {
-  label: string
-}
+  import Input from './input.vue';
 
-const props = defineProps<ClipboardProps>()
+  export interface ClipboardProps extends ClipboardRootProps {
+    label: string;
+  }
 
-const emits = defineEmits<ClipboardRootEmits>()
-const forwarded = useForwardPropsEmits(props, emits)
+  const props = defineProps<ClipboardProps>();
+
+  const emits = defineEmits<ClipboardRootEmits>();
+  const forwarded = useForwardPropsEmits(props, emits);
 </script>
 
 <template>
@@ -38,33 +39,33 @@ const forwarded = useForwardPropsEmits(props, emits)
 </template>
 
 <style scoped>
-[data-scope='clipboard'][data-part='root'] {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+  [data-scope='clipboard'][data-part='root'] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-[data-scope='clipboard'][data-part='control'] {
-  display: flex;
-  gap: 0.5rem;
-}
+  [data-scope='clipboard'][data-part='control'] {
+    display: flex;
+    gap: 0.5rem;
+  }
 
-[data-scope='clipboard'][data-part='input'] {
-  width: 100%;
-}
+  [data-scope='clipboard'][data-part='input'] {
+    width: 100%;
+  }
 
-[data-scope='clipboard'][data-part='input'][data-copied] {
-  box-shadow: var(--shadow-tiny);
-}
+  [data-scope='clipboard'][data-part='input'][data-copied] {
+    box-shadow: var(--shadow-tiny);
+  }
 
-[data-scope='clipboard'][data-part='trigger'] {
-  padding-inline: 0.5rem;
-  border: 2px solid var(--gray-800);
-  background-color: var(--white);
-  cursor: pointer;
-}
+  [data-scope='clipboard'][data-part='trigger'] {
+    padding-inline: 0.5rem;
+    border: 2px solid var(--gray-800);
+    background-color: var(--white);
+    cursor: pointer;
+  }
 
-[data-scope='clipboard'][data-part='trigger'][data-copied] {
-  box-shadow: var(--shadow-tiny);
-}
+  [data-scope='clipboard'][data-part='trigger'][data-copied] {
+    box-shadow: var(--shadow-tiny);
+  }
 </style>

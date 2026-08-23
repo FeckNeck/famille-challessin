@@ -4,9 +4,7 @@
     "name": "app",
     "src": "inertia/app.ts",
     "isEntry": true,
-    "css": [
-      "app-Dlm-e2lS.css"
-    ],
+    "css": ["app-Dlm-e2lS.css"],
     "assets": [
       "AtkinsonHyperlegible-Regular-Cph6KPzN.woff2",
       "AtkinsonHyperlegible-Italic-CJ83iDlJ.woff2",

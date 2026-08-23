@@ -1,6 +1,7 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#auth/models/user'
-import vine from '@vinejs/vine'
+import vine from '@vinejs/vine';
+import type { HttpContext } from '@adonisjs/core/http';
+
+import User from '#auth/models/user';
 
 export default class RegisterController {
   static validator = vine.create({
@@ -18,16 +19,16 @@ export default class RegisterController {
       .minLength(3)
       .maxLength(32)
       .unique({ table: 'users', column: 'username' }),
-  })
+  });
 
   async render({ response }: HttpContext) {
-    return response.redirect().withQs({ modal: 'register' }).back()
+    return response.redirect().withQs({ modal: 'register' }).back();
   }
 
   async handle({ request, auth, response }: HttpContext) {
-    const { email, password, username } = await request.validateUsing(RegisterController.validator)
-    const user = await User.create({ email, password, username })
-    await auth.use('web').login(user)
-    return response.redirect().toPath('/')
+    const { email, password, username } = await request.validateUsing(RegisterController.validator);
+    const user = await User.create({ email, password, username });
+    await auth.use('web').login(user);
+    return response.redirect().toPath('/');
   }
 }

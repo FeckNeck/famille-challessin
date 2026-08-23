@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
-import Category from './components/category.vue'
-import CreateCategory from './components/create_category.vue'
-import Hero from './components/hero.vue'
-import Layout from '~/layouts/default.vue'
-import type { Data } from '@generated/data'
+  import { Head } from '@inertiajs/vue3';
+  import type { Data } from '@generated/data';
 
-const props = defineProps<{
-  themes: Data.Wishlists.WishlistTheme[]
-  wishlist: Data.Wishlists.Wishlist
-}>()
+  import Hero from './components/hero.vue';
+  import Layout from '~/layouts/default.vue';
+  import Category from './components/category.vue';
+  import CreateCategory from './components/create_category.vue';
+
+  const props = defineProps<{
+    themes: Data.Wishlists.WishlistTheme[];
+    wishlist: Data.Wishlists.Wishlist;
+  }>();
 </script>
 
 <template>
@@ -28,8 +29,7 @@ const props = defineProps<{
           <Category
             v-for="category in props.wishlist.categories"
             :key="category.id"
-            :category="category"
-          />
+            :category="category" />
         </div>
       </div>
     </div>
@@ -37,9 +37,9 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-.wishlist {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  .wishlist {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 </style>

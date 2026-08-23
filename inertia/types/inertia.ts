@@ -1,4 +1,4 @@
-import { type Data } from '@generated/data'
+import { type Data } from '@generated/data';
 
 /**
  * Bridges the server side types into the Inertia client. "usePage().props" is
@@ -7,7 +7,7 @@ import { type Data } from '@generated/data'
  */
 declare module '@inertiajs/core' {
   interface InertiaConfig {
-    sharedPageProps: Data.SharedProps
-    flashDataType: Data.FlashMessages
+    sharedPageProps: Data.SharedProps;
+    flashDataType: Data.FlashMessages;
   }
 }

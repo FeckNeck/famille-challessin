@@ -1,48 +1,51 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/use_image_upload'
-import Button from '~/components/ui/button.vue'
-import DatePicker from '~/components/ui/date_picker.vue'
-import Field from '~/components/ui/field.vue'
-import FileUpload from '~/components/ui/file_upload.vue'
-import Input from '~/components/ui/input.vue'
-import Select from '~/components/ui/select.vue'
-import Switch from '~/components/ui/switch.vue'
-import Clipboard from '~/components/ui/clipboard.vue'
-import { Data } from '@generated/data'
+  import { Data } from '@generated/data';
+  import { useForm } from '@inertiajs/vue3';
 
-const props = defineProps<{
-  themes: Data.Wishlists.WishlistTheme[]
-  wishlist: Data.Wishlists.Wishlist
-}>()
+  import Field from '~/components/ui/field.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Select from '~/components/ui/select.vue';
+  import Switch from '~/components/ui/switch.vue';
+  import Clipboard from '~/components/ui/clipboard.vue';
+  import DatePicker from '~/components/ui/date_picker.vue';
+  import FileUpload from '~/components/ui/file_upload.vue';
+  import { useImageUpload } from '~/composables/use_image_upload';
 
-const themeOptions = props.themes.map((theme) => ({
-  label: theme.name,
-  value: theme.id.toString(),
-}))
+  const props = defineProps<{
+    themes: Data.Wishlists.WishlistTheme[];
+    wishlist: Data.Wishlists.Wishlist;
+  }>();
 
-const form = useForm({
-  id: props.wishlist.id,
-  title: props.wishlist.title ?? '',
-  description: props.wishlist.description ?? '',
-  eventDate: props.wishlist.eventDate ?? '',
-  themeId: props.wishlist.theme?.id.toString() ?? '',
-  isPublic: props.wishlist.isPublic,
-  categories: props.wishlist.categories,
-  image: null,
-})
+  const themeOptions = props.themes.map((theme) => ({
+    label: theme.name,
+    value: theme.id.toString(),
+  }));
 
-const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.wishlist.imageUrl)
+  const form = useForm({
+    id: props.wishlist.id,
+    title: props.wishlist.title ?? '',
+    description: props.wishlist.description ?? '',
+    eventDate: props.wishlist.eventDate ?? '',
+    themeId: props.wishlist.theme?.id.toString() ?? '',
+    isPublic: props.wishlist.isPublic,
+    categories: props.wishlist.categories,
+    image: null,
+  });
 
-function submit() {
-  if (form.processing) return
+  const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(
+    props.wishlist.imageUrl,
+  );
 
-  if (uploadedFile.value) form.image = uploadedFile.value
+  function submit() {
+    if (form.processing) return;
 
-  form.put(`/wishlists/${props.wishlist.id}`, {
-    preserveScroll: true,
-  })
-}
+    if (uploadedFile.value) form.image = uploadedFile.value;
+
+    form.put(`/wishlists/${props.wishlist.id}`, {
+      preserveScroll: true,
+    });
+  }
 </script>
 
 <template>
@@ -51,8 +54,7 @@ function submit() {
       <FileUpload
         v-model:file="uploadedFile"
         :url="uploadedFilePreview"
-        @file-accept="onfileChange"
-      />
+        @file-accept="onfileChange" />
     </Field>
     <div class="hero__form">
       <Field label="Titre" for="title" :error="form.errors.title">
@@ -65,8 +67,7 @@ function submit() {
         <Select
           :items="themeOptions"
           v-model="form.themeId"
-          class="whishlist__content__filters__users"
-        />
+          class="whishlist__content__filters__users" />
       </Field>
     </div>
     <div class="d-flex g-4">
@@ -79,56 +80,54 @@ function submit() {
       v-if="wishlist.url"
       :value="wishlist.url"
       label="Lien partageable"
-      class="w-full pb-5"
-    />
+      class="w-full pb-5" />
     <Button
       :disabled="form.processing"
       :loading="form.processing"
       color="yellow"
       size="small"
       class="w-full"
-      type="submit"
-    >
+      type="submit">
       Enregistrer
     </Button>
   </form>
 </template>
 
 <style scoped lang="scss">
-.hero {
-  background-color: var(--white);
-  border-radius: var(--rounded-lg);
-  border: 2px solid black;
-  box-shadow: var(--shadow-medium);
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 5rem);
-  padding: 1rem 1rem 1rem;
-
-  &__img {
-    flex-grow: 1;
-    padding-bottom: 1rem;
-  }
-
-  &__form {
+  .hero {
+    background-color: var(--white);
+    border-radius: var(--rounded-lg);
+    border: 2px solid black;
+    box-shadow: var(--shadow-medium);
     display: flex;
-    flex-wrap: wrap;
-    column-gap: 1rem;
+    flex-direction: column;
+    min-height: calc(100vh - 5rem);
+    padding: 1rem 1rem 1rem;
 
-    div:first-child {
-      flex: 65%;
+    &__img {
+      flex-grow: 1;
+      padding-bottom: 1rem;
     }
 
-    div:nth-child(2) {
-      z-index: 10;
-      flex: 15%;
-      min-width: 13rem;
-    }
+    &__form {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 1rem;
 
-    div:last-child {
-      flex: 15%;
-      min-width: 13rem;
+      div:first-child {
+        flex: 65%;
+      }
+
+      div:nth-child(2) {
+        z-index: 10;
+        flex: 15%;
+        min-width: 13rem;
+      }
+
+      div:last-child {
+        flex: 15%;
+        min-width: 13rem;
+      }
     }
   }
-}
 </style>

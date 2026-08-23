@@ -1,26 +1,26 @@
-import { HttpContext } from '@adonisjs/core/http'
-import vine from '@vinejs/vine'
+import vine from '@vinejs/vine';
+import { HttpContext } from '@adonisjs/core/http';
 
 export default class CreateWishlistsCategoryController {
   static createWishlistCategoryValidator = vine.create({
     name: vine.string(),
-  })
+  });
 
   async handle({ response, auth, params, request }: HttpContext) {
     const { name } = await request.validateUsing(
-      CreateWishlistsCategoryController.createWishlistCategoryValidator
-    )
+      CreateWishlistsCategoryController.createWishlistCategoryValidator,
+    );
 
     const wishlist = await auth.user
       ?.related('wishlists')
       .query()
       .where('id', params.id)
-      .firstOrFail()
+      .firstOrFail();
 
     await wishlist?.related('wishlistCategory').create({
       name: name,
       wishlistId: wishlist!.id,
-    })
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id })
+    });
+    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id });
   }
 }

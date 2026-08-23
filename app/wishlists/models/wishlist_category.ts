@@ -1,30 +1,31 @@
-import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import Gift from '#wishlists/models/gift'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import Wishlist from './wishlist.js'
+import { DateTime } from 'luxon';
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations';
+import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm';
+
+import Wishlist from './wishlist.js';
+import Gift from '#wishlists/models/gift';
 
 export default class WishlistCategory extends BaseModel {
   @column({ isPrimary: true })
-  declare id: string
+  declare id: string;
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
 
   @column()
-  declare wishlistId: string
+  declare wishlistId: string;
 
   @column()
-  declare name: string | null
+  declare name: string | null;
 
   @hasMany(() => Gift, {
     foreignKey: 'categoryId',
   })
-  declare gifts: HasMany<typeof Gift>
+  declare gifts: HasMany<typeof Gift>;
 
   @belongsTo(() => Wishlist)
-  declare wishlist: BelongsTo<typeof Wishlist>
+  declare wishlist: BelongsTo<typeof Wishlist>;
 }

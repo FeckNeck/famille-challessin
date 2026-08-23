@@ -1,5 +1,6 @@
-import factory from '@adonisjs/lucid/factories'
-import Gift from '#wishlists/models/gift'
+import factory from '@adonisjs/lucid/factories';
+
+import Gift from '#wishlists/models/gift';
 
 export const GiftFactory = factory
   .define(Gift, async ({ faker }) => {
@@ -11,6 +12,6 @@ export const GiftFactory = factory
       image: faker.image.url(),
       giverName: faker.internet.username(),
       giverEmail: faker.internet.email(),
-    }
+    };
   })
-  .build()
+  .build();

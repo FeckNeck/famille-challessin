@@ -1,44 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { router, useForm } from '@inertiajs/vue3'
-import { Trash2 } from '@lucide/vue'
-import Button from '~/components/ui/button.vue'
-import Collapsible from '~/components/ui/collapsible.vue'
-import CreateGift from './create_gift.vue'
-import Gift from './gift.vue'
-import Input from '~/components/ui/input.vue'
-import { Data } from '@generated/data'
+  import { ref } from 'vue';
+  import { Trash2 } from '@lucide/vue';
+  import { Data } from '@generated/data';
+  import { router, useForm } from '@inertiajs/vue3';
 
-const props = defineProps<{
-  category: Data.Wishlists.WishlistCategory
-}>()
+  import Gift from './gift.vue';
+  import CreateGift from './create_gift.vue';
+  import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
+  import Collapsible from '~/components/ui/collapsible.vue';
 
-const form = useForm({
-  name: props.category.name ?? '',
-})
+  const props = defineProps<{
+    category: Data.Wishlists.WishlistCategory;
+  }>();
 
-const isDeleting = ref<boolean>(false)
+  const form = useForm({
+    name: props.category.name ?? '',
+  });
 
-function submit() {
-  if (form.processing) return
+  const isDeleting = ref<boolean>(false);
 
-  form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
-    preserveScroll: true,
-  })
-}
+  function submit() {
+    if (form.processing) return;
 
-function remove() {
-  if (isDeleting.value) return
+    form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+      preserveScroll: true,
+    });
+  }
 
-  isDeleting.value = true
+  function remove() {
+    if (isDeleting.value) return;
 
-  router.delete(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
-    preserveScroll: true,
-    onFinish: () => {
-      isDeleting.value = false
-    },
-  })
-}
+    isDeleting.value = true;
+
+    router.delete(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+      preserveScroll: true,
+      onFinish: () => {
+        isDeleting.value = false;
+      },
+    });
+  }
 </script>
 
 <template>
@@ -47,9 +48,13 @@ function remove() {
       <div class="d-flex items-center g-4">
         <form @submit.prevent="submit()" class="d-flex items-center g-4">
           <Input v-model:input="form.name" placeholder="Nom de la catégorie" />
-          <Button :disabled="form.processing" :loading="form.processing" color="violet" size="small"
-            >Modifier</Button
-          >
+          <Button
+            :disabled="form.processing"
+            :loading="form.processing"
+            color="violet"
+            size="small">
+            Modifier
+          </Button>
         </form>
         <form @submit.prevent="remove()" class="d-flex items-center g-4">
           <Button :disabled="isDeleting" :loading="isDeleting" color="red" size="small">
@@ -66,8 +71,7 @@ function remove() {
             v-for="gift in category.gifts"
             :key="gift.id"
             :gift="gift"
-            :wishlistId="category.wishlistId"
-          />
+            :wishlistId="category.wishlistId" />
         </div>
       </div>
     </template>
@@ -75,16 +79,16 @@ function remove() {
 </template>
 
 <style scoped lang="scss">
-.category {
-  border: 2px solid var(--gray-800);
-  box-shadow: var(--shadow-tiny);
-  background-color: var(--white);
+  .category {
+    border: 2px solid var(--gray-800);
+    box-shadow: var(--shadow-tiny);
+    background-color: var(--white);
 
-  &__content {
-    & > div,
-    & > div > :not(:last-child) {
-      border-bottom: 2px solid var(--gray-800);
+    &__content {
+      & > div,
+      & > div > :not(:last-child) {
+        border-bottom: 2px solid var(--gray-800);
+      }
     }
   }
-}
 </style>

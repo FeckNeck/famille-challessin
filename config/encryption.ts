@@ -1,5 +1,6 @@
-import env from '#start/env'
-import { defineConfig, drivers } from '@adonisjs/core/encryption'
+import { defineConfig, drivers } from '@adonisjs/core/encryption';
+
+import env from '#start/env';
 
 export default defineConfig({
   default: 'legacy',
@@ -8,4 +9,4 @@ export default defineConfig({
       keys: [env.get('APP_KEY')],
     }),
   },
-})
+});
