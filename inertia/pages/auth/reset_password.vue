@@ -6,8 +6,9 @@ import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 import { useUrlSearchParams } from '@vueuse/core'
+import { PageProps } from '@adonisjs/inertia/types'
 
-const page = usePage()
+const page = usePage<PageProps>()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=reset-password'))
 const params = useUrlSearchParams('history')
 

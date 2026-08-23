@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { ArrowLeft } from '@lucide/vue'
-import { computed, ref } from 'vue'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
-import { PageProps } from '@adonisjs/inertia/types'
 import { Data } from '@generated/data'
+import { useCurrentUser } from '~/composables/use_current_user'
 
 const props = defineProps<{
-  gift: Data.Wishlists.Gift
+  gift: Data.Wishlists.WishlistGift
   wishlistId: string
   categoryId: string
 }>()
 
-const page = usePage<PageProps>()
-const user = computed(() => page.props.user as Data.Auth.User)
+const user = useCurrentUser()
 
 const isBooking = ref<boolean>(false)
 

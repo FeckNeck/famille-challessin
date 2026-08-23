@@ -6,8 +6,9 @@ import Checkbox from '~/components/ui/checkbox.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
+import { PageProps } from '@adonisjs/inertia/types'
 
-const page = usePage()
+const page = usePage<PageProps>()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=login'))
 
 const form = useForm({

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PageProps } from '@adonisjs/inertia/types'
 import { useForm, usePage, Head } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Button from '~/components/ui/button.vue'
@@ -6,7 +7,7 @@ import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
 import Input from '~/components/ui/input.vue'
 
-const page = usePage()
+const page = usePage<PageProps>()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=register'))
 
 const form = useForm({

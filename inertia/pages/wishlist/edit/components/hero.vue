@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/image_upload'
+import { useImageUpload } from '~/composables/use_image_upload'
 import Button from '~/components/ui/button.vue'
 import DatePicker from '~/components/ui/date_picker.vue'
 import Field from '~/components/ui/field.vue'

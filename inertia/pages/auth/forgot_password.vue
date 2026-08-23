@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useForm, usePage, Head } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { useForm, Head, usePage } from '@inertiajs/vue3'
 import Button from '~/components/ui/button.vue'
 import Dialog from '~/components/ui/dialog.vue'
 import Field from '~/components/ui/field.vue'
@@ -9,7 +9,6 @@ import { PageProps } from '@adonisjs/inertia/types'
 
 const page = usePage<PageProps>()
 const isDialogOpen = ref<boolean>(page.url.includes('modal=forgot-password'))
-const errors = computed(() => page.props.errors)
 
 const form = useForm({
   email: '',

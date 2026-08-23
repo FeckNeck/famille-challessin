@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
 import Card from '~/components/ui/card.vue'
 import type { Data } from '@generated/data'
+import { useCurrentUser } from '~/composables/use_current_user'
 
-const page = usePage()
-const user = computed(() => page.props.user as Data.Auth.User | undefined)
 const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>()
 
+const user = useCurrentUser()
 const editLink = computed(() => (props.wishlist.user?.id === user.value?.id ? '/edit/' : ''))
+
 const backgroundColor = computed(() => {
   return {
     backgroundColor: props.wishlist.user?.color ?? '',

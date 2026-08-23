@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Trash2 } from '@lucide/vue'
 import { useForm, router } from '@inertiajs/vue3'
-import { useImageUpload } from '~/composables/image_upload'
+import { useImageUpload } from '~/composables/use_image_upload'
 import Button from '~/components/ui/button.vue'
 import Field from '~/components/ui/field.vue'
 import FileUploadC from '~/components/ui/file_upload.vue'
@@ -10,7 +10,7 @@ import Input from '~/components/ui/input.vue'
 import { Data } from '@generated/data'
 
 const props = defineProps<{
-  gift: Data.Wishlists.Gift
+  gift: Data.Wishlists.WishlistGift
   wishlistId: string
 }>()
 
