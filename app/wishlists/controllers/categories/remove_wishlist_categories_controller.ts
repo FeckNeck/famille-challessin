@@ -16,6 +16,6 @@ export default class RemoveWishlistsCategoryController {
 
     await wishlistCategory?.delete();
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id });
+    return response.redirect().back();
   }
 }

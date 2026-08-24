@@ -33,6 +33,7 @@
     "@adonisjs/drive": "^4.0.0",
     "@adonisjs/inertia": "^5.0.1",
     "@adonisjs/lucid": "^22.4.2",
+    "@adonisjs/lucid-slugify": "^4.0.0",
     "@adonisjs/mail": "^10.4.0",
     "@adonisjs/session": "^8.1.0",
     "@adonisjs/shield": "^9.0.0",

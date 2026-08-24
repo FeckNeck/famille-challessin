@@ -16,24 +16,24 @@ export class createGiftsService {
 
   async create(
     gift: ProductProfile | undefined,
-    user: User | undefined,
+    user: User,
     wishlistId: string,
     categoryId: string,
   ) {
     const wishlist = await user
-      ?.related('wishlists')
+      .related('wishlists')
       .query()
       .preload('wishlistCategory')
       .where('id', wishlistId)
       .firstOrFail();
 
     const wishlistCategory = await wishlist
-      ?.related('wishlistCategory')
+      .related('wishlistCategory')
       .query()
       .where('id', categoryId)
       .firstOrFail();
 
-    await wishlistCategory?.related('gifts').create({
+    await wishlistCategory.related('gifts').create({
       title: gift?.title ?? null,
       description: gift?.description ?? null,
       image: gift?.variants?.[0]?.images?.[0]?.url ?? null,

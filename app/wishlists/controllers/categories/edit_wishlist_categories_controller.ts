@@ -23,6 +23,6 @@ export default class EditWishlistsCategoryController {
 
     await wishlistCategory?.merge(payload).save();
 
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id });
+    return response.redirect().back();
   }
 }

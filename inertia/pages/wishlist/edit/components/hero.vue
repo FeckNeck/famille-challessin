@@ -78,7 +78,7 @@
     </div>
     <Clipboard
       v-if="wishlist.url"
-      :value="wishlist.url"
+      :model-value="wishlist.url"
       label="Lien partageable"
       class="w-full pb-5" />
     <Button

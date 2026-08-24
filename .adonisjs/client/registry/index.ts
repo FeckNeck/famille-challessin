@@ -56,14 +56,14 @@ const routes = {
   },
   'wishlists.show': {
     methods: ["GET","HEAD"],
-    pattern: '/wishlists/:id',
-    tokens: [{"old":"/wishlists/:id","type":0,"val":"wishlists","end":""},{"old":"/wishlists/:id","type":1,"val":"id","end":""}],
+    pattern: '/wishlists/:slug',
+    tokens: [{"old":"/wishlists/:slug","type":0,"val":"wishlists","end":""},{"old":"/wishlists/:slug","type":1,"val":"slug","end":""}],
     types: placeholder as Registry['wishlists.show']['types'],
   },
   'wishlists.edit': {
     methods: ["GET","HEAD"],
-    pattern: '/wishlists/:id/edit',
-    tokens: [{"old":"/wishlists/:id/edit","type":0,"val":"wishlists","end":""},{"old":"/wishlists/:id/edit","type":1,"val":"id","end":""},{"old":"/wishlists/:id/edit","type":0,"val":"edit","end":""}],
+    pattern: '/wishlists/:slug/edit',
+    tokens: [{"old":"/wishlists/:slug/edit","type":0,"val":"wishlists","end":""},{"old":"/wishlists/:slug/edit","type":1,"val":"slug","end":""},{"old":"/wishlists/:slug/edit","type":0,"val":"edit","end":""}],
     types: placeholder as Registry['wishlists.edit']['types'],
   },
   'wishlists.store': {

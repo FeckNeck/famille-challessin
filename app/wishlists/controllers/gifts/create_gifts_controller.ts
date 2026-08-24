@@ -12,7 +12,8 @@ export default class CreateGiftsController {
       .url({
         require_protocol: true,
         protocols: ['http', 'https'],
-      }),
+      })
+      .optional(),
   });
 
   constructor(protected createGiftsService: createGiftsService) {}
@@ -20,18 +21,19 @@ export default class CreateGiftsController {
   async handle({ response, params, auth, request }: HttpContext) {
     const { url } = await request.validateUsing(CreateGiftsController.scrapGiftsValidator);
 
-    const scrapeResult = await this.createGiftsService.scrap(url);
+    let gift = undefined;
 
-    if (scrapeResult.metadata?.error) {
-      throw new Error(`Failed to scrape: ${scrapeResult.metadata?.error}`);
+    if (url) {
+      const scrapeResult = await this.createGiftsService.scrap(url);
+
+      if (scrapeResult.metadata?.error) {
+        throw new Error(`Failed to scrape: ${scrapeResult.metadata.error}`);
+      }
+
+      gift = scrapeResult.product;
     }
 
-    await this.createGiftsService.create(
-      scrapeResult.product,
-      auth.user,
-      params.id,
-      params.categoryId,
-    );
+    await this.createGiftsService.create(gift, auth.user!, params.id, params.categoryId);
 
     return response.redirect().back();
   }

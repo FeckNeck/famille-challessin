@@ -105,11 +105,11 @@ export interface Registry {
   }
   'wishlists.show': {
     methods: ["GET","HEAD"]
-    pattern: '/wishlists/:id'
+    pattern: '/wishlists/:slug'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      params: { slug: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/wishlists/show_wishlists_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/wishlists/show_wishlists_controller').default['render']>>>
@@ -117,11 +117,11 @@ export interface Registry {
   }
   'wishlists.edit': {
     methods: ["GET","HEAD"]
-    pattern: '/wishlists/:id/edit'
+    pattern: '/wishlists/:slug/edit'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      params: { slug: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/wishlists/edit_wishlists_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#modules/wishlists/controllers/wishlists/edit_wishlists_controller').default['render']>>>

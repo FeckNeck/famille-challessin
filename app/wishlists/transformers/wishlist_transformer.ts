@@ -11,6 +11,7 @@ export default class WishlistTransformer extends BaseTransformer<Wishlist> {
       ...this.pick(this.resource, [
         'id',
         'title',
+        'slug',
         'description',
         'eventDate',
         'isPublic',

@@ -12,8 +12,8 @@ export type ScannedRoutes = {
     'auth.reset_password.handle': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'wishlists.create': { paramsTuple?: []; params?: {} }
-    'wishlists.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'wishlists.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'wishlists.store': { paramsTuple?: []; params?: {} }
     'wishlists.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'wishlists.categories.delete': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'categoryId': ParamValue} }
@@ -31,8 +31,8 @@ export type ScannedRoutes = {
     'auth.forgot_password.render': { paramsTuple?: []; params?: {} }
     'auth.reset_password.render': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'wishlists.create': { paramsTuple?: []; params?: {} }
-    'wishlists.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'wishlists.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'home': { paramsTuple?: []; params?: {} }
     'media.show': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
   }
@@ -41,8 +41,8 @@ export type ScannedRoutes = {
     'auth.forgot_password.render': { paramsTuple?: []; params?: {} }
     'auth.reset_password.render': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'wishlists.create': { paramsTuple?: []; params?: {} }
-    'wishlists.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'wishlists.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'wishlists.edit': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'home': { paramsTuple?: []; params?: {} }
     'media.show': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
   }

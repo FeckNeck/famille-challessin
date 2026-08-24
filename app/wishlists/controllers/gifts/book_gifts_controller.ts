@@ -34,6 +34,6 @@ export default class BookGiftsController {
 
     gift?.merge(payload);
     await gift?.save();
-    return response.redirect().toPath(wishlist!.url!);
+    return response.redirect().back();
   }
 }

@@ -6,7 +6,7 @@ import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transf
 export default class ShowWishlistsController {
   async render({ params, inertia }: HttpContext) {
     const wishlist = await Wishlist.query()
-      .where('id', params.id)
+      .where('slug', params.slug)
       .preload('wishlistCategory', (builder) => builder.preload('gifts'))
       .preload('wishlistTheme')
       .firstOrFail();

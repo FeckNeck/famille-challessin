@@ -38,7 +38,7 @@ export default class EditWishlistsController {
       .preload('wishlistCategory', (query) => {
         query.preload('gifts');
       })
-      .where('id', params.id)
+      .where('slug', params.slug)
       .first();
 
     // TODO: Session flash message

@@ -17,6 +17,8 @@ import User from '#auth/models/user';
 import WishlistTheme from '#wishlists/models/wishlist_theme';
 import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistCategory from '#wishlists/models/wishlist_category';
+import { slugify } from '@adonisjs/lucid-slugify';
+import { signedUrlFor } from '@adonisjs/core/services/url_builder';
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })
@@ -40,6 +42,14 @@ export default class Wishlist extends BaseModel {
   @column()
   declare title: string | null;
 
+  @slugify({
+    strategy: 'shortId',
+    fields: ['title'],
+    allowUpdates: true,
+  })
+  @column()
+  declare slug: string;
+
   @column()
   declare description: string | null;
 
@@ -53,11 +63,14 @@ export default class Wishlist extends BaseModel {
   get url() {
     if (!this.isPublic) return null;
 
-    return router
-      .builder()
-      .prefixUrl(env.get('DOMAIN'))
-      .params({ id: this.id })
-      .makeSigned('wishlists.show');
+    const xd = signedUrlFor(
+      'wishlists.show',
+      { slug: this.slug },
+      {
+        prefixUrl: env.get('DOMAIN'),
+      },
+    );
+    return xd;
   }
 
   @computed()

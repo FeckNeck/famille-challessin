@@ -21,6 +21,6 @@ export default class CreateWishlistsCategoryController {
       name: name,
       wishlistId: wishlist!.id,
     });
-    return response.redirect().toRoute('wishlists.edit', { id: wishlist!.id });
+    return response.redirect().back();
   }
 }

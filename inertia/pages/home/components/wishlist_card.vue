@@ -19,7 +19,7 @@
 </script>
 
 <template>
-  <Link :href="`/wishlists/${wishlist.id}${editLink}`" class="card">
+  <Link :href="`/wishlists/${wishlist.slug}${editLink}`" class="card">
     <Card>
       <div>
         <h6 :style="backgroundColor">{{ wishlist.title }}</h6>

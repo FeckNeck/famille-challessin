@@ -43,7 +43,7 @@ export default class HomeController {
      * Filter by title, theme and username
      */
     const query = Wishlist.query()
-      .select('id', 'title', 'description', 'image', 'event_date', 'user_id', 'theme_id')
+      .select('*')
       .preload('wishlistTheme')
       .preload('user')
       .where((builder) => {

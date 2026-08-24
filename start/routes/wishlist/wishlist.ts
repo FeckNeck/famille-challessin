@@ -9,11 +9,11 @@ router
   .as('wishlists.create')
   .use(middleware.auth());
 router
-  .get('wishlists/:id', [controllers.wishlists.wishlists.ShowWishlists, 'render'])
+  .get('wishlists/:slug', [controllers.wishlists.wishlists.ShowWishlists, 'render'])
   .as('wishlists.show')
   .use(middleware.wishlist());
 router
-  .get('wishlists/:id/edit', [controllers.wishlists.wishlists.EditWishlists, 'render'])
+  .get('wishlists/:slug/edit', [controllers.wishlists.wishlists.EditWishlists, 'render'])
   .as('wishlists.edit')
   .use(middleware.auth());
 
