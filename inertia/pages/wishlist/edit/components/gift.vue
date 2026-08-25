@@ -9,6 +9,7 @@
   import Button from '~/components/ui/button.vue';
   import FileUploadC from '~/components/ui/file_upload.vue';
   import { useImageUpload } from '~/composables/use_image_upload';
+  import Textarea from '~/components/ui/textarea.vue';
 
   const props = defineProps<{
     gift: Data.Wishlists.WishlistGift;
@@ -72,7 +73,12 @@
           <Input v-model:input="form.title" />
         </Field>
         <Field label="Description" :error="form.errors.description">
-          <Input v-model:input="form.description" />
+          <Textarea
+            v-model:input="form.description"
+            rows="4"
+            class="w-full"
+            placeholder="Décrivez votre cadeau..."
+            :maxlength="500" />
         </Field>
         <div>
           <Field label="Lien" :error="form.errors.url" class="grow">
@@ -96,7 +102,7 @@
       </Button>
       <form @submit.prevent="remove()">
         <Button :disabled="isDeleting" :loading="isDeleting" color="red" size="small" type="submit">
-          <Trash2 />
+          <Trash2 :size="24" />
         </Button>
       </form>
     </div>
@@ -107,24 +113,24 @@
   .gift {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
 
     &__form {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
       gap: 1rem;
       flex-grow: 1;
 
       &-img {
         width: 13rem;
         height: 13rem;
+        flex: 0 0 13rem;
       }
 
       &__content {
         flex-grow: 1;
+        flex-shrink: 1;
 
         & > div:last-child {
           display: flex;
@@ -133,23 +139,27 @@
         }
 
         @media (max-width: 768px) {
-          & > div:last-child {
-            display: block;
-          }
+          display: block;
         }
       }
 
       @media (max-width: 768px) {
+        display: block;
         &-img {
           width: 100%;
         }
       }
     }
 
+    @media (max-width: 768px) {
+      display: block;
+    }
+
     &-btns {
       display: flex;
       align-items: center;
       gap: 1rem;
+      flex-shrink: 0;
 
       @media (max-width: 768px) {
         width: 100%;

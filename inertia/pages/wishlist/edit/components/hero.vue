@@ -11,6 +11,8 @@
   import DatePicker from '~/components/ui/date_picker.vue';
   import FileUpload from '~/components/ui/file_upload.vue';
   import { useImageUpload } from '~/composables/use_image_upload';
+  import Textarea from '~/components/ui/textarea.vue';
+  import { Eye } from '@lucide/vue';
 
   const props = defineProps<{
     themes: Data.Wishlists.WishlistTheme[];
@@ -72,15 +74,27 @@
     </div>
     <div class="d-flex g-4">
       <Field label="Description" :error="form.errors.description" class="grow">
-        <Input v-model:input="form.description" type="text" class="w-full" />
+        <Textarea
+          v-model:input="form.description"
+          rows="4"
+          class="w-full"
+          placeholder="Décrivez votre wishlist..."
+          :maxlength="500" />
       </Field>
       <Switch v-model:checked="form.isPublic" label="Publier" />
     </div>
-    <Clipboard
-      v-if="wishlist.url"
-      :model-value="wishlist.url"
-      label="Lien partageable"
-      class="w-full pb-5" />
+    <div v-if="wishlist.url" class="d-flex items-end g-2 pb-5">
+      <Clipboard v-model:="wishlist.url" label="Lien partageable" class="w-full" />
+      <div class="pt-2">
+        <a
+          :href="`/wishlists/${wishlist.slug}`"
+          target="_blank"
+          class="hero__preview"
+          title="Voir la wishlist">
+          <Eye :size="22" />
+        </a>
+      </div>
+    </div>
     <Button
       :disabled="form.processing"
       :loading="form.processing"
@@ -128,6 +142,17 @@
         flex: 15%;
         min-width: 13rem;
       }
+    }
+
+    &__preview {
+      width: 40px;
+      height: 44px;
+      border: 2px solid var(--gray-800);
+      background-color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>
