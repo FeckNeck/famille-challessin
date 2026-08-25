@@ -15,7 +15,7 @@
   import MainSection from './components/main_section.vue';
   import type { WishlistFilter, SortOrder, InertiaPaginationMeta } from '~/types';
 
-  const props = defineProps<{
+  const { users, wishlists, themes } = defineProps<{
     users: Data.Auth.UserList[];
     wishlists: {
       data: Data.Wishlists.Wishlist[];
@@ -61,13 +61,13 @@
   /**
    * Filters
    */
-  const users = computed(() => props.users);
+  const usersFilter = computed(() => users);
   const usersOptions = [
     { label: 'All', value: '' },
-    ...props.users.map((user) => ({ label: user.username, value: user.username })),
+    ...users.map((user) => ({ label: user.username, value: user.username })),
   ];
   const username = ref<string>(params.username || '');
-  const themes = computed(() => props.themes);
+  const themesFilter = computed(() => themes);
   const theme = ref<string>(params.theme || '');
 
   /**
@@ -100,8 +100,8 @@
       <div class="container">
         <div class="whishlist">
           <Filters
-            :themes="themes"
-            :users="users"
+            :themes="themesFilter"
+            :users="usersFilter"
             v-model:username="username"
             v-model:theme="theme" />
           <div class="whishlist__content">
@@ -125,11 +125,11 @@
                 <Select :items="orderByOptions" v-model:model-value="orderBy" />
               </div>
             </div>
-            <MainSection :wishlists="props.wishlists.data" />
+            <MainSection :wishlists="wishlists.data" />
             <Pagination
-              :total="props.wishlists.metadata.total"
-              :last-page="props.wishlists.metadata.lastPage"
-              :current-page="props.wishlists.metadata.currentPage"
+              :total="wishlists.metadata.total"
+              :last-page="wishlists.metadata.lastPage"
+              :current-page="wishlists.metadata.currentPage"
               @update="fetchNewPageData" />
           </div>
         </div>

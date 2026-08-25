@@ -11,22 +11,22 @@
   import { useImageUpload } from '~/composables/use_image_upload';
   import Textarea from '~/components/ui/textarea.vue';
 
-  const props = defineProps<{
+  const { gift, wishlistId } = defineProps<{
     gift: Data.Wishlists.WishlistGift;
     wishlistId: string;
   }>();
 
   const form = useForm({
-    id: props.gift.id,
-    title: props.gift.title ?? '',
-    description: props.gift.description ?? '',
-    categoryId: props.gift.categoryId,
-    price: props.gift.price ?? '',
-    url: props.gift.url ?? '',
+    id: gift.id,
+    title: gift.title ?? '',
+    description: gift.description ?? '',
+    categoryId: gift.categoryId,
+    price: gift.price ?? '',
+    url: gift.url ?? '',
     image: null,
   });
 
-  const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(props.gift.imageUrl);
+  const { uploadedFile, uploadedFilePreview, onfileChange } = useImageUpload(gift.imageUrl);
   const isDeleting = ref<boolean>(false);
 
   function submit() {
@@ -34,12 +34,9 @@
 
     if (uploadedFile.value) form.image = uploadedFile.value;
 
-    form.patch(
-      `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
-      {
-        preserveScroll: true,
-      },
-    );
+    form.patch(`/wishlists/${wishlistId}/categories/${gift.categoryId}/gifts/${gift.id}`, {
+      preserveScroll: true,
+    });
   }
 
   function remove() {
@@ -47,15 +44,12 @@
 
     isDeleting.value = true;
 
-    router.delete(
-      `/wishlists/${props.wishlistId}/categories/${props.gift.categoryId}/gifts/${props.gift.id}`,
-      {
-        preserveScroll: true,
-        onFinish: () => {
-          isDeleting.value = false;
-        },
+    router.delete(`/wishlists/${wishlistId}/categories/${gift.categoryId}/gifts/${gift.id}`, {
+      preserveScroll: true,
+      onFinish: () => {
+        isDeleting.value = false;
       },
-    );
+    });
   }
 </script>
 

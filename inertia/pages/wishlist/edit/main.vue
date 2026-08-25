@@ -7,9 +7,9 @@
   import Category from './components/category.vue';
   import CreateCategory from './components/create_category.vue';
 
-  const props = defineProps<{
-    themes: Data.Wishlists.WishlistTheme[];
+  const { wishlist, themes } = defineProps<{
     wishlist: Data.Wishlists.Wishlist;
+    themes: Data.Wishlists.WishlistTheme[];
   }>();
 </script>
 
@@ -19,15 +19,15 @@
     <div class="container">
       <div class="wishlist">
         <!-- Edit wishlist -->
-        <Hero :themes="props.themes" :wishlist="props.wishlist" />
+        <Hero :themes="themes" :wishlist="wishlist" />
 
         <!-- Create category-->
-        <CreateCategory :wishlistId="props.wishlist.id" />
+        <CreateCategory :wishlistId="wishlist.id" />
 
         <!-- Categories -->
         <div class="d-flex column g-4" v-auto-animate>
           <Category
-            v-for="category in props.wishlist.categories"
+            v-for="category in wishlist.categories"
             :key="category.id"
             :category="category" />
         </div>

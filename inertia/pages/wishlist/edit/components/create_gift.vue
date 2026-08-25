@@ -5,7 +5,7 @@
   import Input from '~/components/ui/input.vue';
   import Button from '~/components/ui/button.vue';
 
-  const props = defineProps<{
+  const { wishlistId, categoryId } = defineProps<{
     wishlistId: string;
     categoryId: string;
   }>();
@@ -17,7 +17,7 @@
   function submit() {
     if (form.processing) return;
 
-    form.post(`/wishlists/${props.wishlistId}/categories/${props.categoryId}/gifts/`, {
+    form.post(`/wishlists/${wishlistId}/categories/${categoryId}/gifts/`, {
       preserveScroll: true,
       onSuccess: () => {
         form.reset('url');

@@ -9,7 +9,7 @@
   import { useDocumentVisibility } from '@vueuse/core';
   import { watch } from 'vue';
 
-  const props = defineProps<{
+  const { wishlist } = defineProps<{
     wishlist: Data.Wishlists.Wishlist;
   }>();
 

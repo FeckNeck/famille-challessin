@@ -6,18 +6,18 @@
   import Card from '~/components/ui/card.vue';
   import { useCurrentUser } from '~/composables/use_current_user';
 
-  const props = defineProps<{ wishlist: Data.Wishlists.Wishlist }>();
+  const { wishlist } = defineProps<{ wishlist: Data.Wishlists.Wishlist }>();
 
   const user = useCurrentUser();
 
   const wishlistLink = computed(() => {
-    const isOwner = props.wishlist.userId === user.value?.id;
-    return isOwner ? `${props.wishlist.slug}/edit` : props.wishlist.slug;
+    const isOwner = wishlist.userId === user.value?.id;
+    return isOwner ? `${wishlist.slug}/edit` : wishlist.slug;
   });
 
   const backgroundColor = computed(() => {
     return {
-      backgroundColor: props.wishlist.user?.color ?? '',
+      backgroundColor: wishlist.user?.color ?? '',
     };
   });
 </script>

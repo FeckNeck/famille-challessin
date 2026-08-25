@@ -10,12 +10,12 @@
   import Button from '~/components/ui/button.vue';
   import Collapsible from '~/components/ui/collapsible.vue';
 
-  const props = defineProps<{
+  const { category } = defineProps<{
     category: Data.Wishlists.WishlistCategory;
   }>();
 
   const form = useForm({
-    name: props.category.name ?? '',
+    name: category.name ?? '',
   });
 
   const isDeleting = ref<boolean>(false);
@@ -23,7 +23,7 @@
   function submit() {
     if (form.processing) return;
 
-    form.put(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+    form.put(`/wishlists/${category.wishlistId}/categories/${category.id}`, {
       preserveScroll: true,
     });
   }
@@ -33,7 +33,7 @@
 
     isDeleting.value = true;
 
-    router.delete(`/wishlists/${props.category.wishlistId}/categories/${props.category.id}`, {
+    router.delete(`/wishlists/${category.wishlistId}/categories/${category.id}`, {
       preserveScroll: true,
       onFinish: () => {
         isDeleting.value = false;
@@ -65,7 +65,7 @@
     </template>
     <template #content>
       <div class="category__content">
-        <CreateGift :wishlistId="props.category.wishlistId" :categoryId="props.category.id" />
+        <CreateGift :wishlistId="category.wishlistId" :categoryId="category.id" />
         <div v-auto-animate>
           <Gift
             v-for="gift in category.gifts"
