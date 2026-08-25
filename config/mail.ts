@@ -5,7 +5,7 @@ import env from '#start/env';
 const mailConfig = defineConfig({
   default: 'smtp',
   from: {
-    address: env.get('SMTP_USERNAME'),
+    address: env.get('SMTP_USERNAME')!,
     name: 'famille-challessin',
   },
 
@@ -17,7 +17,7 @@ const mailConfig = defineConfig({
   mailers: {
     smtp: transports.smtp({
       host: env.get('SMTP_HOST'),
-      port: env.get('SMTP_PORT'),
+      port: +env.get('SMTP_PORT'),
       /**
        * Uncomment the auth block if your SMTP
        * server needs authentication

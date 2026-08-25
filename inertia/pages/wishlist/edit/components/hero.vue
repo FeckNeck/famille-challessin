@@ -1,4 +1,18 @@
+<script lange="ts">
+  export interface WishlistForm {
+    id: string;
+    title: string;
+    description: string;
+    eventDate: string;
+    themeId: string;
+    isPublic: boolean;
+    categories: Data.Wishlists.WishlistCategory[] | undefined;
+    image: File | null;
+  }
+</script>
+
 <script setup lang="ts">
+  import { Eye } from '@lucide/vue';
   import { Data } from '@generated/data';
   import { useForm } from '@inertiajs/vue3';
 
@@ -7,12 +21,11 @@
   import Button from '~/components/ui/button.vue';
   import Select from '~/components/ui/select.vue';
   import Switch from '~/components/ui/switch.vue';
+  import Textarea from '~/components/ui/textarea.vue';
   import Clipboard from '~/components/ui/clipboard.vue';
   import DatePicker from '~/components/ui/date_picker.vue';
   import FileUpload from '~/components/ui/file_upload.vue';
   import { useImageUpload } from '~/composables/use_image_upload';
-  import Textarea from '~/components/ui/textarea.vue';
-  import { Eye } from '@lucide/vue';
 
   const props = defineProps<{
     themes: Data.Wishlists.WishlistTheme[];
@@ -24,7 +37,7 @@
     value: theme.id.toString(),
   }));
 
-  const form = useForm({
+  const form = useForm<WishlistForm>({
     id: props.wishlist.id,
     title: props.wishlist.title ?? '',
     description: props.wishlist.description ?? '',

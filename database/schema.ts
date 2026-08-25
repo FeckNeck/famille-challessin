@@ -4,150 +4,185 @@
  * Run "node ace migration:run" command to re-generate this file
  */
 
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon';
+import { BaseModel, column } from '@adonisjs/lucid/orm';
 
 export class GiftSchema extends BaseModel {
-  static $columns = ['categoryId', 'createdAt', 'description', 'giverEmail', 'giverId', 'giverName', 'id', 'image', 'price', 'title', 'updatedAt', 'url'] as const
-  $columns = GiftSchema.$columns
+  static $columns = [
+    'categoryId',
+    'createdAt',
+    'description',
+    'giverEmail',
+    'giverId',
+    'giverName',
+    'id',
+    'image',
+    'price',
+    'title',
+    'updatedAt',
+    'url',
+  ] as const;
+  $columns = GiftSchema.$columns;
   @column()
-  declare categoryId: string
+  declare categoryId: string;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column()
-  declare description: string | null
+  declare description: string | null;
   @column()
-  declare giverEmail: string | null
+  declare giverEmail: string | null;
   @column()
-  declare giverId: string | null
+  declare giverId: string | null;
   @column()
-  declare giverName: string | null
+  declare giverName: string | null;
   @column({ isPrimary: true })
-  declare id: string
+  declare id: string;
   @column()
-  declare image: string | null
+  declare image: string | null;
   @column()
-  declare price: string | null
+  declare price: string | null;
   @column()
-  declare title: string | null
+  declare title: string | null;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
   @column()
-  declare url: string | null
+  declare url: string | null;
 }
 
 export class RememberMeTokenSchema extends BaseModel {
-  static $columns = ['createdAt', 'expiresAt', 'hash', 'id', 'tokenableId', 'updatedAt'] as const
-  $columns = RememberMeTokenSchema.$columns
+  static $columns = ['createdAt', 'expiresAt', 'hash', 'id', 'tokenableId', 'updatedAt'] as const;
+  $columns = RememberMeTokenSchema.$columns;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column.dateTime()
-  declare expiresAt: DateTime
+  declare expiresAt: DateTime;
   @column()
-  declare hash: string
+  declare hash: string;
   @column({ isPrimary: true })
-  declare id: number
+  declare id: number;
   @column()
-  declare tokenableId: string
+  declare tokenableId: string;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
 }
 
 export class ResetPasswordTokenSchema extends BaseModel {
-  static $columns = ['createdAt', 'expiresAt', 'id', 'token', 'updatedAt', 'userId'] as const
-  $columns = ResetPasswordTokenSchema.$columns
+  static $columns = ['createdAt', 'expiresAt', 'id', 'token', 'updatedAt', 'userId'] as const;
+  $columns = ResetPasswordTokenSchema.$columns;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column.dateTime()
-  declare expiresAt: DateTime
+  declare expiresAt: DateTime;
   @column({ isPrimary: true })
-  declare id: number
+  declare id: number;
   @column()
-  declare token: string
+  declare token: string;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
   @column()
-  declare userId: string
+  declare userId: string;
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['color', 'createdAt', 'email', 'icon', 'id', 'password', 'roleId', 'updatedAt', 'username'] as const
-  $columns = UserSchema.$columns
+  static $columns = [
+    'color',
+    'createdAt',
+    'email',
+    'icon',
+    'id',
+    'password',
+    'roleId',
+    'updatedAt',
+    'username',
+  ] as const;
+  $columns = UserSchema.$columns;
   @column()
-  declare color: string | null
+  declare color: string | null;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column()
-  declare email: string
+  declare email: string;
   @column()
-  declare icon: string | null
+  declare icon: string | null;
   @column({ isPrimary: true })
-  declare id: string
+  declare id: string;
   @column({ serializeAs: null })
-  declare password: string
+  declare password: string;
   @column()
-  declare roleId: number
+  declare roleId: number;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
   @column()
-  declare username: string
+  declare username: string;
 }
 
 export class WishlistCategorySchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'name', 'updatedAt', 'wishlistId'] as const
-  $columns = WishlistCategorySchema.$columns
+  static $columns = ['createdAt', 'id', 'name', 'updatedAt', 'wishlistId'] as const;
+  $columns = WishlistCategorySchema.$columns;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column({ isPrimary: true })
-  declare id: string
+  declare id: string;
   @column()
-  declare name: string
+  declare name: string;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
   @column()
-  declare wishlistId: string
+  declare wishlistId: string;
 }
 
 export class WishlistThemeSchema extends BaseModel {
-  static $columns = ['color', 'createdAt', 'icon', 'id', 'name', 'updatedAt'] as const
-  $columns = WishlistThemeSchema.$columns
+  static $columns = ['color', 'createdAt', 'icon', 'id', 'name', 'updatedAt'] as const;
+  $columns = WishlistThemeSchema.$columns;
   @column()
-  declare color: string | null
+  declare color: string | null;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column()
-  declare icon: string | null
+  declare icon: string | null;
   @column({ isPrimary: true })
-  declare id: number
+  declare id: number;
   @column()
-  declare name: string
+  declare name: string;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
 }
 
 export class WishlistSchema extends BaseModel {
-  static $columns = ['createdAt', 'description', 'eventDate', 'id', 'image', 'isPublic', 'slug', 'themeId', 'title', 'updatedAt', 'userId'] as const
-  $columns = WishlistSchema.$columns
+  static $columns = [
+    'createdAt',
+    'description',
+    'eventDate',
+    'id',
+    'image',
+    'isPublic',
+    'slug',
+    'themeId',
+    'title',
+    'updatedAt',
+    'userId',
+  ] as const;
+  $columns = WishlistSchema.$columns;
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime;
   @column()
-  declare description: string | null
+  declare description: string | null;
   @column.date()
-  declare eventDate: DateTime | null
+  declare eventDate: DateTime | null;
   @column({ isPrimary: true })
-  declare id: string
+  declare id: string;
   @column()
-  declare image: string | null
+  declare image: string | null;
   @column()
-  declare isPublic: boolean
+  declare isPublic: boolean;
   @column()
-  declare slug: string | null
+  declare slug: string | null;
   @column()
-  declare themeId: number | null
+  declare themeId: number | null;
   @column()
-  declare title: string | null
+  declare title: string | null;
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt: DateTime;
   @column()
-  declare userId: string
+  declare userId: string;
 }

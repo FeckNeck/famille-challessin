@@ -1,3 +1,15 @@
+<script lang="ts">
+  export interface GiftForm {
+    id: string;
+    title: string;
+    description: string;
+    categoryId: string;
+    price: string;
+    url: string;
+    image: File | null;
+  }
+</script>
+
 <script setup lang="ts">
   import { ref } from 'vue';
   import { Trash2 } from '@lucide/vue';
@@ -7,16 +19,16 @@
   import Field from '~/components/ui/field.vue';
   import Input from '~/components/ui/input.vue';
   import Button from '~/components/ui/button.vue';
+  import Textarea from '~/components/ui/textarea.vue';
   import FileUploadC from '~/components/ui/file_upload.vue';
   import { useImageUpload } from '~/composables/use_image_upload';
-  import Textarea from '~/components/ui/textarea.vue';
 
   const { gift, wishlistId } = defineProps<{
     gift: Data.Wishlists.WishlistGift;
     wishlistId: string;
   }>();
 
-  const form = useForm({
+  const form = useForm<GiftForm>({
     id: gift.id,
     title: gift.title ?? '',
     description: gift.description ?? '',

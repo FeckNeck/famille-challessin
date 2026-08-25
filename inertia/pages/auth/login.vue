@@ -8,8 +8,10 @@
   import Button from '~/components/ui/button.vue';
   import Dialog from '~/components/ui/dialog.vue';
   import Checkbox from '~/components/ui/checkbox.vue';
+  import { usePageErrors } from '~/composables/use_page_errors';
 
   const page = usePage<PageProps>();
+  const errors = usePageErrors();
   const isDialogOpen = ref<boolean>(page.url.includes('modal=login'));
 
   const form = useForm({
@@ -47,7 +49,7 @@
     </template>
     <template #description>
       <form @submit.prevent="submit()" class="login">
-        <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
+        <p v-if="errors.E_INVALID_CREDENTIALS">
           Aucun compte n'a été trouvé avec les informations d'identification fournies.
         </p>
         <div>

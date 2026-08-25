@@ -1,7 +1,6 @@
 import vine from '@vinejs/vine';
 import string from '@poppinss/utils/string';
 import mail from '@adonisjs/mail/services/main';
-import { errors as authErrors } from '@adonisjs/auth';
 import { type HttpContext } from '@adonisjs/core/http';
 import { signedUrlFor } from '@adonisjs/core/services/url_builder';
 
@@ -17,15 +16,19 @@ export default class ForgotPasswordController {
     return response.redirect().withQs({ modal: 'forgot-password' }).back();
   }
 
-  async handle({ request, response }: HttpContext) {
+  async handle({ request, response, session }: HttpContext) {
     const { email } = await request.validateUsing(ForgotPasswordController.validator);
 
     // create a new token
     const token = string.random(64);
     const user = await User.findBy('email', email);
     if (!user) {
-      throw new authErrors.E_INVALID_CREDENTIALS('Invalid email');
+      session.flashErrors({
+        E_INVALID_CREDENTIALS: "Aucun compte n'a été trouvé avec les identifiants fournis.",
+      });
+      return response.redirect().back();
     }
+
     await user.related('resetPasswordTokens').create({ token });
 
     // generate the reset link

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import drive from '@adonisjs/drive/services/main';
-import router from '@adonisjs/core/services/router';
+import { slugify } from '@adonisjs/lucid-slugify';
+import { signedUrlFor } from '@adonisjs/core/services/url_builder';
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations';
 import {
   afterFetch,
@@ -15,10 +16,8 @@ import {
 import env from '#start/env';
 import User from '#auth/models/user';
 import WishlistTheme from '#wishlists/models/wishlist_theme';
-import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistCategory from '#wishlists/models/wishlist_category';
-import { slugify } from '@adonisjs/lucid-slugify';
-import { signedUrlFor } from '@adonisjs/core/services/url_builder';
+import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 
 export default class Wishlist extends BaseModel {
   @column({ isPrimary: true })

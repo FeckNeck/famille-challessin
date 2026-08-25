@@ -3,8 +3,8 @@ import { DateTime } from 'luxon';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import User from '#auth/models/user';
-import ResetPasswordToken from '#auth/models/reset_password_tokens';
 import { ToastType } from '#core/enums/toast';
+import ResetPasswordToken from '#auth/models/reset_password_tokens';
 
 export default class ResetPasswordController {
   static validator = vine.create({

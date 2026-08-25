@@ -17,7 +17,7 @@ export default class Gift extends BaseModel {
   declare updatedAt: DateTime;
 
   @column()
-  declare categoryId: number;
+  declare categoryId: string;
 
   @column()
   declare title: string | null;

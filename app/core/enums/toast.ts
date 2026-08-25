@@ -3,6 +3,6 @@ export const ToastType = {
   INFO: 'info',
   ERROR: 'error',
   WARNING: 'warning',
-} as const
+} as const;
 
-export type IToastType = (typeof ToastType)[keyof typeof ToastType]
+export type IToastType = (typeof ToastType)[keyof typeof ToastType];

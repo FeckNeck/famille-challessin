@@ -1,6 +1,7 @@
+import vine from '@vinejs/vine';
 import { randomUUID } from 'crypto';
 import { HttpContext } from '@adonisjs/core/http';
-import vine from '@vinejs/vine';
+
 import { ToastType } from '#core/enums/toast';
 export default class EditGiftsController {
   static editGiftValidator = vine.create({

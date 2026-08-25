@@ -1,11 +1,12 @@
 <script setup lang="ts">
+  import { ref } from 'vue';
   import { Data } from '@generated/data';
   import { useForm } from '@inertiajs/vue3';
   import { ArrowLeft, Gift } from '@lucide/vue';
-  import { ref } from 'vue';
-  import Button from '~/components/ui/button.vue';
+
   import Field from '~/components/ui/field.vue';
   import Input from '~/components/ui/input.vue';
+  import Button from '~/components/ui/button.vue';
   import { useCurrentUser } from '~/composables/use_current_user';
 
   const { gift, wishlistId, categoryId } = defineProps<{

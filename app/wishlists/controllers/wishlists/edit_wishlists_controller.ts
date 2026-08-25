@@ -3,11 +3,11 @@ import { DateTime } from 'luxon';
 import { randomUUID } from 'crypto';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { ToastType } from '#core/enums/toast';
 import WishlistTheme from '#wishlists/models/wishlist_theme';
 import type { IWishlistThemes } from '#wishlists/enums/wishlist_themes';
 import WishlistTransformer from '#modules/wishlists/transformers/wishlist_transformer';
 import WishlistThemeTransformer from '#modules/wishlists/transformers/wishlist_theme_transformer';
-import { ToastType } from '#core/enums/toast';
 
 export default class EditWishlistsController {
   static createWishlistValidator = vine.create({
@@ -29,7 +29,7 @@ export default class EditWishlistsController {
       .optional(),
   });
 
-  async render({ inertia, params, auth, response }: HttpContext) {
+  async render({ inertia, params, auth }: HttpContext) {
     const themes = await WishlistTheme.all();
 
     const wishlist = await auth.user

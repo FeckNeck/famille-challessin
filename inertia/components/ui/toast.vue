@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { computed, watch } from 'vue';
+  import { usePage } from '@inertiajs/vue3';
   import { PageProps } from '@adonisjs/inertia/types';
   import { Toast, Toaster, createToaster } from '@ark-ui/vue/toast';
-  import { usePage } from '@inertiajs/vue3';
   import { CircleAlertIcon, TriangleAlertIcon, CircleCheckIcon, InfoIcon, X } from '@lucide/vue';
-  import { computed, watch } from 'vue';
+
   import { type Toasts, ToastTypeText } from '~/types';
 
   const iconMap = {

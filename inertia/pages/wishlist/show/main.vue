@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  import { Head, router } from '@inertiajs/vue3';
+  import { watch } from 'vue';
   import type { Data } from '@generated/data';
+  import { Head, router } from '@inertiajs/vue3';
+  import { useDocumentVisibility } from '@vueuse/core';
 
   import Gift from './components/gift.vue';
   import Hero from './components/hero.vue';
   import Layout from '~/layouts/default.vue';
   import Collapsible from '~/components/ui/collapsible.vue';
-  import { useDocumentVisibility } from '@vueuse/core';
-  import { watch } from 'vue';
 
   const { wishlist } = defineProps<{
     wishlist: Data.Wishlists.Wishlist;

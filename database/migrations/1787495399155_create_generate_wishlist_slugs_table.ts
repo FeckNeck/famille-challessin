@@ -1,5 +1,5 @@
-import stringHelpers from '@adonisjs/core/helpers/string';
 import { BaseSchema } from '@adonisjs/lucid/schema';
+import stringHelpers from '@adonisjs/core/helpers/string';
 
 export default class extends BaseSchema {
   protected tableName = 'wishlists';

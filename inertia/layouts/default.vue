@@ -2,10 +2,10 @@
   import Login from '~/pages/auth/login.vue';
   import Header from '~/components/header.vue';
   import Footer from '~/components/footer.vue';
+  import Toast from '~/components/ui/toast.vue';
   import Register from '~/pages/auth/register.vue';
   import ResetPassword from '~/pages/auth/reset_password.vue';
   import ForgotPassword from '~/pages/auth/forgot_password.vue';
-  import Toast from '~/components/ui/toast.vue'
 </script>
 
 <template>

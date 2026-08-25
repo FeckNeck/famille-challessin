@@ -24,7 +24,7 @@
     <Clipboard.Label>{{ label }}</Clipboard.Label>
     <Clipboard.Control>
       <Clipboard.Input as-child>
-        <Input :input="props.modelValue"/>
+        <Input :input="props.modelValue" />
       </Clipboard.Input>
       <Clipboard.Trigger type="button">
         <Clipboard.Indicator>

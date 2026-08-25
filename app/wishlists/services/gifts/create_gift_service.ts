@@ -1,6 +1,7 @@
 import { Firecrawl, ProductProfile } from 'firecrawl';
-import User from '#auth/models/user';
+
 import env from '#start/env';
+import User from '#auth/models/user';
 
 export class createGiftsService {
   async scrap(url: string) {
