@@ -1,4 +1,4 @@
-FROM node:20 as base
+FROM node:24 as base
 
 #RUN apk --no-cache add curl
 RUN corepack enable
@@ -14,9 +14,6 @@ FROM base as production-deps
 WORKDIR /app
 ADD package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
-RUN pnpm exec playwright install --with-deps
-#RUN npx playwright install
-#RUN npx playwright install-deps
 
 # Build stage
 FROM base as build
