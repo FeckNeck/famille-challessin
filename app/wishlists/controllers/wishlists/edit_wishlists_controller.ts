@@ -36,9 +36,9 @@ export default class EditWishlistsController {
       ?.related('wishlists')
       .query()
       .preload('wishlistTheme')
-      .preload('wishlistCategory', (query) => {
-        query.preload('gifts');
-      })
+      .preload('wishlistCategory', (w) =>
+        w.preload('gifts', (g) => g.orderBy('created_at', 'desc')),
+      )
       .where('slug', params.slug)
       .first();
 
