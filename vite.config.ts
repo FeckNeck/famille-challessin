@@ -19,6 +19,15 @@ export default defineConfig({
     },
   },
 
+  environments: {
+    ssr: {
+      build: {
+        outDir: 'public/assets/server',
+        emptyOutDir: true,
+      },
+    },
+  },
+
   server: {
     watch: {
       ignored: ['**/storage/**', '**/tmp/**'],
