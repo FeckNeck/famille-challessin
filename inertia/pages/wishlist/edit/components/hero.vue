@@ -1,4 +1,4 @@
-<script lange="ts">
+<script lang="ts">
   export interface WishlistForm {
     id: string;
     title: string;

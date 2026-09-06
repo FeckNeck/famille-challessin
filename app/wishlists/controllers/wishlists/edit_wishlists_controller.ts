@@ -84,6 +84,6 @@ export default class EditWishlistsController {
       message: 'La liste de souhaits a été mise à jour avec succès.',
     });
 
-    return response.redirect().back();
+    return response.redirect().toRoute('wishlists.edit', { slug: wishlist!.slug });
   }
 }

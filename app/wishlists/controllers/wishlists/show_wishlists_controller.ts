@@ -7,7 +7,9 @@ export default class ShowWishlistsController {
   async render({ params, inertia }: HttpContext) {
     const wishlist = await Wishlist.query()
       .where('slug', params.slug)
-      .preload('wishlistCategory', (builder) => builder.preload('gifts'))
+      .preload('wishlistCategory', (w) =>
+        w.preload('gifts', (g) => g.orderBy('created_at', 'desc')),
+      )
       .preload('wishlistTheme')
       .firstOrFail();
 
