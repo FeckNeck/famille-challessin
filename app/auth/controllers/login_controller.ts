@@ -14,18 +14,10 @@ export default class LoginController {
     return response.redirect().withQs({ modal: 'login' }).back();
   }
 
-  async handle({ request, auth, response, session }: HttpContext) {
+  async handle({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(LoginController.validator);
 
     const user = await User.verifyCredentials(email, password);
-
-    if (!user) {
-      session.flashErrors({
-        E_INVALID_CREDENTIALS: "Aucun compte n'a été trouvé avec les identifiants fournis.",
-      });
-
-      return response.redirect().back();
-    }
 
     await auth.use('web').login(user, !!request.input('remember_me'));
     return response.redirect().toPath('/');

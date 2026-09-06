@@ -40,7 +40,9 @@
       </div>
     </template>
     <template #description>
-      <p v-if="form.errors.email" class="pb-4">{{ form.errors.email }}</p>
+      <p v-if="form.errors?.code === 'E_INVALID_CREDENTIALS'">
+        Aucun compte n'a été trouvé avec les informations d'identification fournies.
+      </p>
       <div v-if="isEmailSent">
         <p>Un email de réinitialisation de mot de passe a été envoyé à l'adresse email fournie.</p>
         <Button @click="isDialogOpen = false" color="yellow" size="small" class="w-full mt-4">
