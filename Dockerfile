@@ -6,13 +6,13 @@ RUN corepack enable
 # All deps stage
 FROM base as deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
+ADD package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install
 
 # Production only deps stage
 FROM base as production-deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
+ADD package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --prod
 
 # Build stage
